@@ -23,4 +23,9 @@
         <item name="borderWidth">0dp</item>
         <item name="fabSize">auto</item>
     </style>
+
+    <style name="LoginButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:stateListAnimator">@null</item>
+
+    </style>
 </resources>
