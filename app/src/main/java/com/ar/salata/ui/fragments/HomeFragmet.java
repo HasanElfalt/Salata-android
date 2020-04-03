@@ -1,4 +1,4 @@
-package com.ar.salata;
+package com.ar.salata.ui.fragments;
 
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,6 +10,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.ar.salata.R;
+import com.ar.salata.model.SliderItem;
+import com.ar.salata.ui.adapters.ImageSliderAdapter;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;

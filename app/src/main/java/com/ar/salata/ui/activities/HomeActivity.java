@@ -1,5 +1,6 @@
-package com.ar.salata;
+package com.ar.salata.ui.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +15,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import com.ar.salata.R;
+import com.ar.salata.ui.fragments.HomeFragmet;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +26,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private ExtendedFloatingActionButton eFABWeigh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +37,17 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         toolbar = findViewById(R.id.toolbar_home);
         setSupportActionBar(toolbar);
 
-        navigationView = findViewById(R.id.nav_view);
+        setDrawer();
 
-        navigationView.setNavigationItemSelectedListener(this);
+        eFABWeigh = findViewById(R.id.efab_weigh);
 
-
-        drawer = findViewById(R.id.drawer);
-        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.setDrawerIndicatorEnabled(true);
-        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
-        toggle.syncState();
+        eFABWeigh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), ReceiptActivity.class);
+                startActivity(intent);
+            }
+        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         HomeFragmet homeFragmet = HomeFragmet.newInstance();
@@ -50,6 +55,20 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager.beginTransaction()
                 .add(R.id.fragment_container_home, homeFragmet)
                 .commit();
+
+    }
+
+    private void setDrawer() {
+        navigationView = findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        drawer = findViewById(R.id.drawer);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        toggle.syncState();
 
     }
 

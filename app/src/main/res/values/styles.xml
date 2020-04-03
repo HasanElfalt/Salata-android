@@ -6,6 +6,8 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="colorControlNormal">@color/colorAccent</item>
     </style>
 
     <style name="tabStyle">
@@ -24,8 +26,19 @@
         <item name="fabSize">auto</item>
     </style>
 
+    <style name="EFABBottomStyle" parent="Widget.MaterialComponents.ExtendedFloatingActionButton">
+        <item name="android:backgroundTint">@color/colorAccent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+        <item name="android:fontFamily">@font/calibrib</item>
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="rippleColor">@color/colorPrimaryDark</item>
+        <item name="borderWidth">0dp</item>
+        <item name="fabSize">auto</item>
+    </style>
+
     <style name="LoginButton" parent="Widget.MaterialComponents.Button">
         <item name="android:stateListAnimator">@null</item>
-
     </style>
 </resources>

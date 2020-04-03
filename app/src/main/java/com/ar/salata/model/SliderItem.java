@@ -1,6 +1,6 @@
-package com.ar.salata;
+package com.ar.salata.model;
 
-class SliderItem {
+public class SliderItem {
     private String description;
     private String imageUrl;
 

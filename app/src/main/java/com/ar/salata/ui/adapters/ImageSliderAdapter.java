@@ -1,4 +1,4 @@
-package com.ar.salata;
+package com.ar.salata.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.ar.salata.R;
+import com.ar.salata.model.SliderItem;
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 

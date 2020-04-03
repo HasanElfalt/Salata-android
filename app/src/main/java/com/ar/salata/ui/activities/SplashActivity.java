@@ -1,9 +1,11 @@
-package com.ar.salata;
+package com.ar.salata.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ar.salata.R;
 
 public class SplashActivity extends AppCompatActivity {
 
