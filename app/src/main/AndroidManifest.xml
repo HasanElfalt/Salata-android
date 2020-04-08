@@ -12,10 +12,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".ui.activities.PayActivity"
+            android:parentActivityName=".ui.activities.ReceiptActivity" />
+        <activity
             android:name=".ui.activities.ReceiptActivity"
-            android:parentActivityName=".ui.activities.HomeActivity">
-
-        </activity>
+            android:parentActivityName=".ui.activities.HomeActivity" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:hardwareAccelerated="true">
