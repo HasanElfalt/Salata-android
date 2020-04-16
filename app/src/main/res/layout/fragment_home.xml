@@ -1,52 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+    android:orientation="vertical">
 
+    <include layout="@layout/header_app" />
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardview_sliderview"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="6dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent">
 
-        <com.smarteist.autoimageslider.SliderView
-            android:id="@+id/imageSlider"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="180dp"
-            app:sliderAnimationDuration="600"
-            app:sliderAutoCycleDirection="back_and_forth"
-            app:sliderAutoCycleEnabled="true"
-            app:sliderIndicatorAnimationDuration="600"
-            app:sliderIndicatorGravity="center_horizontal|bottom"
-            app:sliderIndicatorMargin="15dp"
-            app:sliderIndicatorOrientation="horizontal"
-            app:sliderIndicatorPadding="3dp"
-            app:sliderIndicatorRadius="2dp"
-            app:sliderIndicatorSelectedColor="#5A5A5A"
-            app:sliderIndicatorUnselectedColor="#FFF"
-            app:sliderScrollTimeInSec="1"
-            app:sliderStartAutoCycle="true" />
+            android:layout_height="wrap_content">
 
-    </androidx.cardview.widget.CardView>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar_home"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:elevation="32dp"
+                android:minHeight="64dp"
+                app:contentInsetEnd="0dp"
+                app:contentInsetStart="0dp"
+                app:contentInsetStartWithNavigation="0dp">
 
-    <fragment
-        android:name="com.ar.salata.ui.fragments.ProductsGalleryPagerFragment"
-        android:id="@+id/product_gallery_pager"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardview_sliderview" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraint_layout_title_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <ImageView
+                            android:id="@+id/imageView"
+                            android:layout_width="64dp"
+                            android:layout_height="64dp"
+                            android:layout_marginHorizontal="16dp"
+                            android:src="@drawable/ic_logo_colored"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:fontFamily="@font/calibrib"
+                            android:gravity="center_vertical"
+                            android:text="سلطة"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="40sp"
+                            app:layout_constraintStart_toStartOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardview_sliderview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                app:cardCornerRadius="6dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.smarteist.autoimageslider.SliderView
+                    android:id="@+id/imageSlider"
+                    android:layout_width="match_parent"
+                    android:layout_height="180dp"
+                    app:sliderAnimationDuration="600"
+                    app:sliderAutoCycleDirection="back_and_forth"
+                    app:sliderAutoCycleEnabled="true"
+                    app:sliderIndicatorAnimationDuration="600"
+                    app:sliderIndicatorGravity="center_horizontal|bottom"
+                    app:sliderIndicatorMargin="15dp"
+                    app:sliderIndicatorOrientation="horizontal"
+                    app:sliderIndicatorPadding="3dp"
+                    app:sliderIndicatorRadius="2dp"
+                    app:sliderIndicatorSelectedColor="#5A5A5A"
+                    app:sliderIndicatorUnselectedColor="#FFF"
+                    app:sliderScrollTimeInSec="1"
+                    app:sliderStartAutoCycle="true" />
+
+            </androidx.cardview.widget.CardView>
+
+            <fragment
+                android:id="@+id/product_gallery_pager"
+                android:name="com.ar.salata.ui.fragments.ProductsGalleryPagerFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardview_sliderview" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/efab_weigh"
+            style="@style/EFABStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:drawableEnd="@drawable/ic_comparison"
+            android:drawablePadding="8dp"
+            android:text="اوزنلى" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
