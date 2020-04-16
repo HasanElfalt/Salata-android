@@ -52,7 +52,7 @@ public class ProductsGalleryPagerFragment extends Fragment {
         new TabLayoutMediator(productsTabs,productGalleryPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText("Tab#"+position);
+                tab.setText("خضروات");
 
             }
         }).attach();
