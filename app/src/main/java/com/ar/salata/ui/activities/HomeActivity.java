@@ -1,6 +1,5 @@
 package com.ar.salata.ui.activities;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,7 +16,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.ar.salata.R;
 import com.ar.salata.ui.fragments.HomeFragmet;
-import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -26,7 +24,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private ExtendedFloatingActionButton eFABWeigh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +35,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
 
         setDrawer();
-
-        eFABWeigh = findViewById(R.id.efab_weigh);
-
-        eFABWeigh.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ReceiptActivity.class);
-                startActivity(intent);
-            }
-        });
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         HomeFragmet homeFragmet = HomeFragmet.newInstance();
