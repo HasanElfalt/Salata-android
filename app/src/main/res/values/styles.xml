@@ -52,7 +52,6 @@
         <item name="tabIndicatorFullWidth">true</item>
         <item name="tabRippleColor">@null</item>
         <item name="tabMode">auto</item>
-        <item name="tabBackground">@drawable/tab_layout_background_selector</item>
     </style>
 
     <!-- for text -->
