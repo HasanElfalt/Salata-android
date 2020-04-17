@@ -50,6 +50,8 @@
         <item name="tabIndicatorColor">@color/colorAccentWithOpacity</item>
         <item name="tabIndicator">@drawable/ic_tab_background</item>
         <item name="tabIndicatorFullWidth">true</item>
+        <item name="tabBackground">@drawable/tab_layout_background_selector</item>
+        <item name="tabRippleColor">#FFFFFFFF</item>
         <item name="tabMode">auto</item>
 
     </style>
@@ -60,6 +62,5 @@
         <item name="android:textColor">@color/colorLightFont</item>
         <item name="android:fontFamily">@font/calibrib</item>
         <item name="textAllCaps">false</item>
-        <item name="android:textAlignment">center</item>
     </style>
 </resources>

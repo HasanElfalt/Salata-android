@@ -9,7 +9,7 @@
         android:id="@+id/products_tabes"
         style="@style/MyTabLayoutStyle"
         android:layout_width="wrap_content"
-        android:layout_height="48dp"
+        android:layout_height="@dimen/tab_layout_height"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="0dp"
