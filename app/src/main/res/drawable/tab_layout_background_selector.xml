@@ -1,21 +1,11 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    &lt;!&ndash;    <item android:state_selected="true" android:drawable="@drawable/ic_tab_background"/>&ndash;&gt;
-    &lt;!&ndash;    <item android:state_focused="true" android:drawable="@drawable/ic_tab_background"/>&ndash;&gt;
-    &lt;!&ndash;<item android:drawable="@drawable/ic_tab_background" android:state_selected="true" />&ndash;&gt;
-    <item android:state_selected="true">
-        <ripple android:color="@color/colorAccent" />
-    </item>
-</selector>
--->
+<?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="@color/colorWhite">
+    android:color="@color/colorAccent">
     <item>
         <selector>
             <item
-                android:drawable="@drawable/bg_tab"
+                android:drawable="@drawable/ic_tab_background"
                 android:state_selected="true" />
         </selector>
     </item>
-
 </ripple>
