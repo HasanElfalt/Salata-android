@@ -48,10 +48,10 @@
         <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
         <item name="tabSelectedTextColor">@color/colorAccent</item>
         <item name="tabIndicatorColor">@color/colorAccentWithOpacity</item>
-        <item name="tabIndicator">@drawable/ic_tab_background</item>
+        <item name="tabIndicator">@null</item>
         <item name="tabIndicatorFullWidth">true</item>
         <item name="tabBackground">@drawable/tab_layout_background_selector</item>
-        <item name="tabRippleColor">#FFFFFFFF</item>
+        <item name="tabRippleColor">#00FFFFFF</item>
         <item name="tabMode">auto</item>
 
     </style>
