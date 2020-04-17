@@ -46,14 +46,13 @@
         <item name="tabMinWidth">160dp</item>
         <item name="tabPadding">8dp</item>
         <item name="tabTextAppearance">@style/MyTabTextAppearance</item>
-        <item name="tabSelectedTextColor">@color/colorWhite</item>
+        <item name="tabSelectedTextColor">@color/colorPrimaryDark</item>
         <item name="tabIndicatorColor">@color/colorAccentWithOpacity</item>
         <item name="tabIndicator">@drawable/ic_tab_background</item>
         <item name="tabIndicatorFullWidth">true</item>
-        <item name="tabBackground">@drawable/tab_layout_background_selector</item>
         <item name="tabRippleColor">@null</item>
         <item name="tabMode">auto</item>
-
+        <item name="tabBackground">@drawable/tab_layout_background_selector</item>
     </style>
 
     <!-- for text -->
