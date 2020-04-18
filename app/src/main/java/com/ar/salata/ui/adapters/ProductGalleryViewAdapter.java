@@ -34,7 +34,7 @@ public class ProductGalleryViewAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ((TextView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_name_text_view)).setText(products.get(position).getProductName()+"/"+products.get(position).getUnit());
-        ((TextView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_price_text_view)).setText(products.get(position).getMaxPrice()+"جنيه");
+        ((TextView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_price_text_view)).setText(products.get(position).getMaxPrice().toString());
         ((ImageView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_image_view)).setImageResource(R.drawable.ic_tomato_background);
     }
 
