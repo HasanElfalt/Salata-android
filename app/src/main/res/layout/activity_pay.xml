@@ -36,10 +36,11 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/calibrib"
                         android:gravity="center_vertical"
+                        android:includeFontPadding="false"
                         android:text="ادفع"
                         android:textAlignment="gravity"
                         android:textColor="@color/colorAccent"
-                        android:textSize="40sp" />
+                        android:textSize="@dimen/app_bar_title_size" />
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 
