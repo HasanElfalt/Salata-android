@@ -1,17 +1,15 @@
 package com.ar.salata.ui.fragments;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.ar.salata.R;
 import com.ar.salata.model.Category;
@@ -44,7 +42,6 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
      */
     public static ProductsGalleryForCategoryFragment newInstance(Category categoryOFProductsToBeDisplayed) {
         ProductsGalleryForCategoryFragment fragment = new ProductsGalleryForCategoryFragment();
@@ -63,11 +60,13 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         }
         ///call api and get products to display
         productsList = new ArrayList<>();
-        productsList.add(new GalleryProduct("طماطم",45.2,"كيلو",""));
-        productsList.add(new GalleryProduct("بطاطس",45.2,"كيلو",""));
-        productsList.add(new GalleryProduct("بصل",45.2,"كيلو",""));
-        productsList.add(new GalleryProduct("فلفل",45.2,"كيلو",""));
-        productsList.add(new GalleryProduct("باذنجان",45.2,"كيلو",""));
+        for (int i = 0; i < 5; i++) {
+            productsList.add(new GalleryProduct("طماطم", 45.2, "كيلو", ""));
+            productsList.add(new GalleryProduct("بطاطس", 45.2, "كيلو", ""));
+            productsList.add(new GalleryProduct("بصل", 45.2, "كيلو", ""));
+            productsList.add(new GalleryProduct("فلفل", 45.2, "كيلو", ""));
+            productsList.add(new GalleryProduct("باذنجان", 45.2, "كيلو", ""));
+        }
     }
 
     @Override
@@ -85,7 +84,7 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         productsAdapter = new ProductGalleryViewAdapter(productsList);
         productGallery.setAdapter(productsAdapter);
 
-        productsViewManager = new GridLayoutManager(this.getActivity(),4);
+        productsViewManager = new GridLayoutManager(this.getActivity(), 4);
         productGallery.setLayoutManager(productsViewManager);
 
         GalleryProductOffsetDecoration itemDecoration = new GalleryProductOffsetDecoration(this.getContext(), R.dimen.item_offset);
