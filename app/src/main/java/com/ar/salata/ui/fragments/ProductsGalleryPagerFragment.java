@@ -12,9 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ar.salata.R;
+import com.ar.salata.model.Category;
 import com.ar.salata.ui.adapters.ProductsGalleryForCategoryAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
 
 
 /**
@@ -24,11 +27,14 @@ public class ProductsGalleryPagerFragment extends Fragment {
 
     private ProductsGalleryForCategoryAdapter adapter;
     private ViewPager2 productGalleryPager;
-
+    private ArrayList<Category> productCategories;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+            // end points to download categories
+        productCategories = new ArrayList<>();
+        productCategories.add(new Category("1","خضروات"));
+        productCategories.add(new Category("1","فاكهة"));
 //        if (getArguments() != null) {
 //
 //        }
@@ -44,7 +50,7 @@ public class ProductsGalleryPagerFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new ProductsGalleryForCategoryAdapter(this);
+        adapter = new ProductsGalleryForCategoryAdapter(this,productCategories);
         productGalleryPager = view.findViewById(R.id.product_gallery_pager);
         productGalleryPager.setAdapter(adapter);
         TabLayout productsTabs = view.findViewById(R.id.products_tabes);
@@ -52,8 +58,7 @@ public class ProductsGalleryPagerFragment extends Fragment {
         new TabLayoutMediator(productsTabs,productGalleryPager, new TabLayoutMediator.TabConfigurationStrategy() {
             @Override
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
-                tab.setText("خضروات");
-
+                tab.setText(productCategories.get(position).getCategoryName());
             }
         }).attach();
     }
