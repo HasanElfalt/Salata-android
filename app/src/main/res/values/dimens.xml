@@ -2,4 +2,6 @@
 <resources>
     <dimen name="tab_layout_height">48dp</dimen>
     <dimen name="tab_layout_radius">24dp</dimen>
+    <dimen name="app_bar_title_size">28sp</dimen>
+    <dimen name="app_bar_salata_size">32sp</dimen>
 </resources>
