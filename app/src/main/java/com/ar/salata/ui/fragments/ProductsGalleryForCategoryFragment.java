@@ -5,14 +5,19 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Product;
+import com.ar.salata.model.Category;
+import com.ar.salata.model.GalleryProduct;
+import com.ar.salata.ui.adapters.ProductGalleryViewAdapter;
+import com.ar.salata.ui.utils.GalleryProductOffsetDecoration;
 
 import java.util.ArrayList;
 
@@ -24,12 +29,13 @@ import java.util.ArrayList;
 public class ProductsGalleryForCategoryFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String PRODUCTS = "products";
+    private static final String PRODUCTS_CATEGORY = "category";
 
 
-
-    private ArrayList<Product> mProduct;
-
+    private Category categoryOFProductsToBeDisplayed;
+    private ArrayList<GalleryProduct> productsList;
+    private RecyclerView.Adapter productsAdapter;
+    private RecyclerView.LayoutManager productsViewManager;
 
     public ProductsGalleryForCategoryFragment() {
         // Required empty public constructor
@@ -40,11 +46,11 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
      * this fragment using the provided parameters.
      *
      */
-    // TODO: Rename and change types and number of parameters
-    public static ProductsGalleryForCategoryFragment newInstance(ArrayList<Product> products) {
+    public static ProductsGalleryForCategoryFragment newInstance(Category categoryOFProductsToBeDisplayed) {
         ProductsGalleryForCategoryFragment fragment = new ProductsGalleryForCategoryFragment();
+        fragment.categoryOFProductsToBeDisplayed = categoryOFProductsToBeDisplayed;
         Bundle args = new Bundle();
-        args.putParcelableArrayList(PRODUCTS,products);
+        args.putParcelable(PRODUCTS_CATEGORY, categoryOFProductsToBeDisplayed);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,8 +59,15 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mProduct = getArguments().getParcelableArrayList(PRODUCTS);
+            categoryOFProductsToBeDisplayed = getArguments().getParcelable(PRODUCTS_CATEGORY);
         }
+        ///call api and get products to display
+        productsList = new ArrayList<>();
+        productsList.add(new GalleryProduct("طماطم",45.2,"كيلو",""));
+        productsList.add(new GalleryProduct("بطاطس",45.2,"كيلو",""));
+        productsList.add(new GalleryProduct("بصل",45.2,"كيلو",""));
+        productsList.add(new GalleryProduct("فلفل",45.2,"كيلو",""));
+        productsList.add(new GalleryProduct("باذنجان",45.2,"كيلو",""));
     }
 
     @Override
@@ -67,6 +80,15 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ((TextView)view.findViewById(R.id.page_text)).setText(mProduct.get(0).getProductName());
+        // to be done
+        RecyclerView productGallery = view.findViewById(R.id.products_gallery);
+        productsAdapter = new ProductGalleryViewAdapter(productsList);
+        productGallery.setAdapter(productsAdapter);
+
+        productsViewManager = new GridLayoutManager(this.getActivity(),4);
+        productGallery.setLayoutManager(productsViewManager);
+
+        GalleryProductOffsetDecoration itemDecoration = new GalleryProductOffsetDecoration(this.getContext(), R.dimen.item_offset);
+        productGallery.addItemDecoration(itemDecoration);
     }
 }
