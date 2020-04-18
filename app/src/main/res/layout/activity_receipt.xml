@@ -36,8 +36,8 @@
                         android:layout_height="match_parent"
                         android:fontFamily="@font/calibrib"
                         android:gravity="center_vertical"
-                        android:text="اعمل فاتورة"
                         android:includeFontPadding="false"
+                        android:text="اعمل فاتورة"
                         android:textAlignment="gravity"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/app_bar_title_size" />
@@ -46,6 +46,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <include
+            layout="@layout/fragment_products_gallery_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
