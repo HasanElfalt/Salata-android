@@ -15,11 +15,11 @@ import com.ar.salata.model.GalleryProduct;
 import java.util.ArrayList;
 
 
-public class ProductGalleryViewAdapter extends RecyclerView.Adapter {
+public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
 
     ArrayList<GalleryProduct> products;
 
-    public ProductGalleryViewAdapter(ArrayList<GalleryProduct> products) {
+    public ProductGalleryViewRecyclerAdapter(ArrayList<GalleryProduct> products) {
         this.products = products;
     }
 

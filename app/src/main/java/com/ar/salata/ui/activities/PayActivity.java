@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.ui.adapters.RecyclerViewFinalBillAdapter;
+import com.ar.salata.ui.adapters.FinalBillRecyclerAdapter;
 
 public class PayActivity extends AppCompatActivity {
 
@@ -26,7 +26,7 @@ public class PayActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_bill_final);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        RecyclerViewFinalBillAdapter adapter = new RecyclerViewFinalBillAdapter(getApplicationContext());
+        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext());
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
