@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ar.salata.R;
 import com.ar.salata.model.SliderItem;
-import com.ar.salata.ui.activities.ReceiptActivity;
+import com.ar.salata.ui.activities.CartActivity;
 import com.ar.salata.ui.adapters.ImageSliderAdapter;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -55,7 +55,7 @@ public class HomeFragmet extends Fragment {
         eFABWeigh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), ReceiptActivity.class);
+                Intent intent = new Intent(getContext(), CartActivity.class);
                 startActivity(intent);
             }
         });

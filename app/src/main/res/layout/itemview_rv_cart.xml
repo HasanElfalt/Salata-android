@@ -28,7 +28,7 @@
                 app:layout_constraintWidth_percent="0.5" />
 
             <TextView
-                android:id="@+id/tv_item_name"
+                android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -36,14 +36,14 @@
                 android:text="طماطم"
                 android:textColor="@color/colorFont"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@id/tv_item_price"
+                app:layout_constraintBottom_toTopOf="@id/tv_price"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_item_image"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
             <TextView
-                android:id="@+id/tv_item_price"
+                android:id="@+id/tv_price"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -54,14 +54,14 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/iv_item_image"
-                app:layout_constraintTop_toBottomOf="@id/tv_item_name" />
+                app:layout_constraintTop_toBottomOf="@id/tv_name" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_item_weight"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.2"
+            android:layout_weight="0.35"
             android:background="@drawable/bg_rv_stroke"
             android:fontFamily="@font/calibrib"
             android:gravity="center"
@@ -73,27 +73,30 @@
                 android:id="@+id/btn_increment_weight"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/colorWhite"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/bg_btn_increment_decrement"
                 android:src="@drawable/ic_increment"
                 app:layout_constraintBottom_toTopOf="@id/btn_decrement_weight"
                 app:layout_constraintHeight_percent="0.4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="0.4" />
+                app:layout_constraintWidth_percent="0.33" />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_decrement_weight"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:background="@color/colorWhite"
+                android:layout_marginHorizontal="4dp"
+                android:background="@drawable/bg_btn_increment_decrement"
                 android:src="@drawable/ic_decrement"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHeight_percent="0.4"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/btn_increment_weight"
-                app:layout_constraintWidth_percent="0.4" />
+                app:layout_constraintWidth_percent="0.33" />
 
             <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_total_weight"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
@@ -107,7 +110,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
-            android:id="@+id/tv_item_total_price"
+            android:id="@+id/tv_total_price"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"

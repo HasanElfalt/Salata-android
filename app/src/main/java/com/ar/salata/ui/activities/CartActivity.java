@@ -12,13 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.ar.salata.R;
 
-public class ReceiptActivity extends AppCompatActivity {
+public class CartActivity extends AppCompatActivity {
     private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_receipt);
+        setContentView(R.layout.activity_cart);
 
         Toolbar toolbar = findViewById(R.id.toolbar_receipt);
         setSupportActionBar(toolbar);

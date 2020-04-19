@@ -13,7 +13,7 @@ import com.ar.salata.R;
 
 import java.util.ArrayList;
 
-public class RecyclerViewFinalBillAdapter extends RecyclerView.Adapter<RecyclerViewFinalBillAdapter.ItemViewHolder> {
+public class FinalBillRecyclerAdapter extends RecyclerView.Adapter<FinalBillRecyclerAdapter.ItemViewHolder> {
     private final static int FOOTER_VIEW = 2;
     private final static int HEADER_VIEW = 1;
     private final static int NORMAL_VIEW = 0;
@@ -22,7 +22,7 @@ public class RecyclerViewFinalBillAdapter extends RecyclerView.Adapter<RecyclerV
 
     private Context context;
 
-    public RecyclerViewFinalBillAdapter(Context context) {
+    public FinalBillRecyclerAdapter(Context context) {
         this.context = context;
         data = new ArrayList<>();
 

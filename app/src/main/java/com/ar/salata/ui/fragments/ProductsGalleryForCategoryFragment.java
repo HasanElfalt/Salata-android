@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ar.salata.R;
 import com.ar.salata.model.Category;
 import com.ar.salata.model.GalleryProduct;
-import com.ar.salata.ui.adapters.ProductGalleryViewAdapter;
+import com.ar.salata.ui.adapters.ProductGalleryViewRecyclerAdapter;
 import com.ar.salata.ui.utils.GalleryProductOffsetDecoration;
 
 import java.util.ArrayList;
@@ -36,19 +36,15 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
     private RecyclerView.LayoutManager productsViewManager;
 
     public ProductsGalleryForCategoryFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     */
     public static ProductsGalleryForCategoryFragment newInstance(Category categoryOFProductsToBeDisplayed) {
         ProductsGalleryForCategoryFragment fragment = new ProductsGalleryForCategoryFragment();
-        fragment.categoryOFProductsToBeDisplayed = categoryOFProductsToBeDisplayed;
+
         Bundle args = new Bundle();
         args.putParcelable(PRODUCTS_CATEGORY, categoryOFProductsToBeDisplayed);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -81,7 +77,7 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // to be done
         RecyclerView productGallery = view.findViewById(R.id.products_gallery);
-        productsAdapter = new ProductGalleryViewAdapter(productsList,this);
+        productsAdapter = new ProductGalleryViewRecyclerAdapter(productsList);
         productGallery.setAdapter(productsAdapter);
 
         productsViewManager = new GridLayoutManager(this.getActivity(), 4);

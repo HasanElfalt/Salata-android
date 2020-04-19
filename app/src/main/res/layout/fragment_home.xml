@@ -97,7 +97,7 @@
             </androidx.cardview.widget.CardView>
 
             <fragment
-                android:id="@+id/product_gallery_pager"
+                android:id="@+id/pager"
                 android:name="com.ar.salata.ui.fragments.ProductsGalleryPagerFragment"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
