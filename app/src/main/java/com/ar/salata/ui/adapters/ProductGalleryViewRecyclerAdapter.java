@@ -23,12 +23,12 @@ import com.ar.salata.ui.fragments.ProductDetailsDialogFragment;
 import java.util.ArrayList;
 
 
-public class ProductGalleryViewAdapter extends RecyclerView.Adapter {
+public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
 
     ArrayList<GalleryProduct> products;
     Fragment myFragment;
 
-    public ProductGalleryViewAdapter(ArrayList<GalleryProduct> products,Fragment myFragment) {
+    public ProductGalleryViewRecyclerAdapter(ArrayList<GalleryProduct> products,Fragment myFragment) {
         this.products = products;
         this.myFragment = myFragment;
     }

@@ -77,7 +77,7 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // to be done
         RecyclerView productGallery = view.findViewById(R.id.products_gallery);
-        productsAdapter = new ProductGalleryViewRecyclerAdapter(productsList);
+        productsAdapter = new ProductGalleryViewRecyclerAdapter(productsList,this);
         productGallery.setAdapter(productsAdapter);
 
         productsViewManager = new GridLayoutManager(this.getActivity(), 4);
