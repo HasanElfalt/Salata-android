@@ -13,8 +13,9 @@ import androidx.fragment.app.DialogFragment;
 import com.ar.salata.R;
 import com.ar.salata.model.GalleryProduct;
 
-public class ProductDetailsDialogFragment extends DialogFragment  {
+public class ProductDetailsDialogFragment extends DialogFragment {
     GalleryProduct product;
+
     public ProductDetailsDialogFragment(GalleryProduct product) {
         this.product = product;
     }
@@ -29,6 +30,9 @@ public class ProductDetailsDialogFragment extends DialogFragment  {
         builder.setView(view);
 //        ((TextView)view.findViewById(R.id.product_name_text_view)).setText(product.getProductName()+"/"+product.getUnit());
 //        ((TextView)view.findViewById(R.id.product_price_text_view)).setText(product.getMaxPrice().toString());
-        return builder.create();
+        Dialog dialog = builder.create();
+        dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        return dialog;
     }
 }
