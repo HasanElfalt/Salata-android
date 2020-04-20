@@ -52,9 +52,8 @@ public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
         ((ProductViewHolder)holder).parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ProductDetailsDialogFragment dialogFragment = new ProductDetailsDialogFragment(product);
+                ProductDetailsDialogFragment dialogFragment = ProductDetailsDialogFragment.newInstance(product);
                 dialogFragment.show(myFragment.getActivity().getSupportFragmentManager(),"fragment_home_tag");
-
                 return false;
             }
 

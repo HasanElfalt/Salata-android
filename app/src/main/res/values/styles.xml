@@ -65,10 +65,28 @@
         <item name="android:textSize">16dp</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:fontFamily">@font/calibrib</item>
+        <item name="android:paddingRight">@dimen/text_padding</item>
+        <item name="android:paddingLeft">@dimen/text_padding</item>
     </style>
     <style name="ProductNameTextAppearance" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">@font/calibri</item>
+        <item name="android:paddingLeft">@dimen/text_padding</item>
+    </style>
+    <style name="DialogPriceTextAppearance" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">32dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:fontFamily">@font/calibrib</item>
+        <item name="android:topRightRadius">32dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:paddingLeft">16dp</item>
+    </style>
+    <style name="DialogProductNameTextAppearance" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">24dp</item>
+        <item name="android:fontFamily">@font/calibril</item>
+        <item name="android:topLeftRadius">24dp</item>
+        <item name="android:bottomLeftRadius">24dp</item>
+        <item name="android:padding">64dp</item>
     </style>
 </resources>

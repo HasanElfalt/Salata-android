@@ -5,6 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.1" />
+
     <ImageView
         android:id="@+id/product_image_view"
         android:layout_width="match_parent"
@@ -17,46 +24,37 @@
     <TextView
         android:id="@+id/product_name_text_view"
         style="@style/ProductNameTextAppearance"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/product_name_background"
         android:gravity="center|center_horizontal|center_vertical"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
         android:text="TextView"
         android:textAlignment="center"
-        app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/product_image_view" />
+        app:layout_constraintStart_toStartOf="@id/product_image_view"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/gneeh"
         style="@style/ProductNameTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:background="@color/colorPrimaryDark"
         android:gravity="center|center_horizontal|center_vertical"
-        android:includeFontPadding="true"
-        android:paddingLeft="2dp"
-        android:paddingRight="2dp"
         android:text="جنيه"
         android:textColor="@color/colorPrimary"
-        app:layout_constraintBottom_toBottomOf="@+id/product_image_view"
+        app:layout_constraintBottom_toBottomOf="@id/product_price_text_view"
         app:layout_constraintEnd_toEndOf="@+id/product_image_view"
-        app:layout_constraintHeight_percent="0.3" />
+        app:layout_constraintHeight_percent="1"
+        app:layout_constraintTop_toTopOf="@+id/product_price_text_view" />
 
     <TextView
         android:id="@+id/product_price_text_view"
         style="@style/PriceTextAppearance"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/price_background"
         android:gravity="center|center_horizontal|center_vertical"
-        android:paddingRight="2dp"
         android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/textView2"
-        app:layout_constraintHeight_percent="0.3"
-        app:layout_constraintTop_toTopOf="@+id/textView2" />
+        app:layout_constraintBottom_toBottomOf="@id/product_image_view"
+        app:layout_constraintEnd_toStartOf="@+id/gneeh" />
 </androidx.constraintlayout.widget.ConstraintLayout>
