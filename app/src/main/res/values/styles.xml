@@ -3,13 +3,38 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimary">@color/colorWhite</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="colorControlNormal">@color/colorAccent</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+
+
+        <!--
+                &lt;!&ndash; enable window content transitions &ndash;&gt;
+                <item name="android:windowActivityTransitions">true</item>
+
+                &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
+                <item name="android:windowEnterTransition">@transition/explode</item>
+                <item name="android:windowExitTransition">@transition/explode</item>
+
+                &lt;!&ndash; specify shared element transitions &ndash;&gt;
+                <item name="android:windowSharedElementEnterTransition">
+                    @transition/change_image_transform
+                </item>
+                <item name="android:windowSharedElementExitTransition">
+                    @transition/change_image_transform
+                </item>
+        -->
     </style>
 
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+    </style>
     <style name="tabStyle">
 
     </style>
@@ -38,7 +63,7 @@
         <item name="fabSize">auto</item>
     </style>
 
-    <style name="LoginButton" parent="Widget.MaterialComponents.Button">
+    <style name="SignInButton" parent="Widget.MaterialComponents.Button">
         <item name="android:stateListAnimator">@null</item>
     </style>
 
@@ -61,27 +86,31 @@
         <item name="android:fontFamily">@font/calibrib</item>
         <item name="textAllCaps">false</item>
     </style>
+
     <style name="PriceTextAppearance" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">16dp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:fontFamily">@font/calibrib</item>
         <item name="android:paddingRight">@dimen/text_padding</item>
         <item name="android:paddingLeft">@dimen/text_padding</item>
     </style>
+
     <style name="ProductNameTextAppearance" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:fontFamily">@font/calibri</item>
         <item name="android:paddingLeft">@dimen/text_padding</item>
     </style>
+
     <style name="DialogPriceTextAppearance" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">32dp</item>
-        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/colorWhite</item>
         <item name="android:fontFamily">@font/calibrib</item>
         <item name="android:topRightRadius">32dp</item>
         <item name="android:paddingRight">16dp</item>
         <item name="android:paddingLeft">16dp</item>
     </style>
+
     <style name="DialogProductNameTextAppearance" parent="Widget.MaterialComponents.TextView">
         <item name="android:textSize">24dp</item>
         <item name="android:fontFamily">@font/calibril</item>
