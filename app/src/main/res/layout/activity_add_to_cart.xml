@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.CartActivity">
+    tools:context=".ui.activities.AddToCartActivity">
 
     <include layout="@layout/header_app" />
 
@@ -47,8 +47,8 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/cart_pager_fragment"
-            android:name="com.ar.salata.ui.fragments.CartPagerFragment"
+            android:id="@+id/add_to_cart_pager_fragment"
+            android:name="com.ar.salata.ui.fragments.AddToCartPagerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"

@@ -11,12 +11,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ui.activities.OrdersActivity"></activity>
+        <activity android:name=".ui.activities.ContactUsActivity" />
+        <activity android:name=".ui.activities.AboutActivity" />
+        <activity
+            android:name=".ui.activities.AddAddressActivity"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name=".ui.activities.SignInActivity"
+            android:hardwareAccelerated="true" />
+        <activity
+            android:name=".ui.activities.SignUpActivity"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".ui.activities.PayActivity"
-            android:parentActivityName=".ui.activities.CartActivity" />
+            android:hardwareAccelerated="true" />
         <activity
-            android:name=".ui.activities.CartActivity"
-            android:parentActivityName=".ui.activities.HomeActivity" />
+            android:name=".ui.activities.AddToCartActivity"
+            android:hardwareAccelerated="true" />
         <activity
             android:name=".ui.activities.SplashActivity"
             android:hardwareAccelerated="true">

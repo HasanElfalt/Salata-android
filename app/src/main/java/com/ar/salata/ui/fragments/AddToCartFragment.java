@@ -10,17 +10,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.GalleryProduct;
+import com.ar.salata.model.Product;
 import com.ar.salata.ui.adapters.CartRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class CartFragment extends Fragment {
+public class AddToCartFragment extends Fragment {
     private RecyclerView cartRecyclerView;
-    private ArrayList<GalleryProduct> products = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
 
-    public static CartFragment newInstance() {
-        return new CartFragment();
+    public static AddToCartFragment newInstance() {
+        return new AddToCartFragment();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class CartFragment extends Fragment {
         cartRecyclerView = view.findViewById(R.id.rv_add_to_cart);
 
         for (int i = 0; i < 20; i++) {
-            products.add(new GalleryProduct("خيار", 50.0, "كيلو", ""));
+            products.add(new Product("خيار", 50.0, "كيلو", ""));
         }
         CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), products);
         cartRecyclerAdapter.setHasStableIds(true);

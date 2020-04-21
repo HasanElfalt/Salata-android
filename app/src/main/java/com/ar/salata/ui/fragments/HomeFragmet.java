@@ -19,7 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.ar.salata.R;
 import com.ar.salata.model.SliderItem;
-import com.ar.salata.ui.activities.CartActivity;
+import com.ar.salata.ui.activities.AddToCartActivity;
 import com.ar.salata.ui.adapters.ImageSliderAdapter;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -55,7 +55,7 @@ public class HomeFragmet extends Fragment {
         eFABWeigh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), CartActivity.class);
+                Intent intent = new Intent(getContext(), AddToCartActivity.class);
                 startActivity(intent);
             }
         });
@@ -74,11 +74,8 @@ public class HomeFragmet extends Fragment {
 
         sliderView.setIndicatorAnimation(IndicatorAnimations.SLIDE); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
-        sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_BACK_AND_FORTH);
         sliderView.setIndicatorSelectedColor(Color.WHITE);
         sliderView.setIndicatorUnselectedColor(Color.GRAY);
-        sliderView.setScrollTimeInSec(4); //set scroll delay in seconds :
-        sliderView.startAutoCycle();
 
         adapter.addItem(new SliderItem("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg",
                 "road forest"));

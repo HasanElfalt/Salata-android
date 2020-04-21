@@ -38,9 +38,9 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter<FinalBillRecy
         if (viewType == FOOTER_VIEW)
             view = LayoutInflater.from(context).inflate(R.layout.footer_rv_final_bill, parent, false);
         else if (viewType == HEADER_VIEW)
-            view = LayoutInflater.from(context).inflate(R.layout.header_rv_final_bill, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.header_rv_bill, parent, false);
         else
-            view = LayoutInflater.from(context).inflate(R.layout.itemview_rv_final_bill, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.itemview_rv_bill, parent, false);
 
         ItemViewHolder itemViewHolder = new ItemViewHolder(view);
         return itemViewHolder;

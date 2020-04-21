@@ -1,10 +1,10 @@
 package com.ar.salata.ui.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -24,6 +24,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private int clickedNavItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,9 +51,83 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        navigationView.getHeaderView(0).findViewById(R.id.btn_sign_in).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickedNavItem = R.id.btn_sign_in;
+                drawer.closeDrawer(GravityCompat.START);
+            }
+        });
+
         drawer = findViewById(R.id.drawer);
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                Intent intent = null;
+                switch (clickedNavItem) {
+                    case R.id.nav_main:
+                        // TODO: 3/30/2020
+                        break;
+                    case R.id.nav_orders:
+                        // TODO: 3/30/2020
+                        break;
+                    case R.id.nav_settings:
+                        // TODO: 3/30/2020
+                        break;
+                    case R.id.nav_address:
+                        intent = new Intent(HomeActivity.this, AddAddressActivity.class);
+                        break;
+                    case R.id.nav_register:
+                        intent = new Intent(HomeActivity.this, SignUpActivity.class);
+                        break;
+                    case R.id.nav_about:
+                        intent = new Intent(HomeActivity.this, AboutActivity.class);
+                        break;
+                    case R.id.nav_contact:
+                        intent = new Intent(HomeActivity.this, ContactUsActivity.class);
+                        break;
+                    case R.id.nav_facebook:
+                        // TODO: 3/30/2020
+                        break;
+                    case R.id.nav_twitter:
+                        // TODO: 3/30/2020
+                        break;
+                    case R.id.nav_instagram:
+                        // TODO: 3/30/2020
+                        break;
+                    case R.id.btn_sign_in:
+                        intent = new Intent(HomeActivity.this, SignInActivity.class);
+                        break;
+                    default:
+                        // TODO: 3/30/2020
+                }
+                if (intent != null) {
+                    startActivity(intent);
+                    //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                }
+
+                clickedNavItem = 0;
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
+
         toggle.setDrawerIndicatorEnabled(true);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
         toggle.syncState();
@@ -75,48 +150,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_main:
-                Toast.makeText(getApplicationContext(), "Home page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_orders:
-                Toast.makeText(getApplicationContext(), "My Orders page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_settings:
-                Toast.makeText(getApplicationContext(), "Settings page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_address:
-                Toast.makeText(getApplicationContext(), "Add Address requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_about:
-                Toast.makeText(getApplicationContext(), "About page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_contact:
-                Toast.makeText(getApplicationContext(), "Contact Us page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_facebook:
-                Toast.makeText(getApplicationContext(), "Facebook page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_twitter:
-                Toast.makeText(getApplicationContext(), "Twitter page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_instagram:
-                Toast.makeText(getApplicationContext(), "Instagram page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            default:
-                Toast.makeText(getApplicationContext(), "No page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-        }
-
+        clickedNavItem = item.getItemId();
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -5,18 +5,9 @@
     android:layout_gravity="start"
     android:layout_marginTop="16dp">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="16dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/ic_login_scaled"
-        android:tint="@color/colorFont"
-        android:visibility="gone" />
-
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/LoginButton"
+        android:id="@+id/btn_sign_in"
+        style="@style/SignInButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_login_scaled"

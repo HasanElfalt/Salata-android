@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.model.Category;
-import com.ar.salata.model.GalleryProduct;
+import com.ar.salata.model.Product;
 import com.ar.salata.ui.adapters.ProductGalleryViewRecyclerAdapter;
 import com.ar.salata.ui.utils.GalleryProductOffsetDecoration;
 
@@ -31,7 +31,7 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
 
 
     private Category categoryOFProductsToBeDisplayed;
-    private ArrayList<GalleryProduct> productsList;
+    private ArrayList<Product> productsList;
     private RecyclerView.Adapter productsAdapter;
     private RecyclerView.LayoutManager productsViewManager;
 
@@ -57,11 +57,11 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         ///call api and get products to display
         productsList = new ArrayList<>();
         for (int i = 0; i < 5; i++) {
-            productsList.add(new GalleryProduct("طماطم", 45.2, "كيلو", ""));
-            productsList.add(new GalleryProduct("بطاطس", 45.2, "كيلو", ""));
-            productsList.add(new GalleryProduct("بصل", 45.2, "كيلو", ""));
-            productsList.add(new GalleryProduct("فلفل", 45.2, "كيلو", ""));
-            productsList.add(new GalleryProduct("باذنجان", 45.2, "كيلو", ""));
+            productsList.add(new Product("طماطم", 45.2, "كيلو", ""));
+            productsList.add(new Product("بطاطس", 45.2, "كيلو", ""));
+            productsList.add(new Product("بصل", 45.2, "كيلو", ""));
+            productsList.add(new Product("فلفل", 45.2, "كيلو", ""));
+            productsList.add(new Product("باذنجان", 45.2, "كيلو", ""));
         }
     }
 

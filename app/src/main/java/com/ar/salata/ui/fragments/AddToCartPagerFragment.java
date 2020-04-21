@@ -4,7 +4,7 @@ import android.os.Bundle;
 
 import com.ar.salata.ui.adapters.CartForCategoryPagerAdapter;
 
-public class CartPagerFragment extends PagerFragment {
+public class AddToCartPagerFragment extends PagerFragment {
     private CartForCategoryPagerAdapter adapter;
 
     @Override

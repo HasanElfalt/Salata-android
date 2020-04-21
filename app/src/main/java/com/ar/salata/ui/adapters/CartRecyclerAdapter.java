@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.GalleryProduct;
+import com.ar.salata.model.Product;
 
 import java.util.ArrayList;
 
@@ -19,10 +19,10 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
     private final static int HEADER_VIEW = 1;
     private final static int NORMAL_VIEW = 0;
 
-    private ArrayList<GalleryProduct> products;
+    private ArrayList<Product> products;
     private Context context;
 
-    public CartRecyclerAdapter(Context context, ArrayList<GalleryProduct> products) {
+    public CartRecyclerAdapter(Context context, ArrayList<Product> products) {
         this.products = products;
         this.context = context;
     }
@@ -33,10 +33,10 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
         View view;
         RecyclerView.ViewHolder viewHolder;
         if (viewType == HEADER_VIEW) {
-            view = LayoutInflater.from(context).inflate(R.layout.header_rv_cart, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.header_rv_add_to_cart, parent, false);
             viewHolder = new ItemViewHolderHeader(view);
         } else {
-            view = LayoutInflater.from(context).inflate(R.layout.itemview_rv_cart, parent, false);
+            view = LayoutInflater.from(context).inflate(R.layout.itemview_rv_add_to_cart, parent, false);
             viewHolder = new ItemViewHolderNormal(view);
         }
 

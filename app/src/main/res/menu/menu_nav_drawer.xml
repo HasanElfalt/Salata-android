@@ -4,44 +4,44 @@
         <item
             android:id="@+id/nav_main"
             android:icon="@drawable/ic_home"
-            android:title="Main" />
+            android:title="الرئيسية" />
         <item
             android:id="@+id/nav_orders"
             android:icon="@drawable/ic_receipt"
-            android:title="My Orders" />
+            android:title="طلباتى" />
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_settings"
-            android:title="Account Settings" />
+            android:title="إعداد الحسابات" />
         <item
             android:id="@+id/nav_address"
             android:icon="@drawable/ic_add_location"
-            android:title="Add Address" />
+            android:title="إضافة عنوان آخر" />
         <item
             android:id="@+id/nav_register"
             android:icon="@drawable/ic_add_user_button"
-            android:title="Register" />
+            android:title="سجل مشترك جديد" />
     </group>
     <group android:id="@+id/group_socialmedia">
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_info"
-            android:title="About" />
+            android:title="عن سلطة" />
         <item
             android:id="@+id/nav_contact"
             android:icon="@drawable/ic_contact_support"
-            android:title="Contact Us" />
+            android:title="إتصل بنا" />
         <item
             android:id="@+id/nav_facebook"
             android:icon="@drawable/ic_facebook"
-            android:title="Facebook" />
+            android:title="فيسبوك" />
         <item
             android:id="@+id/nav_twitter"
             android:icon="@drawable/ic_twitter"
-            android:title="Twitter" />
+            android:title="تويتر" />
         <item
             android:id="@+id/nav_instagram"
             android:icon="@drawable/ic_instagram"
-            android:title="Instagram" />
+            android:title="انستجرام" />
     </group>
 </menu>

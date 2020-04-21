@@ -5,7 +5,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,15 +15,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.ar.salata.R;
-import com.ar.salata.model.GalleryProduct;
+import com.ar.salata.model.Product;
 
 public class ProductDetailsDialogFragment extends DialogFragment {
-    private GalleryProduct product;
+    private Product product;
 
     public ProductDetailsDialogFragment() {
     }
 
-    public static ProductDetailsDialogFragment newInstance(GalleryProduct product){
+    public static ProductDetailsDialogFragment newInstance(Product product) {
         ProductDetailsDialogFragment productDetailsDialogFragment = new ProductDetailsDialogFragment();
         Bundle data = new Bundle();
         data.putParcelable("product",product);

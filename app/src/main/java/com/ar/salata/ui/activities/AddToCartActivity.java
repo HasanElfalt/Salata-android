@@ -12,13 +12,13 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.ar.salata.R;
 
-public class CartActivity extends AppCompatActivity {
+public class AddToCartActivity extends AppCompatActivity {
     private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cart);
+        setContentView(R.layout.activity_add_to_cart);
 
         Toolbar toolbar = findViewById(R.id.toolbar_receipt);
         setSupportActionBar(toolbar);
@@ -39,10 +39,11 @@ public class CartActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        return false;
     }
+
 }

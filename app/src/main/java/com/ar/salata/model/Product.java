@@ -3,21 +3,26 @@ package com.ar.salata.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class GalleryProduct implements Parcelable {
+public class Product implements Parcelable {
     private String productName;
     private Double maxPrice;
     private String unit;
     private String image;
 
-    public GalleryProduct(String productName) {
-        this.productName = productName;
-    }
+    public static final Creator<Product> CREATOR = new Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel in) {
+            return new Product(in);
+        }
 
-    public GalleryProduct(String productName, Double maxPrice, String unit, String image) {
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
+
+    public Product(String productName) {
         this.productName = productName;
-        this.maxPrice = maxPrice;
-        this.unit = unit;
-        this.image = image;
     }
 
     public Double getMaxPrice() {
@@ -44,8 +49,11 @@ public class GalleryProduct implements Parcelable {
         this.image = image;
     }
 
-    public static Creator<GalleryProduct> getCREATOR() {
-        return CREATOR;
+    public Product(String productName, Double maxPrice, String unit, String image) {
+        this.productName = productName;
+        this.maxPrice = maxPrice;
+        this.unit = unit;
+        this.image = image;
     }
 
     public String getProductName() {
@@ -56,21 +64,13 @@ public class GalleryProduct implements Parcelable {
         this.productName = productName;
     }
 
-    protected GalleryProduct(Parcel in) {
+    protected Product(Parcel in) {
         productName = in.readString();
     }
 
-    public static final Creator<GalleryProduct> CREATOR = new Creator<GalleryProduct>() {
-        @Override
-        public GalleryProduct createFromParcel(Parcel in) {
-            return new GalleryProduct(in);
-        }
-
-        @Override
-        public GalleryProduct[] newArray(int size) {
-            return new GalleryProduct[size];
-        }
-    };
+    public static Creator<Product> getCREATOR() {
+        return CREATOR;
+    }
 
     @Override
     public int describeContents() {

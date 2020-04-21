@@ -1,9 +1,7 @@
 package com.ar.salata.ui.adapters;
 
 import android.annotation.SuppressLint;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,12 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.GalleryProduct;
+import com.ar.salata.model.Product;
 import com.ar.salata.ui.fragments.ProductDetailsDialogFragment;
 
 import java.util.ArrayList;
@@ -25,10 +21,10 @@ import java.util.ArrayList;
 
 public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
 
-    ArrayList<GalleryProduct> products;
+    ArrayList<Product> products;
     Fragment myFragment;
 
-    public ProductGalleryViewRecyclerAdapter(ArrayList<GalleryProduct> products,Fragment myFragment) {
+    public ProductGalleryViewRecyclerAdapter(ArrayList<Product> products, Fragment myFragment) {
         this.products = products;
         this.myFragment = myFragment;
     }
@@ -47,7 +43,7 @@ public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
         ((TextView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_name_text_view)).setText(products.get(position).getProductName()+"/"+products.get(position).getUnit());
         ((TextView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_price_text_view)).setText(products.get(position).getMaxPrice().toString());
         ((ImageView)((ProductViewHolder)holder).parentLayout.getViewById(R.id.product_image_view)).setImageResource(R.drawable.ic_tomato_background);
-        final GalleryProduct product = products.get(position);
+        final Product product = products.get(position);
 
         ((ProductViewHolder)holder).parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
