@@ -10,23 +10,6 @@
         <item name="colorControlNormal">@color/colorAccent</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
 
-
-        <!--
-                &lt;!&ndash; enable window content transitions &ndash;&gt;
-                <item name="android:windowActivityTransitions">true</item>
-
-                &lt;!&ndash; specify enter and exit transitions &ndash;&gt;
-                <item name="android:windowEnterTransition">@transition/explode</item>
-                <item name="android:windowExitTransition">@transition/explode</item>
-
-                &lt;!&ndash; specify shared element transitions &ndash;&gt;
-                <item name="android:windowSharedElementEnterTransition">
-                    @transition/change_image_transform
-                </item>
-                <item name="android:windowSharedElementExitTransition">
-                    @transition/change_image_transform
-                </item>
-        -->
     </style>
 
     <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
@@ -35,6 +18,7 @@
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_left</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
+
     <style name="tabStyle">
 
     </style>
@@ -117,5 +101,34 @@
         <item name="android:topLeftRadius">24dp</item>
         <item name="android:bottomLeftRadius">24dp</item>
         <item name="android:padding">64dp</item>
+    </style>
+
+    <style name="TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="android:textColorHint">@color/colorFont</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxStrokeErrorColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+    </style>
+
+    <style name="TextInputLayoutExposedDropDown" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="android:textColorHint">@color/colorFont</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxStrokeColor">@color/colorAccent</item>
+        <item name="boxStrokeErrorColor">@color/colorAccent</item>
+        <item name="hintTextColor">@color/colorAccent</item>
+        <item name="shapeAppearance">?attr/shapeAppearanceSmallComponent</item>
+        <item name="endIconTint">@color/colorAccent</item>
+    </style>
+
+    <style name="TextInputEditText">
+        <item name="android:textCursorDrawable">@null</item>
     </style>
 </resources>

@@ -8,14 +8,14 @@ import androidx.annotation.DimenRes;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class GalleryProductOffsetDecoration extends RecyclerView.ItemDecoration {
+public class OffsetDecoration extends RecyclerView.ItemDecoration {
     private int mItemOffset;
 
-    public GalleryProductOffsetDecoration(int itemOffset) {
+    public OffsetDecoration(int itemOffset) {
         mItemOffset = itemOffset;
     }
 
-    public GalleryProductOffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
+    public OffsetDecoration(@NonNull Context context, @DimenRes int itemOffsetId) {
         this(context.getResources().getDimensionPixelSize(itemOffsetId));
     }
 

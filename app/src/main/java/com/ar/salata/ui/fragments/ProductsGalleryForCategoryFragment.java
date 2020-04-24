@@ -15,7 +15,7 @@ import com.ar.salata.R;
 import com.ar.salata.model.Category;
 import com.ar.salata.model.Product;
 import com.ar.salata.ui.adapters.ProductGalleryViewRecyclerAdapter;
-import com.ar.salata.ui.utils.GalleryProductOffsetDecoration;
+import com.ar.salata.ui.utils.OffsetDecoration;
 
 import java.util.ArrayList;
 
@@ -77,13 +77,13 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         // to be done
         RecyclerView productGallery = view.findViewById(R.id.products_gallery);
-        productsAdapter = new ProductGalleryViewRecyclerAdapter(productsList,this);
+        productsAdapter = new ProductGalleryViewRecyclerAdapter(productsList, this);
         productGallery.setAdapter(productsAdapter);
 
         productsViewManager = new GridLayoutManager(this.getActivity(), 4);
         productGallery.setLayoutManager(productsViewManager);
 
-        GalleryProductOffsetDecoration itemDecoration = new GalleryProductOffsetDecoration(this.getContext(), R.dimen.item_offset);
+        OffsetDecoration itemDecoration = new OffsetDecoration(getContext(), R.dimen.product_item_offset);
         productGallery.addItemDecoration(itemDecoration);
     }
 }

@@ -24,7 +24,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
-    private int clickedNavItem = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,76 +53,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         navigationView.getHeaderView(0).findViewById(R.id.btn_sign_in).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickedNavItem = R.id.btn_sign_in;
-                drawer.closeDrawer(GravityCompat.START);
+                Intent intent = new Intent(HomeActivity.this, SignInActivity.class);
+                startActivity(intent);
             }
         });
 
         drawer = findViewById(R.id.drawer);
-        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
-            @Override
-            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
-
-            }
-
-            @Override
-            public void onDrawerOpened(@NonNull View drawerView) {
-
-            }
-
-            @Override
-            public void onDrawerClosed(@NonNull View drawerView) {
-                Intent intent = null;
-                switch (clickedNavItem) {
-                    case R.id.nav_main:
-                        // TODO: 3/30/2020
-                        break;
-                    case R.id.nav_orders:
-                        // TODO: 3/30/2020
-                        break;
-                    case R.id.nav_settings:
-                        // TODO: 3/30/2020
-                        break;
-                    case R.id.nav_address:
-                        intent = new Intent(HomeActivity.this, AddAddressActivity.class);
-                        break;
-                    case R.id.nav_register:
-                        intent = new Intent(HomeActivity.this, SignUpActivity.class);
-                        break;
-                    case R.id.nav_about:
-                        intent = new Intent(HomeActivity.this, AboutActivity.class);
-                        break;
-                    case R.id.nav_contact:
-                        intent = new Intent(HomeActivity.this, ContactUsActivity.class);
-                        break;
-                    case R.id.nav_facebook:
-                        // TODO: 3/30/2020
-                        break;
-                    case R.id.nav_twitter:
-                        // TODO: 3/30/2020
-                        break;
-                    case R.id.nav_instagram:
-                        // TODO: 3/30/2020
-                        break;
-                    case R.id.btn_sign_in:
-                        intent = new Intent(HomeActivity.this, SignInActivity.class);
-                        break;
-                    default:
-                        // TODO: 3/30/2020
-                }
-                if (intent != null) {
-                    startActivity(intent);
-                    //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                }
-
-                clickedNavItem = 0;
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-
-            }
-        });
 
         toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -150,8 +85,47 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        clickedNavItem = item.getItemId();
-        drawer.closeDrawer(GravityCompat.START);
+        Intent intent = null;
+        switch (item.getItemId()) {
+            case R.id.nav_main:
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.nav_orders:
+                intent = new Intent(HomeActivity.this, OrdersActivity.class);
+                break;
+            case R.id.nav_settings:
+                // TODO: 3/30/2020
+                break;
+            case R.id.nav_address:
+                intent = new Intent(HomeActivity.this, AddAddressActivity.class);
+                break;
+            case R.id.nav_register:
+                intent = new Intent(HomeActivity.this, SignUpActivity.class);
+                break;
+            case R.id.nav_about:
+                intent = new Intent(HomeActivity.this, AboutActivity.class);
+                break;
+            case R.id.nav_contact:
+                intent = new Intent(HomeActivity.this, ContactUsActivity.class);
+                break;
+            case R.id.nav_facebook:
+                // TODO: 3/30/2020
+                break;
+            case R.id.nav_twitter:
+                // TODO: 3/30/2020
+                break;
+            case R.id.nav_instagram:
+                // TODO: 3/30/2020
+                break;
+            case R.id.btn_sign_in:
+                intent = new Intent(HomeActivity.this, SignInActivity.class);
+                break;
+            default:
+                // TODO: 3/30/2020
+        }
+        if (intent != null) {
+            startActivity(intent);
+        }
         return true;
     }
 
@@ -162,5 +136,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (drawer != null)
+            drawer.closeDrawer(GravityCompat.START);
     }
 }

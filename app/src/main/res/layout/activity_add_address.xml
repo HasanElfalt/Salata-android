@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.AddToCartActivity">
+    tools:context=".ui.activities.AddAddressActivity">
 
     <include layout="@layout/header_app" />
 
@@ -49,25 +49,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_city_add_address"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/TextInputLayoutExposedDropDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
             android:layout_marginVertical="8dp"
             android:hint="المحافظة"
-            android:textColorHint="@color/colorFont"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:boxStrokeColor="@color/colorAccent"
-            app:boxStrokeErrorColor="@color/colorAccent"
-            app:endIconTint="@color/colorAccent"
-            app:hintTextColor="@color/colorAccent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearance="?attr/shapeAppearanceSmallComponent"
-            tools:layout_editor_absoluteX="32dp"
-            tools:layout_editor_absoluteY="275dp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -76,23 +64,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_town_add_address"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/TextInputLayoutExposedDropDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
             android:layout_marginVertical="8dp"
             android:hint="المدينة"
-            android:textColorHint="@color/colorFont"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:boxStrokeColor="@color/colorAccent"
-            app:boxStrokeErrorColor="@color/colorAccent"
-            app:endIconTint="@color/colorAccent"
-            app:hintTextColor="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@id/et_city_add_address"
-            app:shapeAppearance="?attr/shapeAppearanceSmallComponent">
+            app:layout_constraintTop_toBottomOf="@id/et_city_add_address">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -101,23 +79,13 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_district_add_address"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/TextInputLayoutExposedDropDown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
             android:layout_marginVertical="8dp"
             android:hint="المنطقة"
-            android:textColorHint="@color/colorFont"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:boxStrokeColor="@color/colorAccent"
-            app:boxStrokeErrorColor="@color/colorAccent"
-            app:endIconTint="@color/colorAccent"
-            app:hintTextColor="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@id/et_town_add_address"
-            app:shapeAppearance="?attr/shapeAppearanceSmallComponent">
+            app:layout_constraintTop_toBottomOf="@id/et_town_add_address">
 
             <AutoCompleteTextView
                 android:layout_width="match_parent"
@@ -126,25 +94,16 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/et_address_details_add_address"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="32dp"
             android:layout_marginVertical="8dp"
             android:hint="تفاصيل العنوان"
-            android:textColorHint="@color/colorFont"
-            app:boxCornerRadiusBottomEnd="8dp"
-            app:boxCornerRadiusBottomStart="8dp"
-            app:boxCornerRadiusTopEnd="8dp"
-            app:boxCornerRadiusTopStart="8dp"
-            app:boxStrokeColor="@color/colorAccent"
-            app:boxStrokeErrorColor="@color/colorAccent"
-            app:hintTextColor="@color/colorAccent"
-            app:layout_constraintTop_toBottomOf="@id/et_district_add_address"
-
-            app:shapeAppearance="?attr/shapeAppearanceSmallComponent">
+            app:layout_constraintTop_toBottomOf="@id/et_district_add_address">
 
             <com.google.android.material.textfield.TextInputEditText
+                style="@style/TextInputEditText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:inputType="text" />
