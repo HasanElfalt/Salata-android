@@ -131,4 +131,26 @@
     <style name="TextInputEditText">
         <item name="android:textCursorDrawable">@null</item>
     </style>
+    <style name="FlatButtonTextAppearance" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="fontFamily">@font/calibri</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+    <style name="SectionTitleTextAppearance" parent="Widget.MaterialComponents.TextView">
+        <item name="fontFamily">@font/calibrib</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">@color/colorFont</item>
+    </style>
+    <style name="RadioButtonStyle" parent="Widget.MaterialComponents.CompoundButton.RadioButton">
+        <item name="fontFamily">@font/calibri</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/colorFont</item>
+    </style>
+    <style name="RectangleRadioBtn" parent="RadioButtonStyle">
+        <item name="android:button">@null</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:textColor">@drawable/radio_btn_text_color_selector</item>
+        <item name="android:background">@drawable/radio_btn_background_selector</item>
+    </style>
 </resources>

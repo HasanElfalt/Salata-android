@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.model.Product;
+import com.ar.salata.ui.fragments.ChooseAddressDialogFragment;
 import com.ar.salata.ui.fragments.ProductDetailsDialogFragment;
 
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
         ((ProductViewHolder)holder).parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                ProductDetailsDialogFragment dialogFragment = ProductDetailsDialogFragment.newInstance(product);
+//                ProductDetailsDialogFragment dialogFragment = ProductDetailsDialogFragment.newInstance(product);
+                ChooseAddressDialogFragment dialogFragment= ChooseAddressDialogFragment.newInstance();
                 dialogFragment.show(myFragment.getActivity().getSupportFragmentManager(),"fragment_home_tag");
                 return false;
             }
