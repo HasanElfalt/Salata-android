@@ -39,11 +39,11 @@
 
     <HorizontalScrollView
         android:id="@+id/scroll_view_1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -53,6 +53,7 @@
             android:id="@+id/day_chooser_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:divider="@drawable/transparent_rect_divider"
             android:isScrollContainer="true"
             android:orientation="horizontal"
@@ -72,11 +73,11 @@
 
     <HorizontalScrollView
         android:id="@+id/scroll_view_2"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView3">
@@ -85,7 +86,9 @@
             android:id="@+id/time_chooser_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:divider="@drawable/transparent_rect_divider"
+            android:gravity="center"
             android:isScrollContainer="true"
             android:orientation="horizontal"
             android:showDividers="middle|beginning" />
@@ -97,20 +100,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/cancel"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scroll_view_2" />
+        app:layout_constraintEnd_toStartOf="@+id/confirm_btn"
+        app:layout_constraintTop_toBottomOf="@id/scroll_view_2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/confirm_btn"
         style="@style/FlatButtonTextAppearance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
         android:text="@string/confirm"
-        app:layout_constraintEnd_toStartOf="@+id/cancel_btn"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cancel_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>
