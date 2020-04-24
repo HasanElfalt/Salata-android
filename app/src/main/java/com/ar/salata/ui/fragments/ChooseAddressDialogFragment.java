@@ -64,7 +64,6 @@ public class ChooseAddressDialogFragment extends DialogFragment {
         for (String time : timeList) {
             RadioButton radioButton = new RadioButton(getContext(),null,R.attr.RadioButtonStyle,R.style.RectangleRadioBtn);
             radioButton.setText(time);
-
             timeGroup.addView(radioButton);
         }
         Dialog dialog = builder.create();
