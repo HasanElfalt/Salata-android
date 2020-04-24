@@ -20,7 +20,7 @@ public class AddToCartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_to_cart);
 
-        Toolbar toolbar = findViewById(R.id.toolbar_receipt);
+        Toolbar toolbar = findViewById(R.id.toolbar_add_to_cart);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

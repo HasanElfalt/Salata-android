@@ -1,6 +1,7 @@
 package com.ar.salata.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.model.Order;
+import com.ar.salata.ui.activities.OrderPreviewActivity;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -66,7 +68,8 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
             viewHolderUpcoming.editOrder.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 4/23/2020
+                    Intent intent = new Intent(context, OrderPreviewActivity.class);
+                    context.startActivity(intent);
                 }
             });
             viewHolderUpcoming.cancelOrder.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +104,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
         ItemViewHolderUpcoming(@NonNull View itemView) {
             super(itemView);
 
-            orderId = itemView.findViewById(R.id.tv_order_id);
+            orderId = itemView.findViewById(R.id.tv_order_id_value);
             orderDateDay = itemView.findViewById(R.id.tv_day_value);
             orderDateHour = itemView.findViewById(R.id.tv_hour_value);
             orderPrice = itemView.findViewById(R.id.tv_order_price_value);
@@ -119,7 +122,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
         ItemViewHolderPrevious(@NonNull View itemView) {
             super(itemView, false);
 
-            orderId = itemView.findViewById(R.id.tv_order_id_previous);
+            orderId = itemView.findViewById(R.id.tv_order_id_value_previous);
             orderDateDay = itemView.findViewById(R.id.tv_day_value_previous);
             orderDateHour = itemView.findViewById(R.id.tv_hour_value_previous);
             orderPrice = itemView.findViewById(R.id.tv_order_price_value_previous);

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.activities.AddToCartActivity">
+    tools:context=".ui.activities.OrderEditActivity">
 
     <include layout="@layout/header_app" />
 
@@ -18,7 +18,7 @@
             android:layout_height="wrap_content">
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_add_to_cart"
+                android:id="@+id/toolbar_order_edit"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 android:elevation="32dp"
@@ -37,7 +37,7 @@
                         android:fontFamily="@font/calibrib"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
-                        android:text="اعمل فاتورة"
+                        android:text="عدل الطلب"
                         android:textAlignment="gravity"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/app_bar_title_size" />
@@ -47,7 +47,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.fragment.app.FragmentContainerView
-            android:id="@+id/add_to_cart_pager_fragment"
+            android:id="@+id/order_edit_pager_fragment"
             android:name="com.ar.salata.ui.fragments.AddToCartPagerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -88,7 +88,7 @@
                 app:layout_constraintStart_toEndOf="@id/tv_total" />
 
             <Button
-                android:id="@+id/btn_bill_confirm"
+                android:id="@+id/btn_edit_bill_confirm"
                 style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
