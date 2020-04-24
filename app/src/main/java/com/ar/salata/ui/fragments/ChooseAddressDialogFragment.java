@@ -12,8 +12,12 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.ar.salata.R;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,11 +26,11 @@ import com.ar.salata.R;
  */
 public class ChooseAddressDialogFragment extends DialogFragment {
 
-
-
+    String[] addressList = {"العنوان الثاني", "العنوان الثالث", "العنوان الاول"};
+    String[] dayList = {"الاحد", "الاثنين", "الثلاثاء", "الخميس","الجمعة","السبت","الاربعاء"};
+    String[] timeList = {"01:00 ظهرا", "03:00 عصرا", "05:00 عصرا"};
 
     public ChooseAddressDialogFragment() {
-
     }
 
     public static ChooseAddressDialogFragment newInstance() {
@@ -43,7 +47,26 @@ public class ChooseAddressDialogFragment extends DialogFragment {
         LayoutInflater inflater = requireActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.fragment_choose_address_dialog, null);
         builder.setView(view);
+        RadioGroup addressGroup = (RadioGroup) view.findViewById(R.id.address_chooser_group);
+        for (String address : addressList) {
+            RadioButton radioButton = new RadioButton(getContext(),null,R.attr.RadioButtonStyle,R.style.RadioButtonStyle);
+            radioButton.setText(address);
 
+            addressGroup.addView(radioButton);
+        }
+        RadioGroup daysGroup = (RadioGroup) view.findViewById(R.id.day_chooser_group);
+        for (String day : dayList) {
+            RadioButton radioButton = new RadioButton(getContext(),null,R.attr.RadioButtonStyle,R.style.RectangleRadioBtn);
+            radioButton.setText(day);
+            daysGroup.addView(radioButton);
+        }
+        RadioGroup timeGroup = (RadioGroup) view.findViewById(R.id.time_chooser_group);
+        for (String time : timeList) {
+            RadioButton radioButton = new RadioButton(getContext(),null,R.attr.RadioButtonStyle,R.style.RectangleRadioBtn);
+            radioButton.setText(time);
+
+            timeGroup.addView(radioButton);
+        }
         Dialog dialog = builder.create();
         dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         return dialog;

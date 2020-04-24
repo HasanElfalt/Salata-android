@@ -5,5 +5,8 @@
     <string name="login_arabic">تسجيل الدخول</string>
 
     <string name="choose_address">اختر عنوان</string>
-
+    <string name="choose_delivery_day">اختر يوم التسليم</string>
+    <string name="choose_delivery_time">اختر موعد التسليم</string>
+    <string name="confirm">تأكيد</string>
+    <string name="cancel">إلغاء</string>
 </resources>
