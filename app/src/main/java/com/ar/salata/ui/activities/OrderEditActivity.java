@@ -1,6 +1,5 @@
 package com.ar.salata.ui.activities;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,20 +33,7 @@ public class OrderEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog dialog = new AlertDialog.Builder(OrderEditActivity.this)
-                        .setTitle("تعديل الطلب")
-                        .setPositiveButton("تأكيد", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setNegativeButton("إلغاء", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                            }
-                        })
-                        .setMessage("هل تريد بالفعل تعديل الطلب رقم 1؟")
+                        .setView(R.layout.dialog_confirm)
                         .create();
                 dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
                 dialog.show();

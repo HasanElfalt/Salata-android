@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.model.Order;
+import com.ar.salata.ui.activities.OrderDetailActivity;
 import com.ar.salata.ui.activities.OrderPreviewActivity;
 import com.google.android.material.button.MaterialButton;
 
@@ -61,7 +62,8 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
             viewHolderPrevious.orderDetails.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // TODO: 4/23/2020
+                    Intent intent = new Intent(context, OrderDetailActivity.class);
+                    context.startActivity(intent);
                 }
             });
         } else {
