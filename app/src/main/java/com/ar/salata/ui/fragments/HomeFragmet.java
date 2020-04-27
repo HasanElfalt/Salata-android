@@ -27,7 +27,10 @@ import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import static android.app.Activity.RESULT_OK;
+
 public class HomeFragmet extends Fragment {
+    private static final int DIALOGREQUESTCODE = 1;
     private ExtendedFloatingActionButton eFABWeigh;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
@@ -55,8 +58,11 @@ public class HomeFragmet extends Fragment {
         eFABWeigh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(), AddToCartActivity.class);
-                startActivity(intent);
+                // TODO: 4/27/2020 assert user is logged in
+                ChooseAddressDialogFragment dialogFragment = new ChooseAddressDialogFragment();
+                dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+
+                dialogFragment.setTargetFragment(HomeFragmet.this, DIALOGREQUESTCODE);
             }
         });
 
@@ -121,64 +127,11 @@ public class HomeFragmet extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-/*
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.nav_main:
-                Toast.makeText(getContext(), "Home page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_orders:
-                Toast.makeText(getContext(), "My Orders page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_settings:
-                Toast.makeText(getContext(), "Settings page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_address:
-                Toast.makeText(getContext(), "Add Address requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_about:
-                Toast.makeText(getContext(), "About page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_contact:
-                Toast.makeText(getContext(), "Contact Us page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_facebook:
-                Toast.makeText(getContext(), "Facebook page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_twitter:
-                Toast.makeText(getApplicationContext(), "Twitter page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            case R.id.nav_instagram:
-                Toast.makeText(getApplicationContext(), "Instagram page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
-                break;
-            default:
-                Toast.makeText(getApplicationContext(), "No page requested...", Toast.LENGTH_LONG).show();
-                // TODO: 3/30/2020
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == DIALOGREQUESTCODE && resultCode == RESULT_OK) {
+            Intent intent = new Intent(getContext(), AddToCartActivity.class);
+            startActivity(intent);
         }
-
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
-*/
-
-    /*@Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }*/
-
-
 }

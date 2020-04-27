@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 public class OrderPreviewActivity extends BaseActivity {
 
+    private static final int REQUESTORDERPREVIEW = 2;
     private ExtendedFloatingActionButton orderEditEFAB;
 
     @Override
@@ -25,7 +27,7 @@ public class OrderPreviewActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(OrderPreviewActivity.this, OrderEditActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUESTORDERPREVIEW);
             }
         });
 
@@ -47,4 +49,11 @@ public class OrderPreviewActivity extends BaseActivity {
     int deliverLayout() {
         return R.layout.activity_order_preview;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUESTORDERPREVIEW && resultCode == RESULT_OK) finish();
+    }
 }
+

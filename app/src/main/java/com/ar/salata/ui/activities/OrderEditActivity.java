@@ -4,10 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 import com.ar.salata.R;
+import com.ar.salata.ui.fragments.OrderEditConfirmationDialogFragment;
 
 
 public class OrderEditActivity extends BaseActivity {
@@ -22,11 +23,8 @@ public class OrderEditActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog dialog = new AlertDialog.Builder(OrderEditActivity.this)
-                        .setView(R.layout.dialog_confirm)
-                        .create();
-                dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-                dialog.show();
+                DialogFragment dialog = OrderEditConfirmationDialogFragment.newInstance();
+                dialog.show(getSupportFragmentManager(), null);
             }
         });
     }

@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ar.salata.R;
 
 public class AddToCartActivity extends BaseActivity {
+    private static final int REQUESTPAY = 2;
     private Button button;
 
     @Override
@@ -20,7 +22,7 @@ public class AddToCartActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), PayActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUESTPAY);
             }
         });
 
@@ -36,4 +38,9 @@ public class AddToCartActivity extends BaseActivity {
         return R.layout.activity_add_to_cart;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUESTPAY && resultCode == RESULT_OK) finish();
+    }
 }

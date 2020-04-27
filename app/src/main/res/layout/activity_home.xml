@@ -18,7 +18,9 @@
         android:layout_width="300dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
+        android:fitsSystemWindows="true"
         app:headerLayout="@layout/header_nav_drawer"
+        app:itemBackground="@drawable/bg_drawer_item"
         app:itemIconTint="@drawable/drawer_item_color"
         app:itemTextColor="@drawable/drawer_item_color"
         app:menu="@menu/menu_nav_drawer">

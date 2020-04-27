@@ -36,6 +36,8 @@ public class OrdersActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setResult(RESULT_OK);
+
         expandUpcomingOrdersLayout = findViewById(R.id.cl_upcoming_orders);
         expandPreviousOrdersLayout = findViewById(R.id.cl_previous_orders);
         upcomingOrdersRecyclerView = findViewById(R.id.rv_upcoming_orders);

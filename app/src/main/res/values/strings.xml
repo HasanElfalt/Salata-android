@@ -9,4 +9,15 @@
     <string name="choose_delivery_time">اختر موعد التسليم</string>
     <string name="confirm">تأكيد</string>
     <string name="cancel">إلغاء</string>
+    <string name="nav_main">الرئيسية</string>
+    <string name="nav_orders">طلباتى</string>
+    <string name="nav_settings">إعداد الحسابات</string>
+    <string name="nav_add_address">إضافة عنوان آخر</string>
+    <string name="nav_sign_up">سجل مشترك جديد</string>
+    <string name="nav_about">عن سلطة</string>
+    <string name="nav_contact">إتصل بنا</string>
+    <string name="nav_facebook">فيسبوك</string>
+    <string name="nav_twitter">تويتر</string>
+    <string name="nav_instagram">انستجرام</string>
+    <string name="nav_sign_out">تسجيل الخروج</string>
 </resources>

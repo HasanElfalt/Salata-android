@@ -99,7 +99,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_address:
                 intent = new Intent(HomeActivity.this, AddAddressActivity.class);
                 break;
-            case R.id.nav_register:
+            case R.id.nav_sign_up:
                 intent = new Intent(HomeActivity.this, SignUpActivity.class);
                 break;
             case R.id.nav_about:
@@ -120,12 +120,16 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             case R.id.btn_sign_in:
                 intent = new Intent(HomeActivity.this, SignInActivity.class);
                 break;
+            case R.id.nav_sign_out:
+                drawer.closeDrawer(GravityCompat.START);
+                break;
             default:
                 // TODO: 3/30/2020
         }
         if (intent != null) {
             startActivity(intent);
         }
+        navigationView.setCheckedItem(item);
         return true;
     }
 
@@ -141,7 +145,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onResume() {
         super.onResume();
-        if (drawer != null)
+        if (drawer != null) {
+            navigationView.setCheckedItem(R.id.nav_main);
             drawer.closeDrawer(GravityCompat.START);
+        }
     }
 }
