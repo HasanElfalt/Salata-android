@@ -14,7 +14,7 @@
         android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_pay"
+            android:id="@+id/toolbar_about"
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:elevation="32dp"

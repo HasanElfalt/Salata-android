@@ -1,14 +1,11 @@
 package com.ar.salata.ui.activities;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,7 +19,7 @@ import com.ar.salata.ui.adapters.OrdersRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class OrdersActivity extends AppCompatActivity {
+public class OrdersActivity extends BaseActivity {
     private RecyclerView upcomingOrdersRecyclerView;
     private RecyclerView previousOrdersRecyclerView;
     private ArrayList<Order> upcomingOrders;
@@ -38,14 +35,6 @@ public class OrdersActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_orders);
-
-        Toolbar toolbar = findViewById(R.id.toolbar_orders);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
 
         expandUpcomingOrdersLayout = findViewById(R.id.cl_upcoming_orders);
         expandPreviousOrdersLayout = findViewById(R.id.cl_previous_orders);
@@ -88,11 +77,6 @@ public class OrdersActivity extends AppCompatActivity {
 
         upcomingOrdersRecyclerView.setNestedScrollingEnabled(false);
         previousOrdersRecyclerView.setNestedScrollingEnabled(false);
-        /*
-        OffsetDecoration decoration = new OffsetDecoration(this, R.dimen.order_item_offset);
-
-        upcomingOrdersRecyclerView.addItemDecoration(decoration);
-        previousOrdersRecyclerView.addItemDecoration(decoration);*/
 
         expandUpcomingOrdersLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,12 +117,13 @@ public class OrdersActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return false;
+    Toolbar deliverToolBar() {
+        return findViewById(R.id.toolbar_orders);
+    }
+
+    @Override
+    int deliverLayout() {
+        return R.layout.activity_orders;
     }
 
 }

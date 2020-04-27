@@ -1,32 +1,22 @@
 package com.ar.salata.ui.activities;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.ar.salata.R;
 
 
-public class OrderEditActivity extends AppCompatActivity {
+public class OrderEditActivity extends BaseActivity {
 
     private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_edit);
-
-        Toolbar toolbar = findViewById(R.id.toolbar_order_edit);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
 
         button = findViewById(R.id.btn_edit_bill_confirm);
         button.setOnClickListener(new View.OnClickListener() {
@@ -42,11 +32,12 @@ public class OrderEditActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return false;
+    Toolbar deliverToolBar() {
+        return findViewById(R.id.toolbar_order_edit);
+    }
+
+    @Override
+    int deliverLayout() {
+        return R.layout.activity_order_edit;
     }
 }

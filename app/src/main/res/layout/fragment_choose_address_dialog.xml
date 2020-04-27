@@ -39,7 +39,7 @@
 
     <HorizontalScrollView
         android:id="@+id/scroll_view_1"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -53,9 +53,9 @@
             android:id="@+id/day_chooser_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="fill_horizontal"
             android:divider="@drawable/transparent_rect_divider"
-            android:isScrollContainer="true"
+            android:gravity="center"
             android:orientation="horizontal"
             android:showDividers="middle|beginning" />
     </HorizontalScrollView>
@@ -73,7 +73,7 @@
 
     <HorizontalScrollView
         android:id="@+id/scroll_view_2"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
@@ -84,12 +84,11 @@
 
         <RadioGroup
             android:id="@+id/time_chooser_group"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:layout_gravity="fill_horizontal"
             android:divider="@drawable/transparent_rect_divider"
             android:gravity="center"
-            android:isScrollContainer="true"
             android:orientation="horizontal"
             android:showDividers="middle|beginning" />
     </HorizontalScrollView>

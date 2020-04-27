@@ -1,11 +1,8 @@
 package com.ar.salata.ui.activities;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ar.salata.R;
 import com.ar.salata.ui.adapters.FinalBillRecyclerAdapter;
 
-public class PayActivity extends AppCompatActivity {
+public class PayActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +33,13 @@ public class PayActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return false;
+    Toolbar deliverToolBar() {
+        return findViewById(R.id.toolbar_pay);
+    }
+
+    @Override
+    int deliverLayout() {
+        return R.layout.activity_pay;
     }
 
 }
