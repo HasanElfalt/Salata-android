@@ -95,7 +95,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.35"
+            android:layout_weight="0.25"
             android:background="@drawable/bg_rv_stroke"
             android:fontFamily="@font/calibrib"
             android:gravity="center"

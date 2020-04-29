@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,13 +17,13 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 public class OrderPreviewActivity extends BaseActivity {
 
     private static final int REQUESTORDERPREVIEW = 2;
-    private ExtendedFloatingActionButton orderEditEFAB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        orderEditEFAB = findViewById(R.id.efab_edit_order_preview);
+        final ExtendedFloatingActionButton orderEditEFAB = findViewById(R.id.efab_edit_order_preview);
+        NestedScrollView orderPreviewScrollView = findViewById(R.id.nsv_order_preview);
         orderEditEFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,6 +38,17 @@ public class OrderPreviewActivity extends BaseActivity {
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
+
+        orderPreviewScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    orderEditEFAB.hide();
+                } else if (oldScrollY > scrollY) {
+                    orderEditEFAB.show();
+                }
+            }
+        });
 
     }
 

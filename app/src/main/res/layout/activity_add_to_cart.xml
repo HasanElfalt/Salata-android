@@ -51,7 +51,6 @@
             android:name="com.ar.salata.ui.fragments.AddToCartPagerFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
         <androidx.constraintlayout.widget.ConstraintLayout

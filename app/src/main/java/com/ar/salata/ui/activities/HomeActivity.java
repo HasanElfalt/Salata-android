@@ -24,6 +24,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private FragmentManager fragmentManager;
+    private HomeFragmet homeFragmet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +38,8 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 
         setDrawer();
 
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        HomeFragmet homeFragmet = HomeFragmet.newInstance();
+        fragmentManager = getSupportFragmentManager();
+        homeFragmet = HomeFragmet.newInstance();
 
         fragmentManager.beginTransaction()
                 .add(R.id.fragment_container_home, homeFragmet)
@@ -149,5 +151,9 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
             navigationView.setCheckedItem(R.id.nav_main);
             drawer.closeDrawer(GravityCompat.START);
         }
+    }
+
+    public void setEFABVisiblity(boolean isVisible) {
+        homeFragmet.setEFABVisiblity(isVisible);
     }
 }

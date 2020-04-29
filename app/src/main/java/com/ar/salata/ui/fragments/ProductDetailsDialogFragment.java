@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.ar.salata.R;
@@ -26,7 +27,7 @@ public class ProductDetailsDialogFragment extends DialogFragment {
     public static ProductDetailsDialogFragment newInstance(Product product) {
         ProductDetailsDialogFragment productDetailsDialogFragment = new ProductDetailsDialogFragment();
         Bundle data = new Bundle();
-        data.putParcelable("product",product);
+        data.putParcelable("product", product);
         productDetailsDialogFragment.setArguments(data);
         return productDetailsDialogFragment;
     }
@@ -44,12 +45,12 @@ public class ProductDetailsDialogFragment extends DialogFragment {
 
         Dialog dialog = builder.create();
         dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        ((TextView)view.findViewById(R.id.product_name_text_view)).setText(product.getProductName()+"/"+product.getUnit());
-        ((TextView)view.findViewById(R.id.product_name_text_view)).setTextAppearance(R.style.DialogProductNameTextAppearance);
-        ((TextView)view.findViewById(R.id.product_price_text_view)).setText(product.getMaxPrice().toString());
-        ((TextView)view.findViewById(R.id.product_price_text_view)).setTextAppearance(R.style.DialogPriceTextAppearance);
-        ((ImageView)view.findViewById(R.id.product_image_view)).setImageResource(R.drawable.ic_tomato_background);
-        ((TextView)view.findViewById(R.id.gneeh)).setTextAppearance(R.style.DialogProductNameTextAppearance);
+        ((TextView) view.findViewById(R.id.product_name_text_view)).setText(product.getProductName() + "/" + product.getUnit());
+        TextViewCompat.setTextAppearance((TextView) view.findViewById(R.id.product_name_text_view), R.style.DialogProductNameTextAppearance);
+        ((TextView) view.findViewById(R.id.product_price_text_view)).setText(product.getMaxPrice().toString());
+        TextViewCompat.setTextAppearance((TextView) view.findViewById(R.id.product_price_text_view), R.style.DialogPriceTextAppearance);
+        ((ImageView) view.findViewById(R.id.product_image_view)).setImageResource(R.drawable.ic_tomato_background);
+        TextViewCompat.setTextAppearance((TextView) view.findViewById(R.id.gneeh), R.style.DialogProductNameTextAppearance);
         return dialog;
     }
 

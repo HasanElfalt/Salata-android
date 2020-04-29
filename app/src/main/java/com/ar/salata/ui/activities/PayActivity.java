@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -43,6 +44,20 @@ public class PayActivity extends BaseActivity {
                 startActivityForResult(intent, REQUESTORDER);
             }
         });
+
+        NestedScrollView payScrollView = findViewById(R.id.nsv_pay);
+
+        payScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    efab.hide();
+                } else if (oldScrollY > scrollY) {
+                    efab.show();
+                }
+            }
+        });
+
     }
 
     @Override

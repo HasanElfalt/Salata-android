@@ -7,7 +7,7 @@
     android:layout_marginBottom="8dp"
     android:background="@drawable/bg_rv_stroke_bottom_rounded_corner">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:maxLines="2"

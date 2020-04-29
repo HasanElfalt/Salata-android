@@ -47,7 +47,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/ll_pay"
+            android:id="@+id/nsv_pay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
             android:text="نفذ"
-            app:layout_anchor="@id/ll_pay"
+            app:layout_anchor="@id/nsv_pay"
             app:layout_anchorGravity="bottom|end" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
