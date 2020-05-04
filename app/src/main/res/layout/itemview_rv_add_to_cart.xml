@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
+    android:layout_height="wrap_content"
     android:layout_marginHorizontal="8dp"
     android:background="@drawable/bg_rv_stroke">
 
@@ -20,19 +20,20 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_item_image"
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="1"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_launcher_background" />
 
             <TextView
                 android:id="@+id/tv_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/calibrib"
+                android:fontFamily="@font/ffyaseer_regular"
                 android:maxLines="2"
                 android:text="طماطم"
                 android:textColor="@color/colorFont"
@@ -48,7 +49,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:fontFamily="@font/calibrib"
+                android:fontFamily="@font/ffyaseer_regular"
                 android:text="5جنيه/كجم"
                 android:textColor="@color/colorLightFont"
                 android:textSize="16sp"
@@ -101,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginHorizontal="8dp"
-                android:fontFamily="@font/calibrib"
+                android:fontFamily="@font/ffyaseer_regular"
                 android:gravity="center_vertical"
                 android:text="5"
                 android:textAlignment="gravity"
@@ -116,7 +117,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.2"
             android:background="@drawable/bg_rv_stroke"
-            android:fontFamily="@font/calibrib"
+            android:fontFamily="@font/ffyaseer_regular"
             android:gravity="center"
             android:text="10"
             android:textColor="@color/colorFont"
