@@ -25,6 +25,7 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRODUCTS_CATEGORY = "category";
+	private boolean fabVisibility = true;
 
 
     private Category categoryOFProductsToBeDisplayed;
@@ -86,11 +87,18 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY > oldScrollY) {
                     ((HomeActivity) getActivity()).setEFABVisiblity(false);
+					fabVisibility = false;
                 } else if (oldScrollY > scrollY) {
                     ((HomeActivity) getActivity()).setEFABVisiblity(true);
+					fabVisibility = true;
                 }
             }
         });
-
     }
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		((HomeActivity) getActivity()).setEFABVisiblity(fabVisibility);
+	}
 }
