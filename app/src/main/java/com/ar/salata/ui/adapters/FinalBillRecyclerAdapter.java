@@ -29,7 +29,7 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
 		
 		for (int i = 0; i < 4; i++) {
 			data.add(new Product("طماطم حمرا و جامدة للسلطة", 5.0, "كجم", ""));
-			data.add(new Product("بطاطس تحمير صوابع و شيبسي و مهروسة و اي حاجة انت عايزها و يلا بقى خلينا نسترزق", 5.0, "كجم", ""));
+			data.add(new Product("اسم عنصر طويل جدا لاختبار مظهره هنا", 5.0, "كجم", ""));
 			data.add(new Product("طماطم", 5.0, "كجم", ""));
 		}
 	}
