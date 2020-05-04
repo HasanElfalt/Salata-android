@@ -7,6 +7,7 @@ public class Order {
     private double orderPrice;
 
     private int orderImage;
+	private boolean orderFulfilled;
 
     public Order(String orderId,
                  String orderDateDay,

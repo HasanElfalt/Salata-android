@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:fontFamily="@font/calibrib"
-        android:text="موعد التسليم: الاحد 22/3/2020 الساعة 01:00 ظهرا"
+        android:text="@string/demo_bill_delivery_date"
         android:textColor="@color/colorFont"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

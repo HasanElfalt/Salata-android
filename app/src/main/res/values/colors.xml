@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#B71C1C</color>
     <color name="colorAccent">#D50000</color>
     <color name="colorAccentWithOpacity">#33D50000</color>
+    <color name="colorFontWithOpacity">#D1C2C2C2</color>
     <color name="colorFont">#6A6A6A</color>
     <color name="colorLightFont">#C2C2C2</color>
     <color name="colorWhite">#FFFFFF</color>

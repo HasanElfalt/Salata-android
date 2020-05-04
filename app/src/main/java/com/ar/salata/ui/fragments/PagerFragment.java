@@ -63,6 +63,9 @@ public class PagerFragment extends Fragment {
             sliderView.setSliderTransformAnimation(SliderAnimations.CUBEINROTATIONTRANSFORMATION);
             sliderView.setIndicatorSelectedColor(Color.WHITE);
             sliderView.setIndicatorUnselectedColor(Color.GRAY);
+			sliderView.setScrollTimeInSec(4);
+			sliderView.startAutoCycle();
+            
 
             adapter.addItem(new SliderItem("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072823_960_720.jpg",
                     "road forest"));
