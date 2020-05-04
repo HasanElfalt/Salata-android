@@ -37,7 +37,9 @@ public class PagerFragment extends Fragment {
         // end points to download categories
         productCategories = new ArrayList<>();
         productCategories.add(new Category("1", "خضروات"));
-        productCategories.add(new Category("1", "فاكهة"));
+		productCategories.add(new Category("1", "فاكهة"));
+		productCategories.add(new Category("1", "مكسرات"));
+		productCategories.add(new Category("1", "بقوليات"));
         /*
         if (getArguments() != null) {
 

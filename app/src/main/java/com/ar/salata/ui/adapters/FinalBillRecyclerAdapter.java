@@ -15,27 +15,29 @@ import com.ar.salata.model.Product;
 import java.util.ArrayList;
 
 public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
-    private final static int FOOTER_VIEW = 2;
-    private final static int HEADER_VIEW = 1;
-    private final static int NORMAL_VIEW = 0;
+	private final static int FOOTER_VIEW = 2;
+	private final static int HEADER_VIEW = 1;
+	private final static int NORMAL_VIEW = 0;
 	
 	private ArrayList<Product> data;
-
-    private Context context;
-
-    public FinalBillRecyclerAdapter(Context context) {
-        this.context = context;
-        data = new ArrayList<>();
 	
-		for (int i = 0; i < 20; i++) {
+	private Context context;
+	
+	public FinalBillRecyclerAdapter(Context context) {
+		this.context = context;
+		data = new ArrayList<>();
+		
+		for (int i = 0; i < 4; i++) {
 			data.add(new Product("طماطم حمرا و جامدة للسلطة", 5.0, "كجم", ""));
-        }
-    }
-
-    @NonNull
-    @Override
+			data.add(new Product("بطاطس تحمير صوابع و شيبسي و مهروسة و اي حاجة انت عايزها و يلا بقى خلينا نسترزق", 5.0, "كجم", ""));
+			data.add(new Product("طماطم", 5.0, "كجم", ""));
+		}
+	}
+	
+	@NonNull
+	@Override
 	public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view;
+		View view;
 		RecyclerView.ViewHolder viewHolder;
 		switch (viewType) {
 			case FOOTER_VIEW:
@@ -52,14 +54,14 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
 				break;
 		}
 		return viewHolder;
-    }
-
-    @Override
+	}
+	
+	@Override
 	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 		HeaderItemViewHolder headerItemViewHolder;
 		FooterItemViewHolder footerItemViewHolder;
 		NormalItemViewHolder normalItemViewHolder;
-	
+		
 		switch (getItemViewType(position)) {
 			case HEADER_VIEW:
 				headerItemViewHolder = (HeaderItemViewHolder) holder;
@@ -75,33 +77,33 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
 				normalItemViewHolder.itemName.setText(product.getProductName());
 				normalItemViewHolder.itemPrice.setText(String.valueOf(product.getMaxPrice()) + "جنيه/" + product.getUnit());
 				break;
-        }
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.size() + 2;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        if (position == 0)
-            return HEADER_VIEW;
-        else if (position == data.size() + 1)
-            return FOOTER_VIEW;
-        else
-            return NORMAL_VIEW;
-    }
+		}
+	}
+	
+	@Override
+	public int getItemViewType(int position) {
+		if (position == 0)
+			return HEADER_VIEW;
+		else if (position == data.size() + 1)
+			return FOOTER_VIEW;
+		else
+			return NORMAL_VIEW;
+	}
+	
+	@Override
+	public int getItemCount() {
+		return data.size() + 2;
+	}
 	
 	class NormalItemViewHolder extends RecyclerView.ViewHolder {
 		
 		TextView itemName;
-        TextView itemPrice;
+		TextView itemPrice;
 		TextView itemTotalWeight;
 		TextView itemTotalPrice;
 		
 		public NormalItemViewHolder(@NonNull View itemView) {
-            super(itemView);
+			super(itemView);
 			itemName = itemView.findViewById(R.id.tv_item_name);
 			itemPrice = itemView.findViewById(R.id.tv_item_price);
 			itemTotalWeight = itemView.findViewById(R.id.tv_item_total_weight);
