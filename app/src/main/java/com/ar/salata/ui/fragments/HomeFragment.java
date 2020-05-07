@@ -23,20 +23,20 @@ import com.google.android.material.navigation.NavigationView;
 
 import static android.app.Activity.RESULT_OK;
 
-public class HomeFragmet extends Fragment {
+public class HomeFragment extends Fragment {
     private static final int DIALOGREQUESTCODE = 1;
     private ExtendedFloatingActionButton eFABWeigh;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
     private Toolbar toolbar;
     private NavigationView navigationView;
-
-
-    public static HomeFragmet newInstance() {
+    
+    
+    public static HomeFragment newInstance() {
 
         Bundle args = new Bundle();
-
-        HomeFragmet fragment = new HomeFragmet();
+        
+        HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,8 +55,8 @@ public class HomeFragmet extends Fragment {
                 // TODO: 4/27/2020 assert user is logged in
                 ChooseAddressDialogFragment dialogFragment = new ChooseAddressDialogFragment();
                 dialogFragment.show(getActivity().getSupportFragmentManager(), null);
-
-                dialogFragment.setTargetFragment(HomeFragmet.this, DIALOGREQUESTCODE);
+    
+                dialogFragment.setTargetFragment(HomeFragment.this, DIALOGREQUESTCODE);
             }
         });
 

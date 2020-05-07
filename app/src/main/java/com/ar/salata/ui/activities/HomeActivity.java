@@ -15,7 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.ar.salata.R;
-import com.ar.salata.ui.fragments.HomeFragmet;
+import com.ar.salata.ui.fragments.HomeFragment;
 import com.google.android.material.navigation.NavigationView;
 
 public class HomeActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -25,7 +25,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private NavigationView navigationView;
     private FragmentManager fragmentManager;
-    private HomeFragmet homeFragmet;
+	private HomeFragment homeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +39,10 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
         setDrawer();
 
         fragmentManager = getSupportFragmentManager();
-        homeFragmet = HomeFragmet.newInstance();
+		homeFragment = HomeFragment.newInstance();
 
         fragmentManager.beginTransaction()
-                .add(R.id.fragment_container_home, homeFragmet)
+				.add(R.id.fragment_container_home, homeFragment)
                 .commit();
 
     }
@@ -154,6 +154,6 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void setEFABVisiblity(boolean isVisible) {
-        homeFragmet.setEFABVisiblity(isVisible);
+		homeFragment.setEFABVisiblity(isVisible);
     }
 }
