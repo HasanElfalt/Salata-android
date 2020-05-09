@@ -19,22 +19,34 @@
         <activity android:name=".ui.activities.AboutActivity" />
         <activity
             android:name=".ui.activities.AddAddressActivity"
-            android:hardwareAccelerated="true" />
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.SignInActivity"
-            android:hardwareAccelerated="true" />
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.SignUpActivity"
-            android:hardwareAccelerated="true" />
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.PayActivity"
-            android:hardwareAccelerated="true" />
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.AddToCartActivity"
-            android:hardwareAccelerated="true" />
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.activities.SplashActivity"
-            android:hardwareAccelerated="true">
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -43,7 +55,9 @@
         </activity>
         <activity
             android:name=".ui.activities.HomeActivity"
-            android:hardwareAccelerated="true">
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
