@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_pay"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="8dp">
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibrib"
+            android:text="شركة سلطة لبيع المواد الغذائية"
+            android:textColor="@color/colorAccent" />
+
+        <TextView
+            android:id="@+id/tv_phone_1_add_to_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibrib"
+            android:text="ت/ 01224567892"
+            android:textColor="@color/colorFont" />
+
+        <TextView
+            android:id="@+id/tv_phone_2_add_to_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibrib"
+            android:text="ت/ 01224567892"
+            android:textColor="@color/colorFont" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iv_bill_logo"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_margin="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_logo_colored" />
+
+    <TextView
+        android:id="@+id/tv_bill"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/calibrib"
+        android:text="فاتورة"
+        android:textColor="@color/colorFont"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_bill_logo" />
+
+    <TextView
+        android:id="@+id/tv_delivery_date_add_to_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:fontFamily="@font/calibrib"
+        android:text="موعد التسليم: الاحد 22/3/2020 الساعة 01:00 ظهرا"
+        android:textColor="@color/colorFont"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bill" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/tv_delivery_date_add_to_cart">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.60"
+            android:background="@drawable/bg_rv_stroke_top_right_round_corner"
+            android:fontFamily="@font/calibrib"
+            android:gravity="center"
+            android:text="الصنف"
+            android:textColor="@color/colorFont"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:background="@drawable/bg_rv_stroke"
+            android:fontFamily="@font/calibrib"
+            android:gravity="center"
+            android:text="اضف وزن"
+            android:textColor="@color/colorFont"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.20"
+            android:background="@drawable/bg_rv_stroke_top_left_round_corner"
+            android:fontFamily="@font/calibrib"
+            android:gravity="center"
+            android:text="السعر الاجمالى"
+            android:textColor="@color/colorFont"
+            android:textSize="16sp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

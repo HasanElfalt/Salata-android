@@ -2,21 +2,64 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ar.salata">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".SalataApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".SplashActivity">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".ui.activities.OrderDetailActivity" />
+        <activity android:name=".ui.activities.OrderEditActivity" />
+        <activity android:name=".ui.activities.OrderPreviewActivity" />
+        <activity android:name=".ui.activities.OrdersActivity" />
+        <activity android:name=".ui.activities.ContactUsActivity" />
+        <activity android:name=".ui.activities.AboutActivity" />
+        <activity
+            android:name=".ui.activities.AddAddressActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.SignInActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.SignUpActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.PayActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.AddToCartActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.activities.SplashActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".HomeActivity">
+        <activity
+            android:name=".ui.activities.HomeActivity"
+            android:configChanges="orientation"
+            android:hardwareAccelerated="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

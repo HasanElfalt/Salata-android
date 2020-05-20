@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/bg_rv_stroke_bottom_rounded_corner">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tv_bill_price"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text="@string/demo_bill_price"
+        android:textAlignment="gravity"
+        android:textColor="@color/colorFont"
+        android:textSize="20sp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
