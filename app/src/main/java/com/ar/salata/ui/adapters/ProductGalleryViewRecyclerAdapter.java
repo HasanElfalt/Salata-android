@@ -13,8 +13,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Product;
+import com.ar.salata.repositories.model.Product;
 import com.ar.salata.ui.fragments.ProductDetailsDialogFragment;
+import com.ar.salata.ui.utils.ArabicString;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class ProductGalleryViewRecyclerAdapter extends RecyclerView.Adapter {
 	@Override
 	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 		((TextView) ((ProductViewHolder) holder).parentLayout.getViewById(R.id.product_name_text_view)).setText(products.get(position).getProductName() + "/" + products.get(position).getUnit());
-		((TextView) ((ProductViewHolder) holder).parentLayout.getViewById(R.id.product_price_text_view)).setText(products.get(position).getMaxPrice().toString());
+		((TextView) ((ProductViewHolder) holder).parentLayout.getViewById(R.id.product_price_text_view)).setText(ArabicString.toArabic(products.get(position).getMaxPrice().toString()));
 		((ImageView) ((ProductViewHolder) holder).parentLayout.getViewById(R.id.product_image_view)).setImageResource(R.drawable.ic_tomato_background);
 		final Product product = products.get(position);
 		

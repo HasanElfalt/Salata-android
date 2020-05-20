@@ -16,7 +16,7 @@ import androidx.core.widget.TextViewCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Product;
+import com.ar.salata.repositories.model.Product;
 
 public class ProductDetailsDialogFragment extends DialogFragment {
     private Product product;

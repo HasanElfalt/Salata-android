@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.SliderItem;
+import com.ar.salata.repositories.model.SliderItem;
 import com.bumptech.glide.Glide;
 import com.smarteist.autoimageslider.SliderViewAdapter;
 

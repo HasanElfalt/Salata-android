@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="start"
-    android:layout_marginTop="16dp">
+    android:layout_marginTop="16dp"
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_sign_in"
@@ -20,4 +21,32 @@
         android:textAlignment="viewStart"
         android:textColor="@color/colorFont"
         android:textSize="24sp" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/nav_profile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginTop="16dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/header_nav_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibrib"
+            android:text="مستخدم جديد"
+            android:textColor="@color/colorFont"
+            android:textSize="24dp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/header_nav_phone_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibrib"
+            android:text="01641962348"
+            android:textColor="@color/colorFont"
+            android:textSize="16dp" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </androidx.appcompat.widget.LinearLayoutCompat>

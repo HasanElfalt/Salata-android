@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Category;
-import com.ar.salata.model.Product;
+import com.ar.salata.repositories.model.Category;
+import com.ar.salata.repositories.model.Product;
 import com.ar.salata.ui.activities.HomeActivity;
 import com.ar.salata.ui.adapters.ProductGalleryViewRecyclerAdapter;
 import com.ar.salata.ui.utils.OffsetDecoration;

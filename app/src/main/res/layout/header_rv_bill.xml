@@ -22,6 +22,7 @@
             android:textColor="@color/colorAccent" />
 
         <TextView
+            android:id="@+id/tv_phone_1_bill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/calibrib"
@@ -29,6 +30,7 @@
             android:textColor="@color/colorFont" />
 
         <TextView
+            android:id="@+id/tv_phone_2_bill"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/calibrib"
@@ -60,7 +62,7 @@
         app:layout_constraintTop_toBottomOf="@id/iv_bill_logo" />
 
     <TextView
-        android:id="@+id/tv_delivery_date"
+        android:id="@+id/tv_delivery_date_bill"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
@@ -79,7 +81,7 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@id/tv_delivery_date">
+        app:layout_constraintTop_toBottomOf="@id/tv_delivery_date_bill">
 
         <TextView
             android:layout_width="0dp"

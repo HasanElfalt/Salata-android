@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.ar.salata.model.Category;
+import com.ar.salata.repositories.model.Category;
 
 import java.util.ArrayList;
 

@@ -1,6 +1,8 @@
-package com.ar.salata.model;
+package com.ar.salata.repositories.model;
 
-public class Order {
+import io.realm.RealmObject;
+
+public class Order extends RealmObject {
     private String orderId;
     private String orderDateDay;
     private String orderDateHour;
@@ -21,7 +23,10 @@ public class Order {
         this.orderPrice = orderPrice;
         this.orderImage = orderImage;
     }
-
+	
+	public Order() {
+	}
+    
     public String getOrderId() {
         return orderId;
     }

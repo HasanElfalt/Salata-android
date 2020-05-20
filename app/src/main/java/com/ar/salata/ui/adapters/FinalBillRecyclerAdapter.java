@@ -10,7 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Product;
+import com.ar.salata.repositories.model.Product;
+import com.ar.salata.ui.utils.ArabicString;
 
 import java.util.ArrayList;
 
@@ -65,17 +66,21 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
 		switch (getItemViewType(position)) {
 			case HEADER_VIEW:
 				headerItemViewHolder = (HeaderItemViewHolder) holder;
-				headerItemViewHolder.deliveryDate.setText(R.string.demo_bill_delivery_date);
+				headerItemViewHolder.deliveryDate.setText(ArabicString.toArabic("موعد التسليم: الاحد 2020/3/22 الساعة 01:00 ظهر"));
+				headerItemViewHolder.phoneNumber1.setText(ArabicString.toArabic("ت/ 01224567892"));
+				headerItemViewHolder.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
 				break;
 			case FOOTER_VIEW:
 				footerItemViewHolder = (FooterItemViewHolder) holder;
-				footerItemViewHolder.billPrice.setText(R.string.demo_bill_price);
+				footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المبلف: 1500 جنيه فقط لا غير"));
 				break;
 			case NORMAL_VIEW:
 				normalItemViewHolder = (NormalItemViewHolder) holder;
 				Product product = data.get(position - 1);
-				normalItemViewHolder.itemName.setText(product.getProductName());
-				normalItemViewHolder.itemPrice.setText(String.valueOf(product.getMaxPrice()) + "جنيه/" + product.getUnit());
+				normalItemViewHolder.itemName.setText(ArabicString.toArabic(product.getProductName()));
+				normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(String.valueOf(product.getMaxPrice()) + " جنيه/" + product.getUnit()));
+				normalItemViewHolder.itemTotalWeight.setText(ArabicString.toArabic(String.valueOf(2)));
+				normalItemViewHolder.itemTotalPrice.setText(ArabicString.toArabic(String.valueOf(10)));
 				break;
 		}
 	}
@@ -123,12 +128,15 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
 	}
 	
 	class HeaderItemViewHolder extends RecyclerView.ViewHolder {
-		
 		TextView deliveryDate;
+		TextView phoneNumber1;
+		TextView phoneNumber2;
 		
 		public HeaderItemViewHolder(@NonNull View itemView) {
 			super(itemView);
-			deliveryDate = itemView.findViewById(R.id.tv_delivery_date);
+			deliveryDate = itemView.findViewById(R.id.tv_delivery_date_bill);
+			phoneNumber1 = itemView.findViewById(R.id.tv_phone_1_bill);
+			phoneNumber2 = itemView.findViewById(R.id.tv_phone_2_bill);
 		}
 	}
 }

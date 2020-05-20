@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Product;
+import com.ar.salata.repositories.model.Product;
 import com.ar.salata.ui.adapters.CartRecyclerAdapter;
 
 import java.util.ArrayList;

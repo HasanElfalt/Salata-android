@@ -14,7 +14,7 @@ import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import com.ar.salata.R;
-import com.ar.salata.model.Order;
+import com.ar.salata.repositories.model.Order;
 import com.ar.salata.ui.adapters.OrdersRecyclerAdapter;
 
 import java.util.ArrayList;

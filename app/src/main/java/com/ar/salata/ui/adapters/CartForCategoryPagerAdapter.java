@@ -3,7 +3,7 @@ package com.ar.salata.ui.adapters;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.ar.salata.model.Category;
+import com.ar.salata.repositories.model.Category;
 import com.ar.salata.ui.fragments.AddToCartFragment;
 
 import java.util.ArrayList;
