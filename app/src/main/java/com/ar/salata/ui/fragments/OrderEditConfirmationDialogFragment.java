@@ -48,6 +48,9 @@ public class OrderEditConfirmationDialogFragment extends DialogFragment {
             }
         });
 
-        return builder.create();
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        return dialog;
     }
 }

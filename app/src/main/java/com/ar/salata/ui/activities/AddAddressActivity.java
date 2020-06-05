@@ -16,6 +16,7 @@ import com.ar.salata.repositories.model.City;
 import com.ar.salata.repositories.model.Town;
 import com.ar.salata.repositories.model.Zone;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
+import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.viewmodels.AddressViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.google.android.material.textfield.TextInputLayout;
@@ -111,23 +112,30 @@ public class AddAddressActivity extends BaseActivity {
 				}
 				
 				if (inputsValidated) {
+					LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+					loadingDialogFragment.show(getSupportFragmentManager(), null);
+					loadingDialogFragment.dismiss();
+
 					addressViewModel.addAddress(userViewModel.getToken(), address, zoneId).observe(AddAddressActivity.this, new Observer<UserRepository.APIResponse>() {
 						@Override
 						public void onChanged(UserRepository.APIResponse apiResponse) {
 							switch (apiResponse) {
 								case SUCCESS: {
+									loadingDialogFragment.dismiss();
 									finish();
 									break;
 								}
 								case ERROR: {
+									loadingDialogFragment.dismiss();
 									ErrorDialogFragment dialogFragment =
-											new ErrorDialogFragment("حدث خطأ", "فشلت عملية اضافة عنوان");
+											new ErrorDialogFragment("حدث خطأ", "فشلت عملية اضافة عنوان", false);
 									dialogFragment.show(getSupportFragmentManager(), null);
 									break;
 								}
 								case FAILED: {
+									loadingDialogFragment.dismiss();
 									ErrorDialogFragment dialogFragment =
-											new ErrorDialogFragment("حدث خطأ", "يوجد خطا فى الاتصال بالانترنت");
+											new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
 									dialogFragment.show(getSupportFragmentManager(), null);
 									break;
 								}

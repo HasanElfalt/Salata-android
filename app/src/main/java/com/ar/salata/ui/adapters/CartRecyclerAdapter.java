@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Product;
 import com.ar.salata.ui.utils.ArabicString;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -48,29 +50,37 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
 	public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
 		switch (getItemViewType(position)) {
 			case HEADER_VIEW: {
-				final ItemViewHolderHeader itemViewHolderHeader = (ItemViewHolderHeader) holder;
-				itemViewHolderHeader.deliveryDate.setText(ArabicString.toArabic("موعد التسليم: الاحد 2020/3/22 الساعة 01:00 ظهر"));
-				itemViewHolderHeader.phoneNumber1.setText(ArabicString.toArabic("ت/ 01224567892"));
-				itemViewHolderHeader.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
-				break;
-			}
+                final ItemViewHolderHeader itemViewHolderHeader = (ItemViewHolderHeader) holder;
+                itemViewHolderHeader.deliveryDate.setText(ArabicString.toArabic("موعد التسليم: الاحد 2020/3/22 الساعة 01:00 ظهر"));
+                // TODO: 5/23/2020 get phone numbers from server
+                itemViewHolderHeader.phoneNumber1.setText(ArabicString.toArabic("ت/ 01224567892"));
+                itemViewHolderHeader.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
+                break;
+            }
 			case NORMAL_VIEW: {
-				final ItemViewHolderNormal itemViewHolderNormal = (ItemViewHolderNormal) holder;
-				final Double itemPrice = products.get(position - 1).getMaxPrice();
-				
-				itemViewHolderNormal.itemNameTextView.setText(ArabicString.toArabic(products.get(position - 1).getProductName()));
-				itemViewHolderNormal.itemPriceTextView.setText(ArabicString.toArabic(itemPrice.toString()));
-				
-				itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-				itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
-				
-				itemViewHolderNormal.decrementImageButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						if (itemViewHolderNormal.weight > 0) {
-							itemViewHolderNormal.weight--;
-							itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-							itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
+                final ItemViewHolderNormal itemViewHolderNormal = (ItemViewHolderNormal) holder;
+                final Double itemPrice = products.get(position - 1).getMaxPrice();
+                final String itemImageURL = products.get(position - 1).getInvoiceImage();
+
+                itemViewHolderNormal.itemNameTextView.setText(ArabicString.toArabic(products.get(position - 1).getProductName()));
+                itemViewHolderNormal.itemPriceTextView.setText(ArabicString.toArabic(itemPrice.toString()));
+
+                Glide.with(holder.itemView)
+                        .load(itemImageURL)
+                        .fitCenter()
+                        .into(itemViewHolderNormal.itemImage);
+
+
+                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
+                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
+
+                itemViewHolderNormal.decrementImageButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (itemViewHolderNormal.weight > 0) {
+                            itemViewHolderNormal.weight--;
+                            itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
+                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
 						}
 					}
 				});
@@ -100,28 +110,32 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
 	public int getItemCount() {
 		return products.size() + 1;
 	}
-	
-	class ItemViewHolderNormal extends RecyclerView.ViewHolder {
-		int weight = 0;
-		ImageButton incrementImageButton;
-		ImageButton decrementImageButton;
-		
-		TextView totalWeightTextView;
-		TextView totalPriceTextView;
-		TextView itemPriceTextView;
-		TextView itemNameTextView;
-		
-		public ItemViewHolderNormal(@NonNull View itemView) {
-			super(itemView);
-			
-			incrementImageButton = itemView.findViewById(R.id.btn_increment_weight);
-			decrementImageButton = itemView.findViewById(R.id.btn_decrement_weight);
-			
-			totalWeightTextView = itemView.findViewById(R.id.tv_total_weight);
-			totalPriceTextView = itemView.findViewById(R.id.tv_total_price);
-			itemPriceTextView = itemView.findViewById(R.id.tv_price);
-			itemNameTextView = itemView.findViewById(R.id.tv_name);
-		}
+
+    class ItemViewHolderNormal extends RecyclerView.ViewHolder {
+        int weight = 0;
+        ImageButton incrementImageButton;
+        ImageButton decrementImageButton;
+
+        TextView totalWeightTextView;
+        TextView totalPriceTextView;
+        TextView itemPriceTextView;
+        TextView itemNameTextView;
+
+        ImageView itemImage;
+
+        public ItemViewHolderNormal(@NonNull View itemView) {
+            super(itemView);
+
+            incrementImageButton = itemView.findViewById(R.id.btn_increment_weight);
+            decrementImageButton = itemView.findViewById(R.id.btn_decrement_weight);
+
+            itemImage = itemView.findViewById(R.id.iv_item_image_add_to_cart);
+
+            totalWeightTextView = itemView.findViewById(R.id.tv_total_weight);
+            totalPriceTextView = itemView.findViewById(R.id.tv_total_price);
+            itemPriceTextView = itemView.findViewById(R.id.tv_price);
+            itemNameTextView = itemView.findViewById(R.id.tv_name);
+        }
 	}
 	
 	class ItemViewHolderHeader extends RecyclerView.ViewHolder {

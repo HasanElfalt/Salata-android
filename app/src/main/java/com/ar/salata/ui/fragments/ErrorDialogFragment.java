@@ -16,19 +16,21 @@ import androidx.fragment.app.DialogFragment;
 import com.ar.salata.R;
 
 public class ErrorDialogFragment extends DialogFragment {
-	
-	private String errorTitle;
-	private String errorMessage;
-	
-	public ErrorDialogFragment(String errorTitle, String errorMessage) {
-		this.errorTitle = errorTitle;
-		this.errorMessage = errorMessage;
-	}
-	
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-		View view = getLayoutInflater().inflate(R.layout.dialog_error, null);
+
+    private String errorTitle;
+    private String errorMessage;
+    private boolean finishActivity;
+
+    public ErrorDialogFragment(String errorTitle, String errorMessage, boolean finishActivity) {
+        this.errorTitle = errorTitle;
+        this.errorMessage = errorMessage;
+        this.finishActivity = finishActivity;
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        View view = getLayoutInflater().inflate(R.layout.dialog_error, null);
 		
 		TextView errorTitleTextView = view.findViewById(R.id.tv_dialog_error_title);
 		TextView errorMessageTextView = view.findViewById(R.id.tv_dialog_error_message);
@@ -41,8 +43,9 @@ public class ErrorDialogFragment extends DialogFragment {
 		neutralButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dismiss();
-			}
+                dismiss();
+                if (finishActivity) getActivity().finish();
+            }
 		});
 		
 		AlertDialog dialog = new AlertDialog.Builder(getContext()).setView(view).create();

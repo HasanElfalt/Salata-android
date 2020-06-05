@@ -99,14 +99,19 @@ public class User extends RealmObject {
 	}
 	
 	public String getToken() {
-		return token;
-	}
-	
-	public void setToken(String token) {
-		this.token = token;
-	}
-	
-	public List<UserAddress> getAddresses() {
-		return addresses;
-	}
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public List<UserAddress> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<UserAddress> addresses) {
+        this.addresses.clear();
+        this.addresses.addAll(addresses);
+    }
 }

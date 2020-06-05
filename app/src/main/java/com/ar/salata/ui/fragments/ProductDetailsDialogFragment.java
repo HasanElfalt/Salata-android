@@ -17,6 +17,7 @@ import androidx.fragment.app.DialogFragment;
 
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Product;
+import com.ar.salata.ui.utils.ArabicString;
 
 public class ProductDetailsDialogFragment extends DialogFragment {
     private Product product;
@@ -45,9 +46,9 @@ public class ProductDetailsDialogFragment extends DialogFragment {
 
         Dialog dialog = builder.create();
         dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        ((TextView) view.findViewById(R.id.product_name_text_view)).setText(product.getProductName() + "/" + product.getUnit());
+        ((TextView) view.findViewById(R.id.product_name_text_view)).setText(product.getProductName() + "/" + product.getUnitName());
         TextViewCompat.setTextAppearance((TextView) view.findViewById(R.id.product_name_text_view), R.style.DialogProductNameTextAppearance);
-        ((TextView) view.findViewById(R.id.product_price_text_view)).setText(product.getMaxPrice().toString());
+        ((TextView) view.findViewById(R.id.product_price_text_view)).setText(ArabicString.toArabic(product.getMaxPrice().toString()));
         TextViewCompat.setTextAppearance((TextView) view.findViewById(R.id.product_price_text_view), R.style.DialogPriceTextAppearance);
         ((ImageView) view.findViewById(R.id.product_image_view)).setImageResource(R.drawable.ic_tomato_background);
         TextViewCompat.setTextAppearance((TextView) view.findViewById(R.id.gneeh), R.style.DialogProductNameTextAppearance);

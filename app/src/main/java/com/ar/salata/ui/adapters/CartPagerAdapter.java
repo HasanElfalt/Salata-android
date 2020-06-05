@@ -8,14 +8,14 @@ import com.ar.salata.ui.fragments.AddToCartFragment;
 
 import java.util.ArrayList;
 
-public class CartForCategoryPagerAdapter extends CategoryPagerAdapter {
-    public CartForCategoryPagerAdapter(@NonNull Fragment fragment, ArrayList<Category> productCategories) {
+public class CartPagerAdapter extends CategoryPagerAdapter {
+    public CartPagerAdapter(@NonNull Fragment fragment, ArrayList<Category> productCategories) {
         super(fragment, productCategories);
     }
 
     @NonNull
     @Override
     public Fragment createFragment(int position) {
-        return AddToCartFragment.newInstance();
+        return AddToCartFragment.newInstance(getProductCategories().get(position));
     }
 }

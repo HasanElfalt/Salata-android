@@ -15,6 +15,7 @@ import com.ar.salata.R;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.ui.activities.OrderDetailActivity;
 import com.ar.salata.ui.activities.OrderPreviewActivity;
+import com.ar.salata.ui.utils.ArabicString;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -47,22 +48,22 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
 	
 	@Override
 	public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-		ItemViewHolderUpcoming viewHolderUpcoming = (ItemViewHolderUpcoming) holder;
-		
-		viewHolderUpcoming.orderId.setText(orders.get(position).getOrderId());
-		viewHolderUpcoming.orderDateDay.setText(orders.get(position).getOrderDateDay());
-		viewHolderUpcoming.orderDateHour.setText(orders.get(position).getOrderDateHour());
-		viewHolderUpcoming.orderPrice.setText(String.valueOf(orders.get(position).getOrderPrice()));
-		
-		viewHolderUpcoming.orderImage.setImageResource(orders.get(position).getOrderImage());
-		
-		if (!upcomingOrder) {
-			ItemViewHolderPrevious viewHolderPrevious;
-			viewHolderPrevious = (ItemViewHolderPrevious) holder;
-			viewHolderPrevious.orderDetails.setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					Intent intent = new Intent(context, OrderDetailActivity.class);
+        ItemViewHolderUpcoming viewHolderUpcoming = (ItemViewHolderUpcoming) holder;
+
+        viewHolderUpcoming.orderId.setText(ArabicString.toArabic(orders.get(position).getOrderId()));
+        viewHolderUpcoming.orderDateDay.setText(ArabicString.toArabic(orders.get(position).getOrderDateDay()));
+        viewHolderUpcoming.orderDateHour.setText(ArabicString.toArabic(orders.get(position).getOrderDateHour()));
+        viewHolderUpcoming.orderPrice.setText(ArabicString.toArabic(String.valueOf(orders.get(position).getOrderPrice())));
+
+        viewHolderUpcoming.orderImage.setImageResource(orders.get(position).getOrderImage());
+
+        if (!upcomingOrder) {
+            ItemViewHolderPrevious viewHolderPrevious;
+            viewHolderPrevious = (ItemViewHolderPrevious) holder;
+            viewHolderPrevious.orderDetails.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, OrderDetailActivity.class);
 					context.startActivity(intent);
 				}
 			});

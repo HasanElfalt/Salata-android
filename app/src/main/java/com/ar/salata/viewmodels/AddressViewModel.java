@@ -36,14 +36,18 @@ public class AddressViewModel extends ViewModel {
 	}
 	
 	public List<Zone> getZones(int zoneId) {
-		return addressRepository.getZones(zoneId);
-	}
-	
-	public List<City> getCities() {
-		return addressRepository.getCities();
-	}
-	
-	public MutableLiveData<UserRepository.APIResponse> addAddress(APIToken token, String address, int zoneId) {
-		return addressRepository.addAddress(token, address, zoneId);
-	}
+        return addressRepository.getZones(zoneId);
+    }
+
+    public List<City> getCities() {
+        return addressRepository.getCities();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> addAddress(APIToken token, String address, int zoneId) {
+        return addressRepository.addAddress(token, address, zoneId);
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadAddresses(APIToken token) {
+        return addressRepository.loadAddresses(token);
+    }
 }

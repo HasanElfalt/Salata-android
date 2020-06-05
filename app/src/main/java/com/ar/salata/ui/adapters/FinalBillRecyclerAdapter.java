@@ -68,21 +68,21 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
 				headerItemViewHolder = (HeaderItemViewHolder) holder;
 				headerItemViewHolder.deliveryDate.setText(ArabicString.toArabic("موعد التسليم: الاحد 2020/3/22 الساعة 01:00 ظهر"));
 				headerItemViewHolder.phoneNumber1.setText(ArabicString.toArabic("ت/ 01224567892"));
-				headerItemViewHolder.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
-				break;
-			case FOOTER_VIEW:
-				footerItemViewHolder = (FooterItemViewHolder) holder;
-				footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المبلف: 1500 جنيه فقط لا غير"));
-				break;
-			case NORMAL_VIEW:
-				normalItemViewHolder = (NormalItemViewHolder) holder;
-				Product product = data.get(position - 1);
-				normalItemViewHolder.itemName.setText(ArabicString.toArabic(product.getProductName()));
-				normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(String.valueOf(product.getMaxPrice()) + " جنيه/" + product.getUnit()));
-				normalItemViewHolder.itemTotalWeight.setText(ArabicString.toArabic(String.valueOf(2)));
-				normalItemViewHolder.itemTotalPrice.setText(ArabicString.toArabic(String.valueOf(10)));
-				break;
-		}
+                headerItemViewHolder.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
+                break;
+            case FOOTER_VIEW:
+                footerItemViewHolder = (FooterItemViewHolder) holder;
+                footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المبلف: 1500 جنيه فقط لا غير"));
+                break;
+            case NORMAL_VIEW:
+                normalItemViewHolder = (NormalItemViewHolder) holder;
+                Product product = data.get(position - 1);
+                normalItemViewHolder.itemName.setText(ArabicString.toArabic(product.getProductName()));
+                normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(String.valueOf(product.getMaxPrice()) + " جنيه/" + product.getUnitName()));
+                normalItemViewHolder.itemTotalWeight.setText(ArabicString.toArabic(String.valueOf(2)));
+                normalItemViewHolder.itemTotalPrice.setText(ArabicString.toArabic(String.valueOf(10)));
+                break;
+        }
 	}
 	
 	@Override

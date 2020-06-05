@@ -18,6 +18,7 @@ import com.ar.salata.repositories.model.SliderItem;
 import com.ar.salata.ui.activities.HomeActivity;
 import com.ar.salata.ui.adapters.CategoryPagerAdapter;
 import com.ar.salata.ui.adapters.ImageSliderAdapter;
+import com.ar.salata.viewmodels.GoodsViewModel;
 import com.ar.salata.viewmodels.SliderItemViewModel;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
@@ -28,20 +29,25 @@ import com.smarteist.autoimageslider.SliderView;
 import java.util.ArrayList;
 
 public class PagerFragment extends Fragment {
-	
-	private CategoryPagerAdapter adapter;
-	private ViewPager2 viewPager;
-	private ArrayList<Category> productCategories;
-	
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		// end points to download categories
+
+    private CategoryPagerAdapter adapter;
+    private ViewPager2 viewPager;
+    protected ArrayList<Category> productCategories = new ArrayList<>();
+    protected GoodsViewModel goodsViewModel;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
+        // end points to download categories
+/*
 		productCategories = new ArrayList<>();
-		productCategories.add(new Category("1", "خضروات"));
-		productCategories.add(new Category("1", "فاكهة"));
-		productCategories.add(new Category("1", "مكسرات"));
-		productCategories.add(new Category("1", "بقوليات"));
+		productCategories.add(new Category(1, "خضروات"));
+		productCategories.add(new Category(2, "فاكهة"));
+		productCategories.add(new Category(3, "مكسرات"));
+		productCategories.add(new Category(4, "بقوليات"));
+*/
         /*
         if (getArguments() != null) {
 

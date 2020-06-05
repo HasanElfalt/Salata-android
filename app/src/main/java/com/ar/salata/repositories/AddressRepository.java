@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.ar.salata.repositories.API.AddressAPI;
 import com.ar.salata.repositories.model.APIToken;
+import com.ar.salata.repositories.model.AddressList;
 import com.ar.salata.repositories.model.City;
 import com.ar.salata.repositories.model.CityList;
 import com.ar.salata.repositories.model.ResponseMessage;
@@ -186,22 +187,52 @@ public class AddressRepository {
 					realm.executeTransaction(new Realm.Transaction() {
 						@Override
 						public void execute(Realm realm) {
-							User user = realm.where(User.class).findFirst();
-							user.getAddresses().add(new UserAddress(address, zoneId, user.getId()));
-						}
+                            User user = realm.where(User.class).findFirst();
+                            user.getAddresses().add(new UserAddress(address, zoneId));
+                        }
 					});
 					realm.close();
 					apiResponse.setValue(UserRepository.APIResponse.SUCCESS);
 				} else {
 					apiResponse.setValue(UserRepository.APIResponse.ERROR);
-				}
-			}
-			
-			@Override
-			public void onFailure(Call<ResponseMessage> call, Throwable t) {
-				apiResponse.setValue(UserRepository.APIResponse.FAILED);
-			}
-		});
-		return apiResponse;
-	}
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseMessage> call, Throwable t) {
+                apiResponse.setValue(UserRepository.APIResponse.FAILED);
+            }
+        });
+        return apiResponse;
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadAddresses(APIToken token) {
+        MutableLiveData<UserRepository.APIResponse> apiResponse = new MutableLiveData<>(UserRepository.APIResponse.NULL);
+        addressAPI.getAddresses(token.toString()).enqueue(new Callback<AddressList>() {
+            @Override
+            public void onResponse(Call<AddressList> call, Response<AddressList> response) {
+                if (response.isSuccessful()) {
+                    AddressList list = response.body();
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.where(User.class).findFirst().setAddresses(
+                                    list.getAddresses());
+                        }
+                    });
+                    realm.close();
+                    apiResponse.setValue(UserRepository.APIResponse.SUCCESS);
+                } else {
+                    apiResponse.setValue(UserRepository.APIResponse.ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddressList> call, Throwable t) {
+                apiResponse.setValue(UserRepository.APIResponse.FAILED);
+            }
+        });
+        return apiResponse;
+    }
 }

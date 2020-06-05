@@ -51,20 +51,22 @@ public class OrdersActivity extends BaseActivity {
         upcomingOrders = new ArrayList<Order>();
         previousOrders = new ArrayList<Order>();
 
+/*
         for (int i = 0; i < 2; i++) {
             upcomingOrders.add(new Order("1",
-                    "22/4/2020",
+                    "2020/4/22",
                     "01:00",
                     500.0,
                     R.drawable.ic_launcher_background)
             );
             previousOrders.add(new Order("1",
-                    "22/4/2020",
+                    "2020/4/22",
                     "01:00",
                     500.0,
                     R.drawable.ic_launcher_background)
             );
         }
+*/
         upcomingOrdersRecyclerView.setAdapter(new OrdersRecyclerAdapter(this,
                 upcomingOrders,
                 true)

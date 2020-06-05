@@ -23,7 +23,8 @@ import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.User;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.HomeFragment;
-import com.ar.salata.viewmodels.AddressViewModel;
+import com.ar.salata.ui.fragments.LoadingDialogFragment;
+import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -36,14 +37,12 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 	private FragmentManager fragmentManager;
 	private HomeFragment homeFragment;
 	private UserViewModel userViewModel;
-	private AddressViewModel addressViewModel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
-		addressViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
 		
 		setContentView(R.layout.activity_home);
 		getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -74,17 +73,38 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 				startActivity(intent);
 			}
 		});
-		
-		drawer = findViewById(R.id.drawer);
-		
-		toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		drawer.addDrawerListener(toggle);
-		
-		toggle.setDrawerIndicatorEnabled(true);
-		toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
-		toggle.syncState();
-		
-	}
+
+        drawer = findViewById(R.id.drawer);
+
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+
+        toggle.setDrawerIndicatorEnabled(true);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.colorAccent));
+        toggle.syncState();
+
+        drawer.addDrawerListener(new DrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(@NonNull View drawerView, float slideOffset) {
+
+            }
+
+            @Override
+            public void onDrawerOpened(@NonNull View drawerView) {
+
+            }
+
+            @Override
+            public void onDrawerClosed(@NonNull View drawerView) {
+                navigationView.setCheckedItem(R.id.nav_main);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+
+            }
+        });
+    }
 	
 	@Override
 	public void onConfigurationChanged(@NonNull Configuration newConfig) {
@@ -151,32 +171,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 	}
 	
 	private void signOut() {
-		MutableLiveData<UserRepository.APIResponse> response = userViewModel.signOut(userViewModel.getToken());
-		response.observe(this, new Observer<UserRepository.APIResponse>() {
-			@Override
-			public void onChanged(UserRepository.APIResponse apiResponse) {
-				switch (apiResponse) {
-					case SUCCESS:
-						finish();
-						startActivity(getIntent());
-						break;
-					case FAILED: {
-						ErrorDialogFragment dialogFragment =
-								new ErrorDialogFragment("حدث خطأ", "يوجد خطا فى الاتصال بالانترنت");
-						dialogFragment.show(getSupportFragmentManager(), null);
-						break;
-					}
-					case ERROR: {
-						ErrorDialogFragment dialogFragment =
-								new ErrorDialogFragment("حدث خطأ", "فشلت عملية تسجيل الخروج");
-						dialogFragment.show(getSupportFragmentManager(), null);
-						break;
-					}
-					case NULL:
-						// TODO: 5/19/2020
-						break;
-				}
-			}
+        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+        loadingDialogFragment.show(getSupportFragmentManager(), null);
+
+        MutableLiveData<UserRepository.APIResponse> response = userViewModel.signOut(userViewModel.getToken());
+        response.observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                switch (apiResponse) {
+                    case SUCCESS:
+                        loadingDialogFragment.dismiss();
+                        finish();
+                        startActivity(getIntent());
+                        break;
+                    case FAILED: {
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                        break;
+                    }
+                    case ERROR: {
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تسجيل الخروج", false);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                        break;
+                    }
+                }
+                drawer.closeDrawer(GravityCompat.START);
+            }
 		});
 	}
 	
@@ -200,32 +224,36 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 				showLoginHeader();
 			} else if ((userViewModel.getUser() == null) ||
 					!(userViewModel.getUser().getToken()).equals(userViewModel.getToken().toString())) {
-				MutableLiveData<UserRepository.APIResponse> userResponse = userViewModel.getUser(userViewModel.getToken());
-				//MutableLiveData<UserRepository.APIResponse> addressResponse = AddressViewModel.getAddress(userViewModel.getToken());
-				
-				userResponse.observe(this, new Observer<UserRepository.APIResponse>() {
-					@Override
-					public void onChanged(UserRepository.APIResponse apiResponse) {
-						switch (apiResponse) {
-							case NULL:
-								// TODO: 5/18/2020
-								break;
-							case ERROR: {
-								ErrorDialogFragment dialogFragment =
-										new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم");
-								dialogFragment.show(getSupportFragmentManager(), null);
-								break;
-							}
-							case FAILED: {
-								ErrorDialogFragment dialogFragment =
-										new ErrorDialogFragment("حدث خطأ", "يوجد خطا فى الاتصال بالانترنت");
-								dialogFragment.show(getSupportFragmentManager(), null);
-								break;
-							}
-							case SUCCESS:
-								showProfileHeader();
-								break;
-						}
+
+                LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+                loadingDialogFragment.show(getSupportFragmentManager(), null);
+
+                MutableLiveData<UserRepository.APIResponse> userResponse = userViewModel.getUser(userViewModel.getToken());
+
+                userResponse.observe(this, new Observer<UserRepository.APIResponse>() {
+                    @Override
+                    public void onChanged(UserRepository.APIResponse apiResponse) {
+                        switch (apiResponse) {
+                            case ERROR: {
+                                loadingDialogFragment.dismiss();
+                                ErrorDialogFragment dialogFragment =
+                                        new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+                                dialogFragment.show(getSupportFragmentManager(), null);
+                                break;
+                            }
+                            case FAILED: {
+                                loadingDialogFragment.dismiss();
+                                ErrorDialogFragment dialogFragment =
+                                        new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                                dialogFragment.show(getSupportFragmentManager(), null);
+                                break;
+                            }
+                            case SUCCESS:
+                                loadingDialogFragment.dismiss();
+                                showProfileHeader();
+                                // TODO: 5/21/2020 end loading dialog
+                                break;
+                        }
 					}
 				});
 				
@@ -245,19 +273,19 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
 	}
 	
 	private void showProfileHeader() {
-		User user = userViewModel.getUser();
-		navigationView.getHeaderView(0).findViewById(R.id.btn_sign_in).setVisibility(View.GONE);
-		View view = navigationView.getHeaderView(0).findViewById(R.id.nav_profile);
-		view.setVisibility(View.VISIBLE);
-		((TextView) view.findViewById(R.id.header_nav_username)).setText(user.getName());
-		((TextView) view.findViewById(R.id.header_nav_phone_number)).setText(user.getPhoneNumber());
-		navigationView.getMenu().findItem(R.id.nav_sign_out).setVisible(true);
-		navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
-		navigationView.getMenu().findItem(R.id.nav_settings).setVisible(true);
-		navigationView.getMenu().findItem(R.id.nav_address).setVisible(true);
-	}
-	
-	public void setEFABVisiblity(boolean isVisible) {
-		homeFragment.setEFABVisiblity(isVisible);
-	}
+        User user = userViewModel.getUser();
+        navigationView.getHeaderView(0).findViewById(R.id.btn_sign_in).setVisibility(View.GONE);
+        View view = navigationView.getHeaderView(0).findViewById(R.id.nav_profile);
+        view.setVisibility(View.VISIBLE);
+        ((TextView) view.findViewById(R.id.header_nav_username)).setText(user.getName());
+        ((TextView) view.findViewById(R.id.header_nav_phone_number)).setText(ArabicString.toArabic(user.getPhoneNumber()));
+        navigationView.getMenu().findItem(R.id.nav_sign_out).setVisible(true);
+        navigationView.getMenu().findItem(R.id.nav_orders).setVisible(true);
+        navigationView.getMenu().findItem(R.id.nav_settings).setVisible(true);
+        navigationView.getMenu().findItem(R.id.nav_address).setVisible(true);
+    }
+
+    public void setEFABVisibility(boolean isVisible) {
+        homeFragment.setEFABVisibility(isVisible);
+    }
 }

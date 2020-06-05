@@ -165,13 +165,13 @@ public class SignUpActivity extends BaseActivity {
 									break;
 								case AUTHENTICATION_ERROR: {
 									ErrorDialogFragment dialogFragment =
-											new ErrorDialogFragment("حدث خطأ", "فشلت عملية التسجيل");
+                                            new ErrorDialogFragment("حدث خطأ", "فشلت عملية التسجيل", false);
 									dialogFragment.show(getSupportFragmentManager(), null);
 									break;
 								}
 								case AUTHENTICATION_FAILED: {
-									ErrorDialogFragment dialogFragment =
-											new ErrorDialogFragment("حدث خطأ", "يوجد خطا فى الاتصال بالانترنت");
+                                    ErrorDialogFragment dialogFragment =
+                                            new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
 									dialogFragment.show(getSupportFragmentManager(), null);
 									break;
 								}

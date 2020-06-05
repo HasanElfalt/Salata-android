@@ -18,7 +18,7 @@
             android:gravity="center">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_item_image"
+                android:id="@+id/iv_item_image_bill"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="8dp"
@@ -41,7 +41,7 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toTopOf="@id/tv_item_price"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_item_image"
+                app:layout_constraintStart_toEndOf="@id/iv_item_image_bill"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_chainStyle="packed" />
 
@@ -51,13 +51,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginBottom="8dp"
-                android:fontFamily="@font/ffyaseer_regular"
+                android:fontFamily="@font/katibeh_regular"
                 android:text="5جنيه/كجم"
                 android:textColor="@color/colorLightFont"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/iv_item_image"
+                app:layout_constraintStart_toEndOf="@id/iv_item_image_bill"
                 app:layout_constraintTop_toBottomOf="@id/tv_item_name"
                 app:layout_constraintVertical_chainStyle="packed" />
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -68,7 +68,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.2"
             android:background="@drawable/bg_rv_stroke"
-            android:fontFamily="@font/ffyaseer_regular"
+            android:fontFamily="@font/katibeh_regular"
             android:gravity="center"
             android:text="2"
             android:textColor="@color/colorFont"
@@ -80,7 +80,7 @@
             android:layout_height="match_parent"
             android:layout_weight="0.2"
             android:background="@drawable/bg_rv_stroke"
-            android:fontFamily="@font/ffyaseer_regular"
+            android:fontFamily="@font/katibeh_regular"
             android:gravity="center"
             android:text="10"
             android:textColor="@color/colorFont"

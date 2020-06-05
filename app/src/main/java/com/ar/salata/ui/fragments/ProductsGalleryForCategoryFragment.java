@@ -9,27 +9,32 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Category;
 import com.ar.salata.repositories.model.Product;
+import com.ar.salata.repositories.model.ProductList;
 import com.ar.salata.ui.activities.HomeActivity;
 import com.ar.salata.ui.adapters.ProductGalleryViewRecyclerAdapter;
 import com.ar.salata.ui.utils.OffsetDecoration;
+import com.ar.salata.viewmodels.GoodsViewModel;
 
 import java.util.ArrayList;
 
 public class ProductsGalleryForCategoryFragment extends Fragment {
 
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String PRODUCTS_CATEGORY = "category";
-	private boolean fabVisibility = true;
-
+    private boolean fabVisibility = true;
 
     private Category categoryOFProductsToBeDisplayed;
-    private ArrayList<Product> productsList;
+    private ArrayList<Product> productsList = new ArrayList<>();
+
+    private GoodsViewModel goodsViewModel;
 
     public ProductsGalleryForCategoryFragment() {
     }
@@ -50,14 +55,16 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
         if (getArguments() != null) {
             categoryOFProductsToBeDisplayed = getArguments().getParcelable(PRODUCTS_CATEGORY);
         }
-        ///call api and get products to display
-        productsList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            productsList.add(new Product("طماطم", 45.2, "كيلو", ""));
-            productsList.add(new Product("بطاطس", 45.2, "كيلو", ""));
-            productsList.add(new Product("بصل", 45.2, "كيلو", ""));
-            productsList.add(new Product("فلفل", 45.2, "كيلو", ""));
-        }
+		
+/*
+		productsList = new ArrayList<>();
+		for (int i = 0; i < 10; i++) {
+			productsList.add(new Product("طماطم", 45.2, "كيلو", ""));
+			productsList.add(new Product("بطاطس", 45.2, "كيلو", ""));
+			productsList.add(new Product("بصل", 45.2, "كيلو", ""));
+			productsList.add(new Product("فلفل", 45.2, "كيلو", ""));
+		}
+*/
     }
 
     @Override
@@ -68,7 +75,8 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        // to be done
+
+        goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
 
         RecyclerView productGalleryRecyclerView = view.findViewById(R.id.products_gallery);
         RecyclerView.Adapter productsAdapter = new ProductGalleryViewRecyclerAdapter(productsList, this);
@@ -86,19 +94,28 @@ public class ProductsGalleryForCategoryFragment extends Fragment {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY > oldScrollY) {
-                    ((HomeActivity) getActivity()).setEFABVisiblity(false);
-					fabVisibility = false;
+                    ((HomeActivity) getActivity()).setEFABVisibility(false);
+                    fabVisibility = false;
                 } else if (oldScrollY > scrollY) {
-                    ((HomeActivity) getActivity()).setEFABVisiblity(true);
-					fabVisibility = true;
+                    ((HomeActivity) getActivity()).setEFABVisibility(true);
+                    fabVisibility = true;
                 }
+            }
+        });
+
+        MutableLiveData<ProductList> productListMutableLiveData = goodsViewModel.getProducts(categoryOFProductsToBeDisplayed.getCategoryID());
+        productListMutableLiveData.observe(getViewLifecycleOwner(), new Observer<ProductList>() {
+            @Override
+            public void onChanged(ProductList productList) {
+                productsList.addAll(productList.getProductList());
+                productsAdapter.notifyDataSetChanged();
             }
         });
     }
 	
 	@Override
 	public void onResume() {
-		super.onResume();
-		((HomeActivity) getActivity()).setEFABVisiblity(fabVisibility);
-	}
+        super.onResume();
+        ((HomeActivity) getActivity()).setEFABVisibility(fabVisibility);
+    }
 }
