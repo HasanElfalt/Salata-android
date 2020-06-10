@@ -29,6 +29,8 @@ import static com.ar.salata.repositories.UserRepository.APIResponse.SUCCESS;
 
 public class GoodsRepository {
     private GoodsAPI goodsAPI;
+    private RealmResults<Category> resultsCategory;
+    private RealmResults<Product> resultsProduct;
 
     public GoodsRepository() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -75,8 +77,8 @@ public class GoodsRepository {
     public MutableLiveData<CategoryList> getCategories() {
         MutableLiveData<CategoryList> categoryList = new MutableLiveData<>();
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Category> results = realm.where(Category.class).findAllAsync();
-        results.addChangeListener(new RealmChangeListener<RealmResults<Category>>() {
+        resultsCategory = realm.where(Category.class).findAllAsync();
+        resultsCategory.addChangeListener(new RealmChangeListener<RealmResults<Category>>() {
             @Override
             public void onChange(RealmResults<Category> categories) {
                 List<Category> list = realm.copyFromRealm(categories);
@@ -117,7 +119,8 @@ public class GoodsRepository {
     public MutableLiveData<ProductList> getProducts(int categoryId) {
         MutableLiveData<ProductList> productList = new MutableLiveData<>();
         Realm realm = Realm.getDefaultInstance();
-        realm.where(Product.class).equalTo("categoryId", categoryId).findAllAsync().addChangeListener(new RealmChangeListener<RealmResults<Product>>() {
+        resultsProduct = realm.where(Product.class).equalTo("categoryId", categoryId).findAllAsync();
+        resultsProduct.addChangeListener(new RealmChangeListener<RealmResults<Product>>() {
             @Override
             public void onChange(RealmResults<Product> products) {
                 productList.setValue(new ProductList(realm.copyFromRealm(products)));

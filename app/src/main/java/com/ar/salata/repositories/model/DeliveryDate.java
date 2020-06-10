@@ -7,6 +7,7 @@ import io.realm.RealmObject;
 
 public class DeliveryDate extends RealmObject {
     private RealmList<Shift> shifts;
+
     private String day;
 
     public List<Shift> getShifts() {

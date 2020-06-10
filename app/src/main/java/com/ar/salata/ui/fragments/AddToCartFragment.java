@@ -16,8 +16,10 @@ import com.ar.salata.R;
 import com.ar.salata.repositories.model.Category;
 import com.ar.salata.repositories.model.Product;
 import com.ar.salata.repositories.model.ProductList;
+import com.ar.salata.ui.activities.AddToCartActivity;
 import com.ar.salata.ui.adapters.CartRecyclerAdapter;
 import com.ar.salata.viewmodels.GoodsViewModel;
+import com.ar.salata.viewmodels.OrderViewModel;
 
 import java.util.ArrayList;
 
@@ -27,7 +29,7 @@ public class AddToCartFragment extends Fragment {
     private ArrayList<Product> products = new ArrayList<>();
     private Category categoryOFProductsToBeDisplayed;
     private GoodsViewModel goodsViewModel;
-
+    private OrderViewModel orderViewModel;
 
     public static AddToCartFragment newInstance(Category category) {
         AddToCartFragment fragment = new AddToCartFragment();
@@ -55,8 +57,9 @@ public class AddToCartFragment extends Fragment {
         cartRecyclerView = view.findViewById(R.id.rv_add_to_cart);
 
         goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
+        orderViewModel = ((AddToCartActivity) getActivity()).getOrderViewModel();
 
-        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), products);
+        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), products, orderViewModel);
         cartRecyclerAdapter.setHasStableIds(true);
         cartRecyclerView.setAdapter(cartRecyclerAdapter);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

@@ -106,4 +106,8 @@ public class Product extends RealmObject implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(productName);
     }
+
+    public int getId() {
+        return id;
+    }
 }

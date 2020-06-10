@@ -38,20 +38,14 @@ public class OrderRepository {
         orderAPI = retrofit.create(OrderAPI.class);
     }
 
-    public MutableLiveData<UserRepository.APIResponse> createOrder(APIToken token, Order order) {
+    public MutableLiveData<UserRepository.APIResponse> submitOrder(APIToken token, Order order) {
         MutableLiveData<UserRepository.APIResponse> apiResponse =
                 new MutableLiveData<>(UserRepository.APIResponse.NULL);
 
         HashMap<String, Double> units = new HashMap<String, Double>();
         for (OrderUnit unit : order.getUnits()) {
-            units.put(String.valueOf(unit.getId()), unit.getCount());
+            units.put(String.valueOf(unit.getProduct().getId()), unit.getCount());
         }
-		/*
-		OrderAssociative orderAssociative = new OrderAssociative(units);
-		HashMap<String, String> unitsWrapper = new HashMap<>();
-		unitsWrapper.put("units_count", units.toString());
-		
-		Log.d(TAG, "createOrder: " + units.toString());*/
 
         OrderAssociative orderAssociative = new OrderAssociative(units,
                 token.toString(),
@@ -62,13 +56,7 @@ public class OrderRepository {
                 order.getUserId(),
                 order.getDeliveryDate());
 
-        orderAPI.createOrder(/*token.toString(),
-                order.getShiftId(),
-                order.getAddressId(),
-                order.getUserId(),
-                order.getDeliveryDate(),
-                order.getOrderPrice(),
-                order*/ orderAssociative).enqueue(new Callback<String>() {
+        orderAPI.createOrder(orderAssociative).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {

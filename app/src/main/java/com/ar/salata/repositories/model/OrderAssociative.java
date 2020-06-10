@@ -13,6 +13,7 @@ public class OrderAssociative {
     @SerializedName("units_count")
     private HashMap<String, Double> units = new HashMap<>();
 
+    @SerializedName("api_token")
     private String token;
 
     @SerializedName("order_id")
@@ -21,7 +22,7 @@ public class OrderAssociative {
     private String orderDateDay;
     @SerializedName("order_date_hour")
     private String orderDateHour;
-    @SerializedName("order_price")
+    @SerializedName("total_price")
     private double orderPrice;
     @SerializedName("shift_id")
     private int shiftId;
