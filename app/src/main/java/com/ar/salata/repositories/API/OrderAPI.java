@@ -9,5 +9,5 @@ import retrofit2.http.POST;
 public interface OrderAPI {
 
 	@POST("/api/createOrder")
-	Call<String> createOrder(@Body OrderAssociative units);
+	Call<String> submitOrder(@Body OrderAssociative units);
 }

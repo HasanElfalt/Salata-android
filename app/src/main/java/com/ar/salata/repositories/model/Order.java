@@ -3,9 +3,11 @@ package com.ar.salata.repositories.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
+import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Order extends RealmObject {
 
@@ -27,6 +29,8 @@ public class Order extends RealmObject {
     private String deliveryDate;
     private RealmList<OrderUnit> units = new RealmList<>();
 
+    @PrimaryKey
+    private String orderLocalId;
     private int orderImage;
     private boolean orderFulfilled;
 
@@ -41,6 +45,7 @@ public class Order extends RealmObject {
         this.userId = userId;
         this.deliveryDate = deliveryDate;
         this.orderPrice = orderPrice;
+        this.orderLocalId = UUID.randomUUID().toString();
     }
 
     public Order() {
@@ -136,8 +141,9 @@ public class Order extends RealmObject {
 
     public void addUnit(OrderUnit unit) {
         for (OrderUnit u : this.units) {
-            if (u.getProduct().getId() == unit.getProduct().getId()) {
+            if (u.getProductId() == unit.getProductId()) {
                 units.remove(u);
+                break;
             }
         }
 
@@ -147,8 +153,15 @@ public class Order extends RealmObject {
 
         orderPrice = 0;
         for (OrderUnit u : this.units) {
-            orderPrice += u.getCount() * u.getProduct().getMaxPrice();
+            orderPrice += u.getCount() * u.getProductPrice();
         }
+    }
 
+    public String getOrderLocalId() {
+        return orderLocalId;
+    }
+
+    public void setOrderLocalId(String orderLocalId) {
+        this.orderLocalId = orderLocalId;
     }
 }

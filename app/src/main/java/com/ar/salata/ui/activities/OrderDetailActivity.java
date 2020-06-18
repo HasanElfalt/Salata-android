@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
+import com.ar.salata.repositories.model.Order;
 import com.ar.salata.ui.adapters.FinalBillRecyclerAdapter;
 
 public class OrderDetailActivity extends BaseActivity {
@@ -17,7 +18,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_order_detail);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext());
+        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext(), new Order());
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);

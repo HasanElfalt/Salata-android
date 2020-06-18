@@ -67,7 +67,9 @@ public class AddToCartActivity extends BaseActivity {
                 intent.putExtra(USER_ID, order.getUserId());
                 intent.putExtra(DELIVERY_DATE, order.getDeliveryDate());
                 intent.putExtra(SHIFT_ID, order.getShiftId());*/
+                String id = orderViewModel.createOrder(order);
 
+                intent.putExtra(OrderViewModel.ORDER_ID, id);
                 startActivityForResult(intent, REQUESTPAY);
             }
         });

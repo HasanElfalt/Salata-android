@@ -10,6 +10,7 @@ import com.ar.salata.repositories.model.OrderUnit;
 
 import java.util.HashMap;
 
+import io.realm.Realm;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
@@ -44,7 +45,7 @@ public class OrderRepository {
 
         HashMap<String, Double> units = new HashMap<String, Double>();
         for (OrderUnit unit : order.getUnits()) {
-            units.put(String.valueOf(unit.getProduct().getId()), unit.getCount());
+            units.put(String.valueOf(unit.getProductId()), unit.getCount());
         }
 
         OrderAssociative orderAssociative = new OrderAssociative(units,
@@ -56,7 +57,7 @@ public class OrderRepository {
                 order.getUserId(),
                 order.getDeliveryDate());
 
-        orderAPI.createOrder(orderAssociative).enqueue(new Callback<String>() {
+        orderAPI.submitOrder(orderAssociative).enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if (response.isSuccessful()) {
@@ -72,5 +73,22 @@ public class OrderRepository {
             }
         });
         return apiResponse;
+    }
+
+    public String createOrder(Order order) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        Order temp = realm.copyToRealmOrUpdate(order);
+        realm.commitTransaction();
+
+        return temp.getOrderLocalId();
+    }
+
+    public Order getOrder(String Id) {
+        Realm realm = Realm.getDefaultInstance();
+        Order order = realm.where(Order.class).equalTo("orderLocalId", Id).findFirst();
+        order = realm.copyFromRealm(order);
+
+        return order;
     }
 }

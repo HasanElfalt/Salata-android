@@ -110,4 +110,12 @@ public class Product extends RealmObject implements Parcelable {
     public int getId() {
         return id;
     }
+
+    public Double getStep() {
+        return step;
+    }
+
+    public void setStep(Double step) {
+        this.step = step;
+    }
 }
