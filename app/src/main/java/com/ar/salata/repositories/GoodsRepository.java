@@ -3,10 +3,13 @@ package com.ar.salata.repositories;
 import androidx.lifecycle.MutableLiveData;
 
 import com.ar.salata.repositories.API.GoodsAPI;
+import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.Category;
 import com.ar.salata.repositories.model.CategoryList;
 import com.ar.salata.repositories.model.Product;
 import com.ar.salata.repositories.model.ProductList;
+import com.ar.salata.repositories.model.StockProduct;
+import com.ar.salata.repositories.model.StockProductList;
 
 import java.util.List;
 
@@ -30,6 +33,7 @@ import static com.ar.salata.repositories.UserRepository.APIResponse.SUCCESS;
 public class GoodsRepository {
     private GoodsAPI goodsAPI;
     private RealmResults<Category> resultsCategory;
+    private RealmResults<StockProduct> resultsStockProduct;
     private RealmResults<Product> resultsProduct;
 
     public GoodsRepository() {
@@ -56,6 +60,7 @@ public class GoodsRepository {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
+                            realm.where(Category.class).findAll().deleteAllFromRealm();
                             realm.insertOrUpdate(response.body().getCategoryList());
                         }
                     });
@@ -88,6 +93,38 @@ public class GoodsRepository {
         return categoryList;
     }
 
+    public MutableLiveData<UserRepository.APIResponse> loadProducts(APIToken token, int addressId) {
+        MutableLiveData<UserRepository.APIResponse> apiResponse = new MutableLiveData<>(NULL);
+        goodsAPI.getAllProducts(token.toString(), addressId).enqueue(new Callback<StockProductList>() {
+            @Override
+            public void onResponse(Call<StockProductList> call, Response<StockProductList> response) {
+                if (response.isSuccessful()) {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            realm.where(StockProduct.class).findAll().deleteAllFromRealm();
+                            for (StockProduct product : response.body().getProductList()) {
+                                product.setAddressId(addressId);
+                            }
+                            realm.insertOrUpdate(response.body().getProductList());
+                        }
+                    });
+                    realm.close();
+                    apiResponse.setValue(SUCCESS);
+                } else {
+                    apiResponse.setValue(ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<StockProductList> call, Throwable t) {
+                apiResponse.setValue(FAILED);
+            }
+        });
+        return apiResponse;
+    }
+
     public MutableLiveData<UserRepository.APIResponse> loadProducts() {
         MutableLiveData<UserRepository.APIResponse> apiResponse = new MutableLiveData<>(NULL);
         goodsAPI.getAllProducts().enqueue(new Callback<ProductList>() {
@@ -98,6 +135,7 @@ public class GoodsRepository {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
+                            realm.where(StockProduct.class).findAll().deleteAllFromRealm();
                             realm.insertOrUpdate(response.body().getProductList());
                         }
                     });
@@ -116,10 +154,30 @@ public class GoodsRepository {
         return apiResponse;
     }
 
+    public MutableLiveData<StockProductList> getProducts(int categoryId, int addressId) {
+        MutableLiveData<StockProductList> productList = new MutableLiveData<>();
+        Realm realm = Realm.getDefaultInstance();
+        resultsStockProduct = realm.where(StockProduct.class)
+                .equalTo("categoryId", categoryId)
+                .and()
+                .equalTo("addressId", addressId)
+                .findAllAsync();
+        resultsStockProduct.addChangeListener(new RealmChangeListener<RealmResults<StockProduct>>() {
+            @Override
+            public void onChange(RealmResults<StockProduct> products) {
+                productList.setValue(new StockProductList(realm.copyFromRealm(products)));
+                resultsStockProduct.removeAllChangeListeners();
+            }
+        });
+        return productList;
+    }
+
     public MutableLiveData<ProductList> getProducts(int categoryId) {
         MutableLiveData<ProductList> productList = new MutableLiveData<>();
         Realm realm = Realm.getDefaultInstance();
-        resultsProduct = realm.where(Product.class).equalTo("categoryId", categoryId).findAllAsync();
+        resultsProduct = realm.where(Product.class)
+                .equalTo("categoryId", categoryId)
+                .findAllAsync();
         resultsProduct.addChangeListener(new RealmChangeListener<RealmResults<Product>>() {
             @Override
             public void onChange(RealmResults<Product> products) {

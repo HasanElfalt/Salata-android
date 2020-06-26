@@ -19,8 +19,11 @@ import com.ar.salata.viewmodels.UserViewModel;
 
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.ADDRESS_ID;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_DATE;
+import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_DATE_MS;
+import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_HOUR;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.SHIFT_ID;
 import static com.ar.salata.ui.fragments.HomeFragment.USER_ID;
+import static java.lang.Math.round;
 
 public class AddToCartActivity extends BaseActivity {
     private static final String TAG = "AddToCartActivity";
@@ -46,13 +49,15 @@ public class AddToCartActivity extends BaseActivity {
         order = new Order(intent.getIntExtra(SHIFT_ID, 1),
                 intent.getIntExtra(ADDRESS_ID, 1),
                 intent.getIntExtra(USER_ID, 0),
-                intent.getStringExtra(DELIVERY_DATE));
+                intent.getLongExtra(DELIVERY_DATE_MS, 0) / 1000,
+                intent.getStringExtra(DELIVERY_DATE),
+                intent.getStringExtra(DELIVERY_HOUR));
 
         orderViewModel.setOrderValue(order);
         orderViewModel.getOrderMutableLiveData().observe(this, new Observer<Order>() {
             @Override
             public void onChanged(Order order) {
-                totalValueTextView.setText(ArabicString.toArabic(String.valueOf(order.getOrderPrice())));
+                totalValueTextView.setText(ArabicString.toArabic(String.valueOf(round(order.getOrderPrice() * 100) / 100.0)));
             }
         });
 
@@ -66,10 +71,10 @@ public class AddToCartActivity extends BaseActivity {
                 intent.putExtra(ADDRESS_ID, order.getAddressId());
                 intent.putExtra(USER_ID, order.getUserId());
                 intent.putExtra(DELIVERY_DATE, order.getDeliveryDate());
-                intent.putExtra(SHIFT_ID, order.getShiftId());*/
-                String id = orderViewModel.createOrder(order);
+                intent.putExtra(SHIFT_ID, order.getShiftId());
+                String id = orderViewModel.createOrder(order);*/
 
-                intent.putExtra(OrderViewModel.ORDER_ID, id);
+                intent.putExtra(OrderViewModel.ORDER, order);
                 startActivityForResult(intent, REQUESTPAY);
             }
         });

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,8 +14,12 @@ import com.ar.salata.R;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.OrderUnit;
 import com.ar.salata.ui.utils.ArabicString;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Math.round;
 
 public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
     private final static int FOOTER_VIEW = 2;
@@ -24,11 +29,13 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
     private ArrayList<OrderUnit> data;
     private Context context;
     private Order order;
+    private List<String> phones;
 
-    public FinalBillRecyclerAdapter(Context context, Order order) {
+    public FinalBillRecyclerAdapter(Context context, Order order, List<String> phones) {
         this.context = context;
         this.data = new ArrayList<OrderUnit>(order.getUnits());
         this.order = order;
+        this.phones = phones;
     }
 
     @NonNull
@@ -62,21 +69,26 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
         switch (getItemViewType(position)) {
             case HEADER_VIEW:
                 headerItemViewHolder = (HeaderItemViewHolder) holder;
-                headerItemViewHolder.deliveryDate.setText(ArabicString.toArabic("موعد التسليم: " + order.getDeliveryDate()));
-                headerItemViewHolder.phoneNumber1.setText(ArabicString.toArabic("ت/ 01224567892"));
-                headerItemViewHolder.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
+                headerItemViewHolder.deliveryDate.setText("موعد التسليم: " + order.getOrderDateDay() + " الساعة: " + order.getOrderDateHour(false));
+                headerItemViewHolder.phoneNumber1.setText(ArabicString.toArabic("ت/ " + phones.get(0)));
+                headerItemViewHolder.phoneNumber2.setText(ArabicString.toArabic("ت/ " + phones.get(1)));
                 break;
             case FOOTER_VIEW:
                 footerItemViewHolder = (FooterItemViewHolder) holder;
-                footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المبلف: " + order.getOrderPrice() + " جنيه فقط لا غير"));
+                footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المبلغ: " + round(order.getOrderPrice() * 100) / 100.0 + " جنيه فقط لا غير"));
                 break;
             case NORMAL_VIEW:
                 normalItemViewHolder = (NormalItemViewHolder) holder;
                 OrderUnit orderUnit = data.get(position - 1);
                 normalItemViewHolder.itemName.setText(ArabicString.toArabic(orderUnit.getProductName()));
-                normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(String.valueOf(orderUnit.getProductPrice()) + " جنيه/" + orderUnit.getProductName()));
+                normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(String.valueOf(orderUnit.getProductPrice()) + " جنيه/" + orderUnit.getProductUnitName()));
                 normalItemViewHolder.itemTotalWeight.setText(ArabicString.toArabic(String.valueOf(orderUnit.getCount())));
-                normalItemViewHolder.itemTotalPrice.setText(ArabicString.toArabic(String.valueOf(orderUnit.getCount() * orderUnit.getProductPrice())));
+                normalItemViewHolder.itemTotalPrice.setText(ArabicString.toArabic(String.valueOf(round(orderUnit.getCount() * orderUnit.getProductPrice() * 100) / 100.0)));
+                Glide.with(holder.itemView)
+                        .load(orderUnit.getProductImage())
+                        .fitCenter()
+                        .into(normalItemViewHolder.itemImage);
+
                 break;
         }
     }
@@ -103,12 +115,15 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
         TextView itemTotalWeight;
         TextView itemTotalPrice;
 
+        ImageView itemImage;
+
         public NormalItemViewHolder(@NonNull View itemView) {
             super(itemView);
             itemName = itemView.findViewById(R.id.tv_item_name);
             itemPrice = itemView.findViewById(R.id.tv_item_price);
             itemTotalWeight = itemView.findViewById(R.id.tv_item_total_weight);
             itemTotalPrice = itemView.findViewById(R.id.tv_item_total_price);
+            itemImage = itemView.findViewById(R.id.iv_item_image_bill);
         }
 
     }

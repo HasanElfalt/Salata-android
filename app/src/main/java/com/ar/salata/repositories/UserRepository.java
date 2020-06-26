@@ -7,6 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.ar.salata.repositories.API.UserAPI;
 import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.AuthenticationUser;
+import com.ar.salata.repositories.model.Order;
+import com.ar.salata.repositories.model.OrderUnit;
 import com.ar.salata.repositories.model.ResponseMessage;
 import com.ar.salata.repositories.model.User;
 
@@ -29,7 +31,7 @@ public class UserRepository {
 		HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 		interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 		OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).build();
-		
+
 		Retrofit retrofit = new Retrofit.Builder()
 				.baseUrl(BASEURL)
 				.addConverterFactory(GsonConverterFactory.create())
@@ -114,6 +116,7 @@ public class UserRepository {
 			public void execute(Realm realm) {
 				realm.where(User.class).findAll().deleteAllFromRealm();
 				realm.where(APIToken.class).findAll().deleteAllFromRealm();
+				realm.where(Order.class).findAll().deleteAllFromRealm();
 			}
 		});
 		realm.close();
@@ -133,14 +136,16 @@ public class UserRepository {
 						if (response.isSuccessful()) {
 							APIToken token = response.body();
 							authenticationState.setValue(Authentication.AUTHENTICATED);
-							
+
 							Realm realm = Realm.getDefaultInstance();
 							realm.beginTransaction();
 							realm.where(APIToken.class).findAll().deleteAllFromRealm();
+							realm.where(Order.class).findAll().deleteAllFromRealm();
+							realm.where(OrderUnit.class).findAll().deleteAllFromRealm();
 							realm.insert(token);
 							realm.commitTransaction();
 							realm.close();
-							
+
 						} else {
 							authenticationState.setValue(Authentication.AUTHENTICATION_ERROR);
 						}
@@ -167,20 +172,22 @@ public class UserRepository {
 							if (response.isSuccessful()) {
 								APIToken token = response.body();
 								authenticationState.setValue(Authentication.AUTHENTICATED);
-								
+
 								Realm realm = Realm.getDefaultInstance();
 								realm.beginTransaction();
 								realm.where(APIToken.class).findAll().deleteAllFromRealm();
+								realm.where(Order.class).findAll().deleteAllFromRealm();
+								realm.where(OrderUnit.class).findAll().deleteAllFromRealm();
 								realm.insert(token);
 								realm.commitTransaction();
 								realm.close();
-								
+
 							} else {
 								// TODO: 5/17/2020 return error dependant on error code
 								authenticationState.setValue(Authentication.AUTHENTICATION_ERROR);
 							}
 						}
-						
+
 						@Override
 						public void onFailure(Call<APIToken> call, Throwable t) {
 							Log.d(TAG, "onFailure: " + t.getMessage());
@@ -191,11 +198,21 @@ public class UserRepository {
 		realm.close();
 		return authenticationState;
 	}
-	
+
+	public void clearUser() {
+		Realm realm = Realm.getDefaultInstance();
+		realm.beginTransaction();
+//		realm.where(User.class).findAll().deleteAllFromRealm();
+//		realm.where(APIToken.class).findAll().deleteAllFromRealm();
+		realm.deleteAll();
+		realm.commitTransaction();
+		realm.close();
+	}
+
 	public enum Authentication {
 		AUTHENTICATED, NOT_AUTHENTICATED, AUTHENTICATION_FAILED, AUTHENTICATION_ERROR
 	}
-	
+
 	public enum APIResponse {
 		SUCCESS, ERROR, FAILED, NULL
 	}

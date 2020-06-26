@@ -14,27 +14,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.OrderUnit;
-import com.ar.salata.repositories.model.Product;
+import com.ar.salata.repositories.model.StockProduct;
 import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static java.lang.Math.round;
 
 public class CartRecyclerAdapter extends RecyclerView.Adapter {
     private final static int HEADER_VIEW = 1;
     private final static int NORMAL_VIEW = 0;
 
-    private ArrayList<Product> products;
+    private ArrayList<StockProduct> products;
     private Context context;
     private OrderViewModel orderViewModel;
     private Order order;
+    private List<String> phones;
 
-    public CartRecyclerAdapter(Context context, ArrayList<Product> products, OrderViewModel orderViewModel) {
+    public CartRecyclerAdapter(Context context, ArrayList<StockProduct> products, OrderViewModel orderViewModel, List<String> phones) {
         this.products = products;
         this.context = context;
         this.orderViewModel = orderViewModel;
         order = this.orderViewModel.getOrderMutableLiveData().getValue();
+        this.phones = phones;
     }
 
     @NonNull
@@ -58,16 +63,16 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
         switch (getItemViewType(position)) {
             case HEADER_VIEW: {
                 final ItemViewHolderHeader itemViewHolderHeader = (ItemViewHolderHeader) holder;
-                itemViewHolderHeader.deliveryDate.setText(ArabicString.toArabic("موعد التسليم: " + order.getDeliveryDate()));
-                // TODO: 5/23/2020 get phone numbers from server
-                itemViewHolderHeader.phoneNumber1.setText(ArabicString.toArabic("ت/ 01224567892"));
-                itemViewHolderHeader.phoneNumber2.setText(ArabicString.toArabic("ت/ 01224567892"));
+                itemViewHolderHeader.deliveryDate.setText("موعد التسليم: " + order.getOrderDateDay() + " الساعة: " + order.getOrderDateHour(false));
+                itemViewHolderHeader.phoneNumber1.setText(ArabicString.toArabic("ت/ " + phones.get(0)));
+                itemViewHolderHeader.phoneNumber2.setText(ArabicString.toArabic("ت/ " + phones.get(1)));
                 break;
             }
             case NORMAL_VIEW: {
                 final ItemViewHolderNormal itemViewHolderNormal = (ItemViewHolderNormal) holder;
-                final Double itemPrice = products.get(position - 1).getMaxPrice();
+                final Double itemPrice = products.get(position - 1).getPrice();
                 final String itemImageURL = products.get(position - 1).getInvoiceImage();
+                final String itemUnit = products.get(position - 1).getUnitName();
 
                 for (OrderUnit unit : order.getUnits()) {
                     if (products.get(position - 1).getId() == unit.getProductId()) {
@@ -77,7 +82,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 }
 
                 itemViewHolderNormal.itemNameTextView.setText(ArabicString.toArabic(products.get(position - 1).getProductName()));
-                itemViewHolderNormal.itemPriceTextView.setText(ArabicString.toArabic(itemPrice.toString()));
+                itemViewHolderNormal.itemPriceTextView.setText(ArabicString.toArabic(itemPrice.toString() + " جنيه/" + itemUnit));
 
                 Glide.with(holder.itemView)
                         .load(itemImageURL)
@@ -94,7 +99,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                         if (itemViewHolderNormal.weight > 0) {
                             itemViewHolderNormal.weight -= products.get(position - 1).getStep();
                             itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
+                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
                             order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
                             orderViewModel.setOrderValue(order);
                         }
@@ -106,7 +111,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                     public void onClick(View v) {
                         itemViewHolderNormal.weight += products.get(position - 1).getStep();
                         itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                        itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
+                        itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
                         order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
                         orderViewModel.setOrderValue(order);
                     }

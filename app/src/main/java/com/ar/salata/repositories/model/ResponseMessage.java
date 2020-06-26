@@ -9,6 +9,10 @@ public class ResponseMessage {
     private String message1;
     @SerializedName(value = "company_name_en")
     private String message2;
+    @SerializedName("api_token")
+    private String token;
+    @SerializedName("order_id")
+    private int id;
 
     public String getCompanyArabicName() {
         return message1;
@@ -22,5 +26,13 @@ public class ResponseMessage {
     @Override
     public String toString() {
         return message1;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public int getId() {
+        return id;
     }
 }

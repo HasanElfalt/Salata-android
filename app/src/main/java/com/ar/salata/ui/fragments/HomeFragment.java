@@ -51,20 +51,20 @@ public class HomeFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-		if (requestCode == DIALOGREQUESTCODE && resultCode == RESULT_OK) {
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == DIALOGREQUESTCODE && resultCode == RESULT_OK) {
             Intent intent = new Intent(getContext(), AddToCartActivity.class);
             intent.putExtras(data);
             intent.putExtra(USER_ID, userViewModel.getUser().getId());
             startActivity(intent);
         }
-	}
-	
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (savedInstanceState != null) return null;
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
@@ -103,7 +103,7 @@ public class HomeFragment extends Fragment {
                                 }
                                 case SUCCESS: {
                                     loadingDialogFragment.dismiss();
-                                    ChooseAddressDialogFragment dialogFragment = new ChooseAddressDialogFragment(userViewModel.getUser().getAddresses());
+                                    ChooseAddressDialogFragment dialogFragment = new ChooseAddressDialogFragment(userViewModel.getUser().getAddresses(), userViewModel.getToken());
                                     dialogFragment.show(getActivity().getSupportFragmentManager(), null);
                                     dialogFragment.setTargetFragment(HomeFragment.this, DIALOGREQUESTCODE);
                                     break;
@@ -119,39 +119,39 @@ public class HomeFragment extends Fragment {
                     errorDialogFragment.show(getActivity().getSupportFragmentManager(), null);
                 }
             }
-		});
-		
-		toolbar = view.findViewById(R.id.toolbar_home);
-		((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-		
-		setDrawer();
-		
-		return super.onCreateView(inflater, container, savedInstanceState);
-	}
-	
-	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-	}
-	
-	@Override
-	public void onConfigurationChanged(@NonNull Configuration newConfig) {
-		super.onConfigurationChanged(newConfig);
-		toggle.onConfigurationChanged(newConfig);
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-		if (toggle.onOptionsItemSelected(item)) {
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-	
-	private void setDrawer() {
-		navigationView = getActivity().findViewById(R.id.nav_view);
-		
-		navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) getActivity());
+        });
+
+        toolbar = view.findViewById(R.id.toolbar_home);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+
+        setDrawer();
+
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void setDrawer() {
+        navigationView = getActivity().findViewById(R.id.nav_view);
+
+        navigationView.setNavigationItemSelectedListener((NavigationView.OnNavigationItemSelectedListener) getActivity());
 
         drawer = getActivity().findViewById(R.id.drawer);
         toggle = new ActionBarDrawerToggle(getActivity(), drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);

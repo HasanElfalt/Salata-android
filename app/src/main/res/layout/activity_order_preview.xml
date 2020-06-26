@@ -37,7 +37,7 @@
                         android:fontFamily="@font/calibrib"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
-                        android:text="عدل الطلب"
+                        android:text="تفاصيل الطلب"
                         android:textAlignment="gravity"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/app_bar_title_size" />

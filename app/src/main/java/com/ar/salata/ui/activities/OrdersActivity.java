@@ -1,23 +1,34 @@
 package com.ar.salata.ui.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.AutoTransition;
 import androidx.transition.TransitionManager;
 
 import com.ar.salata.R;
+import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.ui.adapters.OrdersRecyclerAdapter;
+import com.ar.salata.ui.fragments.ErrorDialogFragment;
+import com.ar.salata.ui.fragments.LoadingDialogFragment;
+import com.ar.salata.viewmodels.OrderViewModel;
+import com.ar.salata.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OrdersActivity extends BaseActivity {
     private RecyclerView upcomingOrdersRecyclerView;
@@ -31,6 +42,13 @@ public class OrdersActivity extends BaseActivity {
     private TextView expandPreviousOrdersTextView;
     private TextView expandUpcomingOrdersTextView;
     private Toolbar toolbar;
+    private OrderViewModel orderViewModel;
+    private UserViewModel userViewModel;
+    private MutableLiveData<UserRepository.APIResponse> loadOrdersResponse;
+    private MutableLiveData<List<Order>> getOrdersResponse;
+    private OrdersRecyclerAdapter previousOrdersRecyclerAdapter;
+    private OrdersRecyclerAdapter upcomingOrdersRecyclerAdapter;
+    private MutableLiveData<UserRepository.APIResponse> orderDeleteResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +69,42 @@ public class OrdersActivity extends BaseActivity {
         upcomingOrders = new ArrayList<Order>();
         previousOrders = new ArrayList<Order>();
 
+        orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+
+        upcomingOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, upcomingOrders, orderViewModel, userViewModel, true);
+        previousOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, previousOrders, orderViewModel, userViewModel, false);
+
+        loadOrdersResponse = orderViewModel.loadOrders(userViewModel.getToken());
+
+        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+        loadingDialogFragment.show(getSupportFragmentManager(), null);
+
+        loadOrdersResponse.observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                switch (apiResponse) {
+                    case SUCCESS:
+                        refreshOrders(loadingDialogFragment);
+                        break;
+                    case ERROR: {
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                        break;
+                    }
+                    case FAILED: {
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                        break;
+                    }
+                }
+            }
+        });
+
 /*
         for (int i = 0; i < 2; i++) {
             upcomingOrders.add(new Order("1",
@@ -67,14 +121,8 @@ public class OrdersActivity extends BaseActivity {
             );
         }
 */
-        upcomingOrdersRecyclerView.setAdapter(new OrdersRecyclerAdapter(this,
-                upcomingOrders,
-                true)
-        );
-        previousOrdersRecyclerView.setAdapter(new OrdersRecyclerAdapter(this
-                , upcomingOrders,
-                false)
-        );
+        upcomingOrdersRecyclerView.setAdapter(upcomingOrdersRecyclerAdapter);
+        previousOrdersRecyclerView.setAdapter(previousOrdersRecyclerAdapter);
 
         upcomingOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         previousOrdersRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -120,6 +168,28 @@ public class OrdersActivity extends BaseActivity {
 
     }
 
+    private void refreshOrders(@Nullable LoadingDialogFragment loadingDialogFragment) {
+        getOrdersResponse = orderViewModel.getOrders();
+        getOrdersResponse.observe(OrdersActivity.this, new Observer<List<Order>>() {
+            @Override
+            public void onChanged(List<Order> orders) {
+                previousOrders.clear();
+                upcomingOrders.clear();
+                for (Order order : orders) {
+                    if (order.isOrderFulfilled()) {
+                        previousOrders.add(order);
+                    } else {
+                        upcomingOrders.add(order);
+                    }
+                }
+                previousOrdersRecyclerAdapter.notifyDataSetChanged();
+                upcomingOrdersRecyclerAdapter.notifyDataSetChanged();
+                if (loadingDialogFragment != null)
+                    loadingDialogFragment.dismiss();
+            }
+        });
+    }
+
     @Override
     Toolbar deliverToolBar() {
         return findViewById(R.id.toolbar_orders);
@@ -130,4 +200,29 @@ public class OrdersActivity extends BaseActivity {
         return R.layout.activity_orders;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void deleteOrder(int orderId) {
+        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+        loadingDialogFragment.show(getSupportFragmentManager(), null);
+        orderDeleteResponse = orderViewModel.deleteOrder(userViewModel.getToken(), orderId);
+        orderDeleteResponse.observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse response) {
+                switch (response) {
+                    case SUCCESS:
+                        refreshOrders(loadingDialogFragment);
+                        break;
+                    case ERROR:
+                    case FAILED:
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("خطأ", "لم يتم حذف اللطلب", false);
+                        errorDialogFragment.show(getSupportFragmentManager(), null);
+                }
+            }
+        });
+    }
 }

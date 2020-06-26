@@ -193,9 +193,7 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     }
                     case ERROR: {
                         loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تسجيل الخروج", false);
-                        dialogFragment.show(getSupportFragmentManager(), null);
+						userViewModel.clearUser();
                         break;
                     }
                 }
@@ -235,12 +233,14 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                     public void onChanged(UserRepository.APIResponse apiResponse) {
                         switch (apiResponse) {
                             case ERROR: {
-                                loadingDialogFragment.dismiss();
-                                ErrorDialogFragment dialogFragment =
-                                        new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
-                                dialogFragment.show(getSupportFragmentManager(), null);
-                                break;
-                            }
+								loadingDialogFragment.dismiss();
+								ErrorDialogFragment dialogFragment =
+										new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+								dialogFragment.show(getSupportFragmentManager(), null);
+								userViewModel.clearUser();
+								showLoginHeader();
+								break;
+							}
                             case FAILED: {
                                 loadingDialogFragment.dismiss();
                                 ErrorDialogFragment dialogFragment =

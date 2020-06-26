@@ -1,79 +1,130 @@
 package com.ar.salata.repositories.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.ar.salata.ui.utils.TimeFormats;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Order extends RealmObject {
+public class Order extends RealmObject implements Parcelable {
 
-    @SerializedName("order_id")
-    private String orderId;
-    @SerializedName("order_date_day")
-    private String orderDateDay;
-    @SerializedName("order_date_hour")
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order createFromParcel(Parcel in) {
+            return new Order(in);
+        }
+
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+    };
+    @PrimaryKey
+    @SerializedName("id")
+    private int orderId = -1;
+    //    @SerializedName("order_date_day")
+//    private String orderDateDay;
+//    @SerializedName("order_date_hour")
     private String orderDateHour;
-    @SerializedName("order_price")
-    private double orderPrice = 0;
     @SerializedName("shift_id")
     private int shiftId;
     @SerializedName("address_id")
     private int addressId;
     @SerializedName("user_id")
     private int userId;
-    @SerializedName("delivery_date")
     private String deliveryDate;
     private RealmList<OrderUnit> units = new RealmList<>();
-
-    @PrimaryKey
-    private String orderLocalId;
-    private int orderImage;
+    @SerializedName("total_price")
+    private double orderPrice = 0;
+    //    @PrimaryKey
+//    private String orderLocalId;
+    @SerializedName("delivery_date")
+    private long orderDeliveryMS;
+    @SerializedName("expiry")
+    private long expiry;
+    @SerializedName("brochure_image")
+    private String brochureImage;
+    @SerializedName("discount")
+    private double discount;
     private boolean orderFulfilled;
+    private boolean isSubmitted = false;
 
+    public Order() {
+    }
 
     public Order(int shiftId,
                  int addressId,
                  int userId,
-                 String deliveryDate) {
+                 long deliveryDateMS,
+                 String deliveryDate,
+                 String deliveryHour) {
 
         this.shiftId = shiftId;
         this.addressId = addressId;
         this.userId = userId;
         this.deliveryDate = deliveryDate;
+        this.orderDeliveryMS = deliveryDateMS;
         this.orderPrice = orderPrice;
-        this.orderLocalId = UUID.randomUUID().toString();
+        this.orderDateHour = deliveryHour;
+//        this.orderLocalId = UUID.randomUUID().toString();
     }
 
-    public Order() {
+    protected Order(Parcel in) {
+        orderId = in.readInt();
+//        orderDateDay = in.readString();
+        orderDateHour = in.readString();
+        orderPrice = in.readDouble();
+        shiftId = in.readInt();
+        addressId = in.readInt();
+        userId = in.readInt();
+        deliveryDate = in.readString();
+//        orderLocalId = in.readString();
+        orderDeliveryMS = in.readLong();
+        expiry = in.readLong();
+        brochureImage = in.readString();
+        discount = in.readDouble();
+        isSubmitted = in.readByte() != 0;
+//        orderImage = in.readInt();
+        orderFulfilled = in.readByte() != 0;
+        units = new RealmList<OrderUnit>();
+        units.addAll(in.createTypedArrayList(OrderUnit.CREATOR));
     }
 
-    public String getOrderId() {
+    public int getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(String orderId) {
+    public void setOrderId(int orderId) {
         this.orderId = orderId;
     }
 
     public String getOrderDateDay() {
-        return orderDateDay;
+        return TimeFormats.convertToString("E yyyy/MM/d", orderDeliveryMS);
     }
 
-    public void setOrderDateDay(String orderDateDay) {
-        this.orderDateDay = orderDateDay;
+//    public void setOrderDateDay(String orderDateDay) {
+//        this.orderDateDay = orderDateDay;
+//    }
+
+    public String getOrderDateHour(boolean fromLong) {
+        if (fromLong)
+            return TimeFormats.getArabicHour(orderDeliveryMS);
+        else if (orderDateHour == null)
+            return TimeFormats.getArabicHour(orderDeliveryMS);
+        else
+            return orderDateHour;
     }
 
-    public String getOrderDateHour() {
-        return orderDateHour;
-    }
-
-    public void setOrderDateHour(String orderDateHour) {
-        this.orderDateHour = orderDateHour;
-    }
+//    public void setOrderDateHour(String orderDateHour) {
+//        this.orderDateHour = orderDateHour;
+//    }
 
     public double getOrderPrice() {
         return orderPrice;
@@ -83,13 +134,13 @@ public class Order extends RealmObject {
         this.orderPrice = orderPrice;
     }
 
-    public int getOrderImage() {
-        return orderImage;
-    }
+//    public int getOrderImage() {
+//        return orderImage;
+//    }
 
-    public void setOrderImage(int orderImage) {
-        this.orderImage = orderImage;
-    }
+//    public void setOrderImage(int orderImage) {
+//        this.orderImage = orderImage;
+//    }
 
     public int getShiftId() {
         return shiftId;
@@ -157,11 +208,103 @@ public class Order extends RealmObject {
         }
     }
 
-    public String getOrderLocalId() {
-        return orderLocalId;
+//    public String getOrderLocalId() {
+//        return orderLocalId;
+//    }
+//
+//    public void setOrderLocalId(String orderLocalId) {
+//        this.orderLocalId = orderLocalId;
+//    }
+
+    public boolean isSubmitted() {
+        return isSubmitted;
     }
 
-    public void setOrderLocalId(String orderLocalId) {
-        this.orderLocalId = orderLocalId;
+    public void setSubmitted(boolean submitted) {
+        isSubmitted = submitted;
     }
+
+    public long getOrderDeliveryMS() {
+        return orderDeliveryMS;
+    }
+
+    public void setOrderDeliveryMS(long orderDeliveryMS) {
+        this.orderDeliveryMS = orderDeliveryMS;
+    }
+
+    public long getExpiry() {
+        return expiry;
+    }
+
+    public void setExpiry(long expiry) {
+        this.expiry = expiry;
+    }
+
+    public boolean isModifiable() {
+        Date now = new Date();
+        Date expiry = new Date(getExpiry() * 1000);
+        if (now.compareTo(expiry) < 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public String getBrochureImage() {
+        return brochureImage;
+    }
+
+    public void setBrochureImage(String brochureImage) {
+        this.brochureImage = brochureImage;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(orderId);
+//        dest.writeString(orderDateDay);
+        dest.writeString(orderDateHour);
+        dest.writeDouble(orderPrice);
+        dest.writeInt(shiftId);
+        dest.writeInt(addressId);
+        dest.writeInt(userId);
+        dest.writeString(deliveryDate);
+//        dest.writeString(orderLocalId);
+        dest.writeLong(orderDeliveryMS);
+        dest.writeLong(expiry);
+        dest.writeString(brochureImage);
+        dest.writeDouble(discount);
+        dest.writeByte((byte) (isSubmitted ? 1 : 0));
+//        dest.writeInt(orderImage);
+        dest.writeByte((byte) (orderFulfilled ? 1 : 0));
+        dest.writeTypedList(units);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Order)) return false;
+        Order order = (Order) o;
+        for (OrderUnit unit : getUnits()) {
+            if (!order.getUnits().contains(unit)) return false;
+        }
+        return true;
+    }
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(getUnits());
+//    }
 }

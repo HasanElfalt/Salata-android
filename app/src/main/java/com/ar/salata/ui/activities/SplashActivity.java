@@ -11,6 +11,7 @@ import com.ar.salata.R;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.viewmodels.AddressViewModel;
+import com.ar.salata.viewmodels.AppConfigViewModel;
 import com.ar.salata.viewmodels.GoodsViewModel;
 import com.ar.salata.viewmodels.SliderItemViewModel;
 
@@ -21,16 +22,23 @@ public class SplashActivity extends AppCompatActivity {
     private boolean sliderItemsLoaded = false;
     private boolean categoriesItemsLoaded = false;
     private boolean productsItemsLoaded = false;
+    private boolean phonesLoaded = false;
+    private boolean minimumPurchasesLoaded;
     private Error error;
+    private AddressViewModel addressViewModel;
+    private SliderItemViewModel sliderItemViewModel;
+    private GoodsViewModel goodsViewModel;
+    private AppConfigViewModel appConfigViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        AddressViewModel addressViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
-        SliderItemViewModel sliderItemViewModel = new ViewModelProvider(this).get(SliderItemViewModel.class);
-        GoodsViewModel goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
+        addressViewModel = new ViewModelProvider(this).get(AddressViewModel.class);
+        sliderItemViewModel = new ViewModelProvider(this).get(SliderItemViewModel.class);
+        goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
+        appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
 
         addressViewModel.loadCities().observe(this, new Observer<UserRepository.APIResponse>() {
             @Override
@@ -41,12 +49,12 @@ public class SplashActivity extends AppCompatActivity {
         });
         addressViewModel.loadTowns().observe(this, new Observer<UserRepository.APIResponse>() {
             @Override
-			public void onChanged(UserRepository.APIResponse apiResponse) {
+            public void onChanged(UserRepository.APIResponse apiResponse) {
                 townsLoaded = handleResponse(apiResponse);
                 endSplash();
             }
-		});
-		addressViewModel.loadZones().observe(this, new Observer<UserRepository.APIResponse>() {
+        });
+        addressViewModel.loadZones().observe(this, new Observer<UserRepository.APIResponse>() {
             @Override
             public void onChanged(UserRepository.APIResponse apiResponse) {
                 zonesLoaded = handleResponse(apiResponse);
@@ -73,6 +81,22 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onChanged(UserRepository.APIResponse apiResponse) {
                 productsItemsLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
+
+        appConfigViewModel.loadPhones().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                phonesLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
+
+        appConfigViewModel.loadMinimumPurchases().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                minimumPurchasesLoaded = handleResponse(apiResponse);
                 endSplash();
             }
         });
@@ -105,7 +129,7 @@ public class SplashActivity extends AppCompatActivity {
                     new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
             dialogFragment.show(getSupportFragmentManager(), null);
         } else if (citiesLoaded && townsLoaded && zonesLoaded && sliderItemsLoaded
-                && categoriesItemsLoaded && productsItemsLoaded) {
+                && categoriesItemsLoaded && productsItemsLoaded && phonesLoaded && minimumPurchasesLoaded) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
 

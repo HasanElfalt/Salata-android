@@ -23,24 +23,28 @@ public class UserViewModel extends ViewModel {
 	public void loginUser(AuthenticationUser user) {
 		authenticationStateObservable = userRepository.loginUser(user);
 	}
-	
+
 	public MutableLiveData<UserRepository.Authentication> getAuthenticationStateObservable() {
 		return authenticationStateObservable;
 	}
-	
+
 	public User getUser() {
 		return userRepository.getUser();
 	}
-	
+
 	public MutableLiveData<UserRepository.APIResponse> getUser(APIToken token) {
 		return userRepository.getUser(token);
 	}
-	
+
 	public APIToken getToken() {
 		return userRepository.getToken();
 	}
-	
+
 	public MutableLiveData<UserRepository.APIResponse> signOut(APIToken token) {
 		return userRepository.signOut(token);
+	}
+
+	public void clearUser() {
+		userRepository.clearUser();
 	}
 }

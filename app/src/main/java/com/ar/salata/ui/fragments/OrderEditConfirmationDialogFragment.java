@@ -1,10 +1,11 @@
 package com.ar.salata.ui.fragments;
 
-import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -12,11 +13,25 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.ar.salata.R;
+import com.ar.salata.ui.activities.OrderEditActivity;
+import com.ar.salata.ui.activities.OrdersActivity;
 
 public class OrderEditConfirmationDialogFragment extends DialogFragment {
 
-    public static OrderEditConfirmationDialogFragment newInstance() {
-        return new OrderEditConfirmationDialogFragment();
+    private TextView confirmTitleTextView;
+    private TextView confirmMessageTextView;
+    private String confirmTitle;
+    private String confirmMessage;
+    private Integer orderId;
+
+    public OrderEditConfirmationDialogFragment(String confirmTitle, String confirmMessage, @Nullable Integer orderId) {
+        this.confirmMessage = confirmMessage;
+        this.confirmTitle = confirmTitle;
+        this.orderId = orderId;
+    }
+
+    public static OrderEditConfirmationDialogFragment newInstance(String confirmTitle, String confirmMessage, @Nullable Integer orderId) {
+        return new OrderEditConfirmationDialogFragment(confirmTitle, confirmMessage, orderId);
     }
 
     @NonNull
@@ -27,16 +42,21 @@ public class OrderEditConfirmationDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.dialog_confirm, null, false);
         builder.setView(view);
 
+        confirmTitleTextView = view.findViewById(R.id.tv_dialog_title);
+        confirmMessageTextView = view.findViewById(R.id.tv_dialog_message);
+
+        confirmTitleTextView.setText(confirmTitle);
+        confirmMessageTextView.setText(confirmMessage);
+
         view.findViewById(R.id.btn_confirm_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-/*
-                Intent intent = new Intent(getActivity(), OrderEditActivity.class);
-                startActivity(intent);
-*/
-
-                getActivity().setResult(Activity.RESULT_OK);
-                getActivity().finish();
+                if (orderId != null) {
+                    Intent intent = new Intent();
+                    ((OrdersActivity) getActivity()).deleteOrder(orderId.intValue());
+                } else {
+                    ((OrderEditActivity) getActivity()).editOrder();
+                }
                 dismiss();
             }
         });

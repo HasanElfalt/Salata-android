@@ -8,8 +8,11 @@ import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.Order;
 
+import java.util.List;
+
 public class OrderViewModel extends ViewModel {
-    public static final String ORDER_ID = "OrderId";
+    public static final String ORDER = "Order";
+    public static final String ORDER_ID = "OrderID";
     private OrderRepository orderRepository = new OrderRepository();
     private MutableLiveData<Order> orderMutableLiveData = new MutableLiveData<>();
 
@@ -17,12 +20,16 @@ public class OrderViewModel extends ViewModel {
         return orderRepository.submitOrder(token, order);
     }
 
-    public String createOrder(Order order) {
-        return orderRepository.createOrder(order);
+//    public String createOrder(Order order) {
+//        return orderRepository.createOrder(order);
+//    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadOrderProducts(APIToken token, int id) {
+        return orderRepository.loadOrderProducts(token, id);
     }
 
-    public Order getOrder(String id) {
-        return orderRepository.getOrder(id);
+    public void updateOrder(Order order) {
+        orderRepository.updateOrder(order);
     }
 
     public void setOrderValue(Order order) {
@@ -31,5 +38,21 @@ public class OrderViewModel extends ViewModel {
 
     public MutableLiveData<Order> getOrderMutableLiveData() {
         return orderMutableLiveData;
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadOrders(APIToken token) {
+        return orderRepository.loadOrders(token);
+    }
+
+    public MutableLiveData<List<Order>> getOrders() {
+        return orderRepository.getOrders();
+    }
+
+    public Order getOrder(int id) {
+        return orderRepository.getOrder(id);
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> deleteOrder(APIToken token, int id) {
+        return orderRepository.deleteOrder(token, id);
     }
 }
