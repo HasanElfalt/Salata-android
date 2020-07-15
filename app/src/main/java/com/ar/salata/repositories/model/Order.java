@@ -106,7 +106,7 @@ public class Order extends RealmObject implements Parcelable {
     }
 
     public String getOrderDateDay() {
-        return TimeFormats.convertToString("E yyyy/MM/d", orderDeliveryMS);
+        return TimeFormats.convertToArabicString("E yyyy/MM/d", orderDeliveryMS);
     }
 
 //    public void setOrderDateDay(String orderDateDay) {
@@ -114,9 +114,7 @@ public class Order extends RealmObject implements Parcelable {
 //    }
 
     public String getOrderDateHour(boolean fromLong) {
-        if (fromLong)
-            return TimeFormats.getArabicHour(orderDeliveryMS);
-        else if (orderDateHour == null)
+        if (fromLong || orderDateHour == null)
             return TimeFormats.getArabicHour(orderDeliveryMS);
         else
             return orderDateHour;
@@ -167,6 +165,8 @@ public class Order extends RealmObject implements Parcelable {
     }
 
     public String getDeliveryDate() {
+        if (deliveryDate == null)
+            return TimeFormats.convertToEnglishString("yyyy-MM-dd", orderDeliveryMS);
         return deliveryDate;
     }
 
@@ -299,6 +299,9 @@ public class Order extends RealmObject implements Parcelable {
         Order order = (Order) o;
         for (OrderUnit unit : getUnits()) {
             if (!order.getUnits().contains(unit)) return false;
+        }
+        for (OrderUnit unit : order.getUnits()) {
+            if (!getUnits().contains(unit)) return false;
         }
         return true;
     }

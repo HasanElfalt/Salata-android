@@ -55,4 +55,8 @@ public class OrderViewModel extends ViewModel {
     public MutableLiveData<UserRepository.APIResponse> deleteOrder(APIToken token, int id) {
         return orderRepository.deleteOrder(token, id);
     }
+
+    public MutableLiveData<UserRepository.APIResponse> updateOrder(APIToken token, Order order) {
+        return orderRepository.updateOrder(token, order);
+    }
 }

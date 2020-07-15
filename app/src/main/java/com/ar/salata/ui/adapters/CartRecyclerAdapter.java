@@ -91,7 +91,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
 
 
                 itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight * itemPrice)));
+                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
 
                 itemViewHolderNormal.decrementImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override

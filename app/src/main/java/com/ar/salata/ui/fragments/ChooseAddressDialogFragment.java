@@ -87,7 +87,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                     daysGroup.removeAllViews();
                     for (DeliveryDate day : address.getDates()) {
                         RadioButton radioButton = new RadioButton(getContext(), null, R.attr.RadioButtonStyle, R.style.RectangleRadioBtn);
-                        radioButton.setText(TimeFormats.convertToString("E، d MMM yyyy", day.getDate()));
+                        radioButton.setText(TimeFormats.convertToArabicString("E، d MMM yyyy", day.getDate()));
 
                         radioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                             @Override

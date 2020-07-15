@@ -75,6 +75,7 @@ public class OrderRepository {
                     realm.where(APIToken.class).findAll().deleteAllFromRealm();
                     realm.insert(new APIToken(response.body().getToken()));
                     order.setOrderId(response.body().getId());
+                    order.setSubmitted(true);
                     realm.insertOrUpdate(order);
                     realm.commitTransaction();
                     realm.close();
@@ -232,5 +233,50 @@ public class OrderRepository {
         }
         realm.close();
         return order;
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> updateOrder(APIToken token, Order order) {
+        MutableLiveData<UserRepository.APIResponse> apiResponse =
+                new MutableLiveData<>();
+
+        HashMap<String, Double> units = new HashMap<String, Double>();
+        for (OrderUnit unit : order.getUnits()) {
+            units.put(String.valueOf(unit.getProductId()), unit.getCount());
+        }
+
+        OrderAssociative orderAssociative = new OrderAssociative(units,
+                token.toString(),
+                order.getOrderPrice(),
+                order.getShiftId(),
+                order.getAddressId(),
+                order.getUserId(),
+                order.getOrderId(),
+                order.getDeliveryDate());
+
+        orderAPI.updateOrder(orderAssociative).enqueue(new Callback<ResponseMessage>() {
+            @Override
+            public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
+                if (response.isSuccessful()) {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.where(APIToken.class).findAll().deleteAllFromRealm();
+                    realm.insert(new APIToken(response.body().getToken()));
+                    realm.where(Order.class).equalTo("orderId", order.getOrderId());
+                    order.setOrderId(response.body().getId());
+                    realm.insertOrUpdate(order);
+                    realm.commitTransaction();
+                    realm.close();
+                    apiResponse.setValue(UserRepository.APIResponse.SUCCESS);
+                } else {
+                    apiResponse.setValue(UserRepository.APIResponse.ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseMessage> call, Throwable t) {
+                apiResponse.setValue(UserRepository.APIResponse.FAILED);
+            }
+        });
+        return apiResponse;
     }
 }

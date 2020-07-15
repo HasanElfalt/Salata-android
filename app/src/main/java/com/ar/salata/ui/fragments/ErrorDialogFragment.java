@@ -1,5 +1,6 @@
 package com.ar.salata.ui.fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,32 +32,35 @@ public class ErrorDialogFragment extends DialogFragment {
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
         View view = getLayoutInflater().inflate(R.layout.dialog_error, null);
-		
-		TextView errorTitleTextView = view.findViewById(R.id.tv_dialog_error_title);
-		TextView errorMessageTextView = view.findViewById(R.id.tv_dialog_error_message);
-		
-		Button neutralButton = view.findViewById(R.id.btn_confirm_error_dialog);
-		
-		errorTitleTextView.setText(errorTitle);
-		errorMessageTextView.setText(errorMessage);
-		
-		neutralButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
+
+        TextView errorTitleTextView = view.findViewById(R.id.tv_dialog_error_title);
+        TextView errorMessageTextView = view.findViewById(R.id.tv_dialog_error_message);
+
+        Button neutralButton = view.findViewById(R.id.btn_confirm_error_dialog);
+
+        errorTitleTextView.setText(errorTitle);
+        errorMessageTextView.setText(errorMessage);
+
+        neutralButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
                 dismiss();
-                if (finishActivity) getActivity().finish();
+                if (finishActivity) {
+                    ErrorDialogFragment.this.getActivity().setResult(Activity.RESULT_OK);
+                    ErrorDialogFragment.this.getActivity().finish();
+                }
             }
-		});
-		
-		AlertDialog dialog = new AlertDialog.Builder(getContext()).setView(view).create();
-		dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-		
-		return dialog;
-	}
-	
-	@Nullable
-	@Override
-	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.dialog_error, container, false);
-	}
+        });
+
+        AlertDialog dialog = new AlertDialog.Builder(getContext()).setView(view).create();
+        dialog.getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+        return dialog;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.dialog_error, container, false);
+    }
 }

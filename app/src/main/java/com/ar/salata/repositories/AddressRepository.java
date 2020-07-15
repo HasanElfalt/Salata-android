@@ -9,6 +9,7 @@ import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.AddressList;
 import com.ar.salata.repositories.model.City;
 import com.ar.salata.repositories.model.CityList;
+import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.ResponseMessage;
 import com.ar.salata.repositories.model.Town;
 import com.ar.salata.repositories.model.TownList;
@@ -238,5 +239,30 @@ public class AddressRepository {
             }
         });
         return apiResponse;
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> deleteAddress(APIToken token, int addressId) {
+        MutableLiveData<UserRepository.APIResponse> result = new MutableLiveData<>();
+        addressAPI.deleteAddress(token.toString(), addressId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    Realm realm = Realm.getDefaultInstance();
+                    realm.beginTransaction();
+                    realm.where(UserAddress.class).equalTo("addressId", addressId).findFirst().deleteFromRealm();
+                    realm.commitTransaction();
+                    realm.close();
+                    result.setValue(UserRepository.APIResponse.SUCCESS);
+                } else {
+                    result.setValue(UserRepository.APIResponse.ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                result.setValue(UserRepository.APIResponse.FAILED);
+            }
+        });
+        return result;
     }
 }

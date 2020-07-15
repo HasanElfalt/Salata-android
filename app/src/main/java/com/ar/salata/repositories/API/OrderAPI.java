@@ -8,8 +8,10 @@ import com.ar.salata.repositories.model.ResponseMessage;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface OrderAPI {
@@ -26,6 +28,6 @@ public interface OrderAPI {
     @DELETE("/api/deleteOrder")
     Call<String> deleteOrder(@Query("api_token") String token, @Query("order_id") int id);
 
-//    @PUT("/api/updateOrder")
-//    Call
+    @PUT("/api/updateOrder")
+    Call<ResponseMessage> updateOrder(@Body OrderAssociative order);
 }

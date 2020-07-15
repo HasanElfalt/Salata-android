@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.activities.UpdatePasswordActivity"></activity>
-        <activity android:name=".ui.activities.UserProfileِActivity" />
+        <activity android:name=".ui.activities.UpdateUserActivity" />
+        <activity android:name=".ui.activities.UpdatePasswordActivity" />
+        <activity android:name=".ui.activities.UserProfileActivity" />
         <activity android:name=".ui.activities.OrderDetailActivity" />
         <activity android:name=".ui.activities.OrderEditActivity" />
         <activity android:name=".ui.activities.OrderPreviewActivity" />

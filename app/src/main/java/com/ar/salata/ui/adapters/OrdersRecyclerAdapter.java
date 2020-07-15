@@ -27,6 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 
 import static com.ar.salata.viewmodels.OrderViewModel.ORDER_ID;
+import static java.lang.Math.round;
 
 public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
     private final OrderViewModel orderViewModel;
@@ -65,7 +66,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
         viewHolderUpcoming.orderId.setText(ArabicString.toArabic(String.valueOf(orders.get(position).getOrderId())));
         viewHolderUpcoming.orderDateDay.setText(ArabicString.toArabic(orders.get(position).getOrderDateDay()));
         viewHolderUpcoming.orderDateHour.setText(ArabicString.toArabic(orders.get(position).getOrderDateHour(true)));
-        viewHolderUpcoming.orderPrice.setText(ArabicString.toArabic(String.valueOf(orders.get(position).getOrderPrice())));
+        viewHolderUpcoming.orderPrice.setText(ArabicString.toArabic(String.valueOf(round(orders.get(position).getOrderPrice() * 100) / 100.0)));
 
 //        viewHolderUpcoming.orderImage.setImageResource(orders.get(position).getOrderImage());
         Glide.with(holder.itemView)
@@ -91,7 +92,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, OrderPreviewActivity.class);
                     intent.putExtra(ORDER_ID, orders.get(position).getOrderId());
-                    context.startActivity(intent);
+                    ((OrdersActivity) context).startActivityForResult(intent, OrdersActivity.UPDATE_ORDER);
                 }
             });
             viewHolderUpcoming.cancelOrder.setOnClickListener(new View.OnClickListener() {

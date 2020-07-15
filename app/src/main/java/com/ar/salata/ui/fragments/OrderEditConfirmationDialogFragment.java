@@ -1,7 +1,6 @@
 package com.ar.salata.ui.fragments;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.fragment.app.DialogFragment;
 import com.ar.salata.R;
 import com.ar.salata.ui.activities.OrderEditActivity;
 import com.ar.salata.ui.activities.OrdersActivity;
+import com.ar.salata.ui.activities.UserProfileActivity;
 
 public class OrderEditConfirmationDialogFragment extends DialogFragment {
 
@@ -22,12 +22,12 @@ public class OrderEditConfirmationDialogFragment extends DialogFragment {
     private TextView confirmMessageTextView;
     private String confirmTitle;
     private String confirmMessage;
-    private Integer orderId;
+    private Integer id;
 
-    public OrderEditConfirmationDialogFragment(String confirmTitle, String confirmMessage, @Nullable Integer orderId) {
+    public OrderEditConfirmationDialogFragment(String confirmTitle, String confirmMessage, @Nullable Integer id) {
         this.confirmMessage = confirmMessage;
         this.confirmTitle = confirmTitle;
-        this.orderId = orderId;
+        this.id = id;
     }
 
     public static OrderEditConfirmationDialogFragment newInstance(String confirmTitle, String confirmMessage, @Nullable Integer orderId) {
@@ -51,11 +51,12 @@ public class OrderEditConfirmationDialogFragment extends DialogFragment {
         view.findViewById(R.id.btn_confirm_dialog).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (orderId != null) {
-                    Intent intent = new Intent();
-                    ((OrdersActivity) getActivity()).deleteOrder(orderId.intValue());
-                } else {
+                if (getActivity() instanceof OrdersActivity) {
+                    ((OrdersActivity) getActivity()).deleteOrder(id.intValue());
+                } else if (getActivity() instanceof OrderEditActivity) {
                     ((OrderEditActivity) getActivity()).editOrder();
+                } else if (getActivity() instanceof UserProfileActivity) {
+                    ((UserProfileActivity) getActivity()).deleteAddress(id.intValue());
                 }
                 dismiss();
             }

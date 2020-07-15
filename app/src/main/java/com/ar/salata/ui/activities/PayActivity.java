@@ -66,7 +66,7 @@ public class PayActivity extends BaseActivity {
             public void onClick(View v) {
                 double minimum = appConfigViewModel.getMinimumPurchases();
                 if (order.getOrderPrice() < minimum) {
-                    ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("خطأ", "الحد الادنى لقيمة الفاتورة هى " + minimum, false);
+                    ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("خطأ", "الحد الادنى لقيمة الفاتورة هى " + minimum + " جنيه", false);
                     errorDialogFragment.show(getSupportFragmentManager(), null);
                     return;
                 }
@@ -81,8 +81,8 @@ public class PayActivity extends BaseActivity {
                             case SUCCESS: {
                                 loadingDialogFragment.dismiss();
                                 startActivityForResult(intent, REQUESTORDER);
-                                order.setSubmitted(true);
-                                orderViewModel.updateOrder(order);
+//                                order.setSubmitted(true);
+//                                orderViewModel.updateOrder(order);
                                 break;
                             }
                             case ERROR: {

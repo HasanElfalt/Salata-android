@@ -27,6 +27,7 @@
         android:fontFamily="@font/calibri"
         android:text="هل تريد بالفعل تعديل الطلب رقم 1؟"
         android:textColor="@color/colorFont"
+        android:lineSpacingExtra="4dp"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"

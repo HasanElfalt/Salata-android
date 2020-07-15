@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrdersActivity extends BaseActivity {
+    public static final int UPDATE_ORDER = 1;
     private RecyclerView upcomingOrdersRecyclerView;
     private RecyclerView previousOrdersRecyclerView;
     private ArrayList<Order> upcomingOrders;
@@ -75,52 +76,8 @@ public class OrdersActivity extends BaseActivity {
         upcomingOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, upcomingOrders, orderViewModel, userViewModel, true);
         previousOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, previousOrders, orderViewModel, userViewModel, false);
 
-        loadOrdersResponse = orderViewModel.loadOrders(userViewModel.getToken());
+        loadOrders();
 
-        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
-        loadingDialogFragment.show(getSupportFragmentManager(), null);
-
-        loadOrdersResponse.observe(this, new Observer<UserRepository.APIResponse>() {
-            @Override
-            public void onChanged(UserRepository.APIResponse apiResponse) {
-                switch (apiResponse) {
-                    case SUCCESS:
-                        refreshOrders(loadingDialogFragment);
-                        break;
-                    case ERROR: {
-                        loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
-                        dialogFragment.show(getSupportFragmentManager(), null);
-                        break;
-                    }
-                    case FAILED: {
-                        loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
-                        dialogFragment.show(getSupportFragmentManager(), null);
-                        break;
-                    }
-                }
-            }
-        });
-
-/*
-        for (int i = 0; i < 2; i++) {
-            upcomingOrders.add(new Order("1",
-                    "2020/4/22",
-                    "01:00",
-                    500.0,
-                    R.drawable.ic_launcher_background)
-            );
-            previousOrders.add(new Order("1",
-                    "2020/4/22",
-                    "01:00",
-                    500.0,
-                    R.drawable.ic_launcher_background)
-            );
-        }
-*/
         upcomingOrdersRecyclerView.setAdapter(upcomingOrdersRecyclerAdapter);
         previousOrdersRecyclerView.setAdapter(previousOrdersRecyclerAdapter);
 
@@ -168,6 +125,38 @@ public class OrdersActivity extends BaseActivity {
 
     }
 
+    private void loadOrders() {
+        loadOrdersResponse = orderViewModel.loadOrders(userViewModel.getToken());
+
+        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+        loadingDialogFragment.show(getSupportFragmentManager(), null);
+
+        loadOrdersResponse.observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                switch (apiResponse) {
+                    case SUCCESS:
+                        refreshOrders(loadingDialogFragment);
+                        break;
+                    case ERROR: {
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                        break;
+                    }
+                    case FAILED: {
+                        loadingDialogFragment.dismiss();
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                        break;
+                    }
+                }
+            }
+        });
+    }
+
     private void refreshOrders(@Nullable LoadingDialogFragment loadingDialogFragment) {
         getOrdersResponse = orderViewModel.getOrders();
         getOrdersResponse.observe(OrdersActivity.this, new Observer<List<Order>>() {
@@ -203,6 +192,9 @@ public class OrdersActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPDATE_ORDER && resultCode == RESULT_OK) {
+            loadOrders();
+        }
     }
 
     public void deleteOrder(int orderId) {

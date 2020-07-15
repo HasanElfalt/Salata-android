@@ -16,6 +16,9 @@ public class OrderAssociative {
     @SerializedName("api_token")
     private String token;
 
+    @SerializedName("order_id")
+    private int orderId;
+
     @SerializedName("order_date_day")
     private String orderDateDay;
     @SerializedName("order_date_hour")
@@ -38,6 +41,17 @@ public class OrderAssociative {
         this.shiftId = shiftId;
         this.addressId = addressId;
         this.userId = userId;
+        this.deliveryDate = deliveryDate;
+    }
+
+    public OrderAssociative(HashMap<String, Double> units, String token, double orderPrice, int shiftId, int addressId, int userId, int orderId, String deliveryDate) {
+        this.units = units;
+        this.token = token;
+        this.orderPrice = orderPrice;
+        this.shiftId = shiftId;
+        this.addressId = addressId;
+        this.userId = userId;
+        this.orderId = orderId;
         this.deliveryDate = deliveryDate;
     }
 

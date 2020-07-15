@@ -6,9 +6,15 @@ import java.util.Date;
 import java.util.Locale;
 
 public class TimeFormats {
-    public static String convertToString(String pattern, long time) {
+    public static String convertToArabicString(String pattern, long time) {
         Date date = new Date(time * 1000);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, new Locale("ar", "EG"));
+        return simpleDateFormat.format(date);
+    }
+
+    public static String convertToEnglishString(String pattern, long time) {
+        Date date = new Date(time * 1000);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern, Locale.US);
         return simpleDateFormat.format(date);
     }
 

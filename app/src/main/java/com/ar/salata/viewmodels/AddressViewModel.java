@@ -13,29 +13,29 @@ import com.ar.salata.repositories.model.Zone;
 import java.util.List;
 
 public class AddressViewModel extends ViewModel {
-	
-	private AddressRepository addressRepository = new AddressRepository();
-	
-	public AddressViewModel() {
-	}
-	
-	public MutableLiveData<UserRepository.APIResponse> loadCities() {
-		return addressRepository.loadCities();
-	}
-	
-	public MutableLiveData<UserRepository.APIResponse> loadTowns() {
-		return addressRepository.loadTowns();
-	}
-	
-	public MutableLiveData<UserRepository.APIResponse> loadZones() {
-		return addressRepository.loadZones();
-	}
-	
-	public List<Town> getTowns(int cityId) {
-		return addressRepository.getTowns(cityId);
-	}
-	
-	public List<Zone> getZones(int zoneId) {
+
+    private AddressRepository addressRepository = new AddressRepository();
+
+    public AddressViewModel() {
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadCities() {
+        return addressRepository.loadCities();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadTowns() {
+        return addressRepository.loadTowns();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadZones() {
+        return addressRepository.loadZones();
+    }
+
+    public List<Town> getTowns(int cityId) {
+        return addressRepository.getTowns(cityId);
+    }
+
+    public List<Zone> getZones(int zoneId) {
         return addressRepository.getZones(zoneId);
     }
 
@@ -49,5 +49,9 @@ public class AddressViewModel extends ViewModel {
 
     public MutableLiveData<UserRepository.APIResponse> loadAddresses(APIToken token) {
         return addressRepository.loadAddresses(token);
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> deleteAddress(APIToken token, int addressId) {
+        return addressRepository.deleteAddress(token, addressId);
     }
 }
