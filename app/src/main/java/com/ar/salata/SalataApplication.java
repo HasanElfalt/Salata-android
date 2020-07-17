@@ -6,7 +6,7 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class SalataApplication extends Application {
-	public final static String BASEURL = "http://192.168.1.200:8000/";
+	public final static String BASEURL = "http://salataeg.de10.fcomet.com/";
 	
 	@Override
 	public void onCreate() {
