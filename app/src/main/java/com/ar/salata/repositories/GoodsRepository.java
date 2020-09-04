@@ -135,7 +135,7 @@ public class GoodsRepository {
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
                         public void execute(Realm realm) {
-                            realm.where(StockProduct.class).findAll().deleteAllFromRealm();
+                            realm.where(Product.class).findAll().deleteAllFromRealm();
                             realm.insertOrUpdate(response.body().getProductList());
                         }
                     });
