@@ -109,11 +109,13 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 itemViewHolderNormal.incrementImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        itemViewHolderNormal.weight += products.get(position - 1).getStep();
-                        itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                        itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
-                        order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
-                        orderViewModel.setOrderValue(order);
+                        if (!(itemViewHolderNormal.weight + products.get(position - 1).getStep() > products.get(position - 1).getRemain())) {
+                            itemViewHolderNormal.weight += products.get(position - 1).getStep();
+                            itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
+                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
+                            order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
+                            orderViewModel.setOrderValue(order);
+                        }
                     }
                 });
                 break;

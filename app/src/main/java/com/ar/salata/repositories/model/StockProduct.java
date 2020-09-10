@@ -20,7 +20,12 @@ public class StockProduct extends RealmObject {
     @SerializedName("brochure_image")
     private String brochureImage;
     private String unitName;
+    private double remain;
     private int addressId;
+
+    public double getRemain() {
+        return remain;
+    }
 
     public int getAddressId() {
         return addressId;
