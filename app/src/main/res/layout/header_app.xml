@@ -13,14 +13,13 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_pay_on_delivery"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_pay_on_delivery"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_pay"
-        app:tint="@color/colorFont" />
+        app:srcCompat="@drawable/cash" />
 
     <TextView
         android:id="@+id/tv_pay_on_delivery"
@@ -41,15 +40,14 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_free_refund"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:layout_marginHorizontal="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/tv_free_refund"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_free_return"
-        app:tint="@color/colorFont" />
+        app:srcCompat="@drawable/freereturn" />
 
     <TextView
         android:id="@+id/tv_free_refund"
@@ -68,16 +66,15 @@
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/iv_free_delivery"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_free"
-        app:tint="@color/colorFont" />
+        app:srcCompat="@drawable/freedelivery" />
 
     <TextView
         android:id="@+id/tv_free_delivery"

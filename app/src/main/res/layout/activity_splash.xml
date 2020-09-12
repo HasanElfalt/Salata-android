@@ -15,10 +15,10 @@
         tools:context=".ui.activities.SplashActivity">
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_logo_colored">
+            android:layout_width="400dp"
+            android:layout_height="281dp"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/salatafinalprint_2">
 
         </ImageView>
 
