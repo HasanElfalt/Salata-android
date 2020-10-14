@@ -2,6 +2,7 @@ package com.ar.salata.ui.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -146,13 +147,34 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(HomeActivity.this, ContactUsActivity.class);
                 break;
             case R.id.nav_facebook:
-                // TODO: 3/30/2020
+                try {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=http://www.facebook.com/TechnologyBrotherhood"));
+                    startActivity(intent);
+                } catch (Exception exception) {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/TechnologyBrotherhood"));
+                    startActivity(intent);
+                }
+                intent = null;
                 break;
             case R.id.nav_twitter:
-                // TODO: 3/30/2020
+                try {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?user_id=http://www.twitter.com"));
+                    startActivity(intent);
+                } catch (Exception exception) {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitter.com"));
+                    startActivity(intent);
+                }
+                intent = null;
                 break;
             case R.id.nav_instagram:
-                // TODO: 3/30/2020
+                try {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/_u/www.instagram.com"));
+                    startActivity(intent);
+                } catch (Exception exception) {
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.instagram.com"));
+                    startActivity(intent);
+                }
+                intent = null;
                 break;
             case R.id.btn_sign_in:
                 intent = new Intent(HomeActivity.this, SignInActivity.class);

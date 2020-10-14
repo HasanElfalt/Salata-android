@@ -70,7 +70,7 @@ public class AddToCartFragment extends Fragment {
 
         if (getActivity() instanceof AddToCartActivity) {
             orderViewModel = ((AddToCartActivity) getActivity()).getOrderViewModel();
-        } else {
+        } else if (getActivity() instanceof OrderEditActivity) {
             orderViewModel = ((OrderEditActivity) getActivity()).getOrderViewModel();
         }
 
@@ -92,7 +92,14 @@ public class AddToCartFragment extends Fragment {
                         goodsViewModel.getProducts(categoryOFProductsToBeDisplayed.getCategoryID(), orderViewModel.getOrderMutableLiveData().getValue().getAddressId()).observe(getViewLifecycleOwner(), new Observer<StockProductList>() {
                             @Override
                             public void onChanged(StockProductList productList) {
-                                products.addAll(productList.getProductList());
+                                if (getActivity() instanceof AddToCartActivity) {
+                                    for (StockProduct product : productList.getProductList()) {
+                                        if (product.getRemain() > 0)
+                                            products.add(product);
+                                    }
+                                } else if (getActivity() instanceof OrderEditActivity) {
+                                    products.addAll(productList.getProductList());
+                                }
                                 cartRecyclerAdapter.notifyDataSetChanged();
                             }
                         });
