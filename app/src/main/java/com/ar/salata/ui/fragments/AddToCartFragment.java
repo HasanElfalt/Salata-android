@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ar.salata.R;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.Category;
+import com.ar.salata.repositories.model.Order;
+import com.ar.salata.repositories.model.OrderUnit;
 import com.ar.salata.repositories.model.StockProduct;
 import com.ar.salata.repositories.model.StockProductList;
 import com.ar.salata.ui.activities.AddToCartActivity;
@@ -68,16 +70,18 @@ public class AddToCartFragment extends Fragment {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
 
+        String mode = "create";
         if (getActivity() instanceof AddToCartActivity) {
             orderViewModel = ((AddToCartActivity) getActivity()).getOrderViewModel();
         } else if (getActivity() instanceof OrderEditActivity) {
             orderViewModel = ((OrderEditActivity) getActivity()).getOrderViewModel();
+            mode = "edit";
         }
 
         LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
         loadingDialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
-        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), products, orderViewModel, appConfigViewModel.getPhones());
+        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), products, orderViewModel, appConfigViewModel.getPhones(), mode);
         cartRecyclerAdapter.setHasStableIds(true);
         cartRecyclerView.setAdapter(cartRecyclerAdapter);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -98,7 +102,17 @@ public class AddToCartFragment extends Fragment {
                                             products.add(product);
                                     }
                                 } else if (getActivity() instanceof OrderEditActivity) {
-                                    products.addAll(productList.getProductList());
+//                                    products.addAll(productList.getProductList());
+                                    Order order = orderViewModel.getOrderMutableLiveData().getValue();
+                                    ArrayList<Integer> ids = new ArrayList<>();
+                                    for (OrderUnit unit : order.getUnits()) {
+                                        ids.add(unit.getProductId());
+                                    }
+                                    for (StockProduct stockProduct : productList.getProductList()) {
+                                        if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
+                                            products.add(stockProduct);
+                                        }
+                                    }
                                 }
                                 cartRecyclerAdapter.notifyDataSetChanged();
                             }

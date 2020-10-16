@@ -33,13 +33,15 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
     private OrderViewModel orderViewModel;
     private Order order;
     private List<String> phones;
+    private String mode;
 
-    public CartRecyclerAdapter(Context context, ArrayList<StockProduct> products, OrderViewModel orderViewModel, List<String> phones) {
+    public CartRecyclerAdapter(Context context, ArrayList<StockProduct> products, OrderViewModel orderViewModel, List<String> phones, String mode) {
         this.products = products;
         this.context = context;
         this.orderViewModel = orderViewModel;
         order = this.orderViewModel.getOrderMutableLiveData().getValue();
         this.phones = phones;
+        this.mode = mode;
     }
 
     @NonNull
@@ -74,9 +76,11 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 final String itemImageURL = products.get(position - 1).getInvoiceImage();
                 final String itemUnit = products.get(position - 1).getUnitName();
 
-                for (OrderUnit unit : order.getUnits()) {
-                    if (products.get(position - 1).getId() == unit.getProductId()) {
-                        itemViewHolderNormal.weight = unit.getCount();
+                double orderUnitRemain = 0;
+                for (OrderUnit tempUnit : order.getUnits()) {
+                    if (products.get(position - 1).getId() == tempUnit.getProductId()) {
+                        itemViewHolderNormal.weight = tempUnit.getCount();
+                        orderUnitRemain = tempUnit.getCount() + products.get(position - 1).getRemain();
                         break;
                     }
                 }
@@ -106,15 +110,26 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                     }
                 });
 
+                double finalOrderUnitRemain = orderUnitRemain;
                 itemViewHolderNormal.incrementImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (!(itemViewHolderNormal.weight + products.get(position - 1).getStep() > products.get(position - 1).getRemain())) {
-                            itemViewHolderNormal.weight += products.get(position - 1).getStep();
-                            itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
-                            order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
-                            orderViewModel.setOrderValue(order);
+                        if (mode == "create") {
+                            if (!(itemViewHolderNormal.weight + products.get(position - 1).getStep() > products.get(position - 1).getRemain())) {
+                                itemViewHolderNormal.weight += products.get(position - 1).getStep();
+                                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
+                                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
+                                order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
+                                orderViewModel.setOrderValue(order);
+                            }
+                        } else if (mode == "edit") {
+                            if (!(itemViewHolderNormal.weight + products.get(position - 1).getStep() > finalOrderUnitRemain)) {
+                                itemViewHolderNormal.weight += products.get(position - 1).getStep();
+                                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
+                                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
+                                order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
+                                orderViewModel.setOrderValue(order);
+                            }
                         }
                     }
                 });
