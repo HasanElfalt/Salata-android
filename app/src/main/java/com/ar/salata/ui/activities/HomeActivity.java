@@ -26,6 +26,7 @@ import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.HomeFragment;
 import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
+import com.ar.salata.viewmodels.AppConfigViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,12 +39,15 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
     private FragmentManager fragmentManager;
     private HomeFragment homeFragment;
     private UserViewModel userViewModel;
+    private AppConfigViewModel appConfigViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        appConfigViewModel = new AppConfigViewModel();
 
         setContentView(R.layout.activity_home);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -148,30 +152,35 @@ public class HomeActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_facebook:
                 try {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=http://www.facebook.com/TechnologyBrotherhood"));
+//                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("fb://facewebmodal/f?href=http://www.facebook.com/TechnologyBrotherhood"));
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appConfigViewModel.getFacebook()[0]));
                     startActivity(intent);
                 } catch (Exception exception) {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.facebook.com/TechnologyBrotherhood"));
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appConfigViewModel.getFacebook()[1]));
                     startActivity(intent);
                 }
                 intent = null;
                 break;
             case R.id.nav_twitter:
                 try {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?user_id=http://www.twitter.com"));
+//                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=EtisalatMisr"));
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appConfigViewModel.getTwitter()[0]));
                     startActivity(intent);
                 } catch (Exception exception) {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.twitter.com"));
+//                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/EtisalatMisr"));
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appConfigViewModel.getTwitter()[1]));
                     startActivity(intent);
                 }
                 intent = null;
                 break;
             case R.id.nav_instagram:
                 try {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/_u/www.instagram.com"));
+//                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://instagram.com/_u/etisalatmisr"));
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appConfigViewModel.getInstagram()[0]));
                     startActivity(intent);
                 } catch (Exception exception) {
-                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.instagram.com"));
+//                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.instagram.com/etisalatmisr"));
+                    intent = new Intent(Intent.ACTION_VIEW, Uri.parse(appConfigViewModel.getInstagram()[1]));
                     startActivity(intent);
                 }
                 intent = null;

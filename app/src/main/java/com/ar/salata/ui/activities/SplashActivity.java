@@ -23,6 +23,11 @@ public class SplashActivity extends AppCompatActivity {
     private boolean categoriesItemsLoaded = false;
     private boolean productsItemsLoaded = false;
     private boolean phonesLoaded = false;
+    private boolean facebookLoaded = false;
+    private boolean twitterLoaded = false;
+    private boolean instagramLoaded = false;
+    private boolean aboutUsLoaded = false;
+    private boolean contactUsLoaded = false;
     private boolean minimumPurchasesLoaded;
     private Error error;
     private AddressViewModel addressViewModel;
@@ -92,6 +97,41 @@ public class SplashActivity extends AppCompatActivity {
                 endSplash();
             }
         });
+        appConfigViewModel.loadAboutUs().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                aboutUsLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
+        appConfigViewModel.loadContactUs().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                contactUsLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
+        appConfigViewModel.loadFacebook().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                facebookLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
+        appConfigViewModel.loadTwitter().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                twitterLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
+        appConfigViewModel.loadInstagram().observe(this, new Observer<UserRepository.APIResponse>() {
+            @Override
+            public void onChanged(UserRepository.APIResponse apiResponse) {
+                instagramLoaded = handleResponse(apiResponse);
+                endSplash();
+            }
+        });
 
         appConfigViewModel.loadMinimumPurchases().observe(this, new Observer<UserRepository.APIResponse>() {
             @Override
@@ -129,7 +169,9 @@ public class SplashActivity extends AppCompatActivity {
                     new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
             dialogFragment.show(getSupportFragmentManager(), null);
         } else if (citiesLoaded && townsLoaded && zonesLoaded && sliderItemsLoaded
-                && categoriesItemsLoaded && productsItemsLoaded && phonesLoaded && minimumPurchasesLoaded) {
+                && categoriesItemsLoaded && productsItemsLoaded && phonesLoaded &&
+                minimumPurchasesLoaded && contactUsLoaded && aboutUsLoaded && facebookLoaded
+                && instagramLoaded && twitterLoaded) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
 

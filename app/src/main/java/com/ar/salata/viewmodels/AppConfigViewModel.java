@@ -30,4 +30,44 @@ public class AppConfigViewModel extends ViewModel {
     public double getMinimumPurchases() {
         return configRepository.getMinimumPurchases();
     }
+
+    public MutableLiveData<UserRepository.APIResponse> loadFacebook() {
+        return configRepository.loadFacebook();
+    }
+
+    public String[] getFacebook() {
+        return configRepository.getFacebook();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadTwitter() {
+        return configRepository.loadTwitter();
+    }
+
+    public String[] getTwitter() {
+        return configRepository.getTwitter();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadInstagram() {
+        return configRepository.loadInstagram();
+    }
+
+    public String[] getInstagram() {
+        return configRepository.getInstagram();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadContactUs() {
+        return configRepository.loadContactUs();
+    }
+
+    public String getContactUs() {
+        return configRepository.getContactUs();
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> loadAboutUs() {
+        return configRepository.loadAboutUs();
+    }
+
+    public String getAboutUs() {
+        return configRepository.getAboutUs();
+    }
 }

@@ -5,9 +5,9 @@ import androidx.annotation.NonNull;
 import com.google.gson.annotations.SerializedName;
 
 public class ResponseMessage {
-    @SerializedName(value = "message", alternate = {"company_name_ar"})
+    @SerializedName(value = "message", alternate = {"company_name_ar", "AboutUs", "ContactUs", "InstagramAccount", "FacebookAccount", "TwitterAccount"})
     private String message1;
-    @SerializedName(value = "company_name_en")
+    @SerializedName(value = "company_name_en", alternate = {"InstagramAccountWeb", "FacebookAccountWeb", "TwitterAccountWeb"})
     private String message2;
     @SerializedName("api_token")
     private String token;
@@ -25,6 +25,10 @@ public class ResponseMessage {
     @NonNull
     @Override
     public String toString() {
+        return message1;
+    }
+
+    public String getMessage2() {
         return message1;
     }
 
