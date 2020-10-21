@@ -29,7 +29,7 @@ public class ResponseMessage {
     }
 
     public String getMessage2() {
-        return message1;
+        return message2;
     }
 
     public String getToken() {
