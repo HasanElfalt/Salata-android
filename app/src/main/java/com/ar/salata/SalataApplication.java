@@ -6,12 +6,12 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class SalataApplication extends Application {
-	public final static String BASEURL = "http://salataeg.de10.fcomet.com/";
-	
+	public final static String BASEURL = "http://www.salatatou.com/";
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		
+
 		Realm.init(this);
 		RealmConfiguration defaultConfiguration = new RealmConfiguration.Builder()
 				.deleteRealmIfMigrationNeeded()
