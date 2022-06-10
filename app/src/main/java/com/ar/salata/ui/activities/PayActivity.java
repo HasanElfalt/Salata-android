@@ -24,6 +24,7 @@ import com.ar.salata.viewmodels.AppConfigViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
 
 public class PayActivity extends BaseActivity {
     private static final int REQUESTORDER = 2;
@@ -32,12 +33,14 @@ public class PayActivity extends BaseActivity {
     private UserViewModel userViewModel;
     private AppConfigViewModel appConfigViewModel;
     private MutableLiveData<UserRepository.APIResponse> submitOrderResponse;
+    private TextInputLayout txInputNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pay);
 
+        txInputNotes   = findViewById(R.id.et_notes_pay);
         Toolbar toolbar = findViewById(R.id.toolbar_pay);
         setSupportActionBar(toolbar);
 
@@ -46,6 +49,7 @@ public class PayActivity extends BaseActivity {
         appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
 
         Order order = getIntent().getParcelableExtra(OrderViewModel.ORDER);
+        order.setNotes(txInputNotes.getEditText().getText().toString());
 
 //        Order order = orderViewModel.getOrder(orderLocalId);
         APIToken token = userViewModel.getToken();

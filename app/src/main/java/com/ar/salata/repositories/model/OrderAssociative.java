@@ -34,6 +34,16 @@ public class OrderAssociative {
     @SerializedName("delivery_date")
     private String deliveryDate;
 
+    private String notes;
+    @SerializedName("payment_type")
+    private String paymentType;
+    private String reference;
+    @SerializedName("auth_id")
+    private String authId;
+    @SerializedName("app_type")
+    private String appType;
+
+
     public OrderAssociative(HashMap<String, Double> units, String token, double orderPrice, int shiftId, int addressId, int userId, String deliveryDate) {
         this.units = units;
         this.token = token;
@@ -42,6 +52,22 @@ public class OrderAssociative {
         this.addressId = addressId;
         this.userId = userId;
         this.deliveryDate = deliveryDate;
+
+    }
+
+    public OrderAssociative(HashMap<String, Double> units, String token, double orderPrice, int shiftId, int addressId, int userId, String deliveryDate, String notes, String paymentType, String reference, String authId) {
+        this.units = units;
+        this.token = token;
+        this.orderPrice = orderPrice;
+        this.shiftId = shiftId;
+        this.addressId = addressId;
+        this.userId = userId;
+        this.deliveryDate = deliveryDate;
+        this.notes = notes;
+        this.paymentType = paymentType;
+        this.reference = reference;
+        this.authId = authId;
+        this.appType = "android";
     }
 
     public OrderAssociative(HashMap<String, Double> units, String token, double orderPrice, int shiftId, int addressId, int userId, int orderId, String deliveryDate) {
@@ -127,6 +153,38 @@ public class OrderAssociative {
         this.units = units;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -138,5 +196,9 @@ public class OrderAssociative {
         str.append("}");
         Log.d(TAG, "toString: " + str.toString());
         return str.toString();
+    }
+
+    public String getAppType() {
+        return appType;
     }
 }

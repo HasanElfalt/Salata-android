@@ -64,7 +64,12 @@ public class OrderRepository {
                 order.getShiftId(),
                 order.getAddressId(),
                 order.getUserId(),
-                order.getDeliveryDate());
+                order.getDeliveryDate(),
+                order.getNotes(),
+                order.getPaymentType(),
+                order.getReference(),
+                order.getAuthId()
+        );
 
         orderAPI.submitOrder(orderAssociative).enqueue(new Callback<ResponseMessage>() {
             @Override

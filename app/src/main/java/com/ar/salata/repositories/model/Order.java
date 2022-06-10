@@ -56,6 +56,46 @@ public class Order extends RealmObject implements Parcelable {
     private boolean orderFulfilled;
     private boolean isSubmitted = false;
 
+    //
+    private String notes;
+    @SerializedName("payment_type")
+    private String paymentType;
+    private String reference;
+    @SerializedName("auth_id")
+    private String authId;
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
+
     public Order() {
     }
 
