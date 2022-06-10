@@ -4,8 +4,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class StockProductList {
-    @SerializedName("products")
+public class StockProductList extends PaginatedResponse{
+    @SerializedName("data")
     private List<StockProduct> productList;
 
     public StockProductList(List<StockProduct> productList) {

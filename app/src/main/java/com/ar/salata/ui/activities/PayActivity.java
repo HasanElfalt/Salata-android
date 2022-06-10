@@ -71,6 +71,7 @@ public class PayActivity extends BaseActivity {
                     return;
                 }
                 Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
+                //////////////////////////add notes////////////////////////////////
                 submitOrderResponse = orderViewModel.submitOrder(token, order);
                 LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
                 loadingDialogFragment.show(getSupportFragmentManager(), null);

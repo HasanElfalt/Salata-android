@@ -41,6 +41,7 @@
         android:gravity="center|center_horizontal|center_vertical"
         android:text="جنيه"
         android:textColor="@color/colorWhite"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/product_price_text_view"
         app:layout_constraintEnd_toEndOf="@id/product_image_view"
         app:layout_constraintHeight_percent="1"
@@ -54,6 +55,7 @@
         android:background="@drawable/price_background"
         android:gravity="center|center_horizontal|center_vertical"
         android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@id/product_image_view"
         app:layout_constraintEnd_toStartOf="@+id/gneeh" />
 </androidx.constraintlayout.widget.ConstraintLayout>

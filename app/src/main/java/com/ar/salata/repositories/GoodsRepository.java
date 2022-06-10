@@ -30,6 +30,8 @@ import static com.ar.salata.repositories.UserRepository.APIResponse.FAILED;
 import static com.ar.salata.repositories.UserRepository.APIResponse.NULL;
 import static com.ar.salata.repositories.UserRepository.APIResponse.SUCCESS;
 
+import android.util.Log;
+
 public class GoodsRepository {
     private GoodsAPI goodsAPI;
     private RealmResults<Category> resultsCategory;
@@ -99,6 +101,7 @@ public class GoodsRepository {
             @Override
             public void onResponse(Call<StockProductList> call, Response<StockProductList> response) {
                 if (response.isSuccessful()) {
+//                    Log.e("test1",response.body().getProductList().toString());
                     Realm realm = Realm.getDefaultInstance();
                     realm.executeTransaction(new Realm.Transaction() {
                         @Override
