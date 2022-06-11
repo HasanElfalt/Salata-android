@@ -9,6 +9,7 @@ import com.ar.salata.repositories.model.OrderAssociative;
 import com.ar.salata.repositories.model.OrderUnit;
 import com.ar.salata.repositories.model.OrderUnitList;
 import com.ar.salata.repositories.model.OrdersResponse;
+import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.repositories.model.Product;
 import com.ar.salata.repositories.model.ResponseMessage;
 
@@ -28,6 +29,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.ar.salata.SalataApplication.BASEURL;
+
+import android.util.Log;
 
 public class OrderRepository {
     private static final String TAG = "OrderRepository";
@@ -283,5 +286,22 @@ public class OrderRepository {
             }
         });
         return apiResponse;
+    }
+
+    public MutableLiveData<List<PaymentMethods>> getPaymentMethods() {
+        MutableLiveData<List<PaymentMethods>> paymentMethods = new MutableLiveData<>();
+
+        orderAPI.getPaymentMethods().enqueue(new Callback<List<PaymentMethods>>() {
+            @Override
+            public void onResponse(Call<List<PaymentMethods>> call, Response<List<PaymentMethods>> response) {
+                paymentMethods.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<PaymentMethods>> call, Throwable t) {
+                Log.e(TAG, t.toString());
+            }
+        });
+        return paymentMethods;
     }
 }

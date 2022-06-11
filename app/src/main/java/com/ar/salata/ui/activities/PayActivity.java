@@ -3,6 +3,7 @@ package com.ar.salata.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -17,14 +18,18 @@ import com.ar.salata.R;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.Order;
+import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.ui.adapters.FinalBillRecyclerAdapter;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.LoadingDialogFragment;
+import com.ar.salata.ui.fragments.PaymentMethodDialogFragment;
 import com.ar.salata.viewmodels.AppConfigViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.List;
 
 public class PayActivity extends BaseActivity {
     private static final int REQUESTORDER = 2;
@@ -49,6 +54,7 @@ public class PayActivity extends BaseActivity {
         appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
 
         Order order = getIntent().getParcelableExtra(OrderViewModel.ORDER);
+        // set notes text
         order.setNotes(txInputNotes.getEditText().getText().toString());
 
 //        Order order = orderViewModel.getOrder(orderLocalId);
@@ -74,18 +80,32 @@ public class PayActivity extends BaseActivity {
                     errorDialogFragment.show(getSupportFragmentManager(), null);
                     return;
                 }
-                Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
-                //////////////////////////add notes////////////////////////////////
-                submitOrderResponse = orderViewModel.submitOrder(token, order);
+                // Loading LoadingDialog
                 LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
                 loadingDialogFragment.show(getSupportFragmentManager(), null);
+
+                // Getting Payment Methods
+                orderViewModel.getPaymentMethods().observe(PayActivity.this, new Observer<List<PaymentMethods>>() {
+                    @Override
+                    public void onChanged(List<PaymentMethods> paymentMethods) {
+                        loadingDialogFragment.dismiss();
+                        PaymentMethodDialogFragment paymentMethodDialogFragment = new PaymentMethodDialogFragment(paymentMethods,token, order);
+                        paymentMethodDialogFragment.show(getSupportFragmentManager(),null);
+                    }
+                });
+
+
+                //Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
+                //////////////////////////add notes////////////////////////////////
+                /*
+                submitOrderResponse = orderViewModel.submitOrder(token, order);
                 submitOrderResponse.observe(PayActivity.this, new Observer<UserRepository.APIResponse>() {
                     @Override
                     public void onChanged(UserRepository.APIResponse apiResponse) {
                         switch (apiResponse) {
                             case SUCCESS: {
                                 loadingDialogFragment.dismiss();
-                                startActivityForResult(intent, REQUESTORDER);
+                  //              startActivityForResult(intent, REQUESTORDER);
 //                                order.setSubmitted(true);
 //                                orderViewModel.updateOrder(order);
                                 break;
@@ -106,7 +126,7 @@ public class PayActivity extends BaseActivity {
                             }
                         }
                     }
-                });
+                });*/
             }
         });
 
@@ -142,5 +162,6 @@ public class PayActivity extends BaseActivity {
             setResult(RESULT_OK);
             finish();
         }
+
     }
 }

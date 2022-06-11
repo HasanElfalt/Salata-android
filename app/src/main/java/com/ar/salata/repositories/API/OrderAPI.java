@@ -3,7 +3,10 @@ package com.ar.salata.repositories.API;
 import com.ar.salata.repositories.model.OrderAssociative;
 import com.ar.salata.repositories.model.OrderUnitList;
 import com.ar.salata.repositories.model.OrdersResponse;
+import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.repositories.model.ResponseMessage;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -30,4 +33,7 @@ public interface OrderAPI {
 
     @PUT("/api/updateOrder")
     Call<ResponseMessage> updateOrder(@Body OrderAssociative order);
+
+    @GET("/api/getPaymentMethods")
+    Call<List<PaymentMethods>> getPaymentMethods();
 }

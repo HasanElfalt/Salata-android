@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/activity_about.xml" value="0.264" />
+        <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/activity_add_to_cart.xml" value="0.23854166666666668" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/activity_home.xml" value="0.11302083333333333" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/activity_pay.xml" value="0.25416666666666665" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/activity_sign_in.xml" value="0.25416666666666665" />
@@ -11,6 +12,9 @@
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/dialog_confirm.xml" value="0.18385416666666668" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/dialog_error.xml" value="0.18385416666666668" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/dialog_loading.xml" value="0.18385416666666668" />
+        <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/dialog_pay_method.xml" value="0.17760416666666667" />
+        <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/fragment_add_to_cart.xml" value="0.23854166666666668" />
+        <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/fragment_choose_address_dialog.xml" value="0.1671875" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/fragment_home.xml" value="0.2" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/fragment_pager.xml" value="0.11302083333333333" />
         <entry key="..\:/Android_Projects/Salata/android/salata-android-app/app/src/main/res/layout/fragment_product_gallery_for_category.xml" value="0.25416666666666665" />

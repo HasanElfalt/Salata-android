@@ -7,6 +7,7 @@ import com.ar.salata.repositories.OrderRepository;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.Order;
+import com.ar.salata.repositories.model.PaymentMethods;
 
 import java.util.List;
 
@@ -58,5 +59,9 @@ public class OrderViewModel extends ViewModel {
 
     public MutableLiveData<UserRepository.APIResponse> updateOrder(APIToken token, Order order) {
         return orderRepository.updateOrder(token, order);
+    }
+
+    public MutableLiveData<List<PaymentMethods>> getPaymentMethods(){
+        return orderRepository.getPaymentMethods();
     }
 }

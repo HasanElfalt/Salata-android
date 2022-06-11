@@ -85,6 +85,7 @@ public class AddToCartFragment extends Fragment {
         cartRecyclerAdapter.setHasStableIds(true);
         cartRecyclerView.setAdapter(cartRecyclerAdapter);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        ///////// From here to down will be commented /////////////////
         productsApiResponse = goodsViewModel.loadProducts(userViewModel.getToken(), orderViewModel.getOrderMutableLiveData().getValue().getAddressId());
 
         productsApiResponse.observe(getViewLifecycleOwner(), new Observer<UserRepository.APIResponse>() {
