@@ -20,4 +20,7 @@ public interface GoodsAPI {
     @GET("/api/getAllProductsByAddressWithRemain")
     Call<StockProductList> getAllProducts(@Query("api_token") String token, @Query("address_id") int addressId);
 
+    @GET("/api/getAllProductsByAddressWithRemain")
+    Call<StockProductList> getAllProductsWithCategory(@Query("api_token") String token, @Query("address_id") int addressId, @Query("cat_id") int catID, @Query("page") int page);
+
 }

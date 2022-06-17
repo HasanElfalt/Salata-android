@@ -25,6 +25,10 @@ public class GoodsViewModel extends ViewModel {
         return goodsRepository.loadProducts(token, addressId);
     }
 
+    public MutableLiveData<StockProductList> loadProductsWithCategory(APIToken token, int addressId, int catID, int page) {
+        return goodsRepository.loadProductsWithCategory(token, addressId, catID, page);
+    }
+
     public MutableLiveData<CategoryList> getCategories() {
         return goodsRepository.getCategories();
     }

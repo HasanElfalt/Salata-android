@@ -29,17 +29,19 @@ import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddToCartFragment extends Fragment {
     private static final String PRODUCTS_CATEGORY = "category";
     private RecyclerView cartRecyclerView;
-    private ArrayList<StockProduct> products = new ArrayList<>();
+    //private ArrayList<StockProduct> products = new ArrayList<>();
+    private StockProductList productList = new StockProductList(new ArrayList<StockProduct>());
     private Category categoryOFProductsToBeDisplayed;
     private GoodsViewModel goodsViewModel;
     private OrderViewModel orderViewModel;
     private AppConfigViewModel appConfigViewModel;
     private UserViewModel userViewModel;
-    private MutableLiveData<UserRepository.APIResponse> productsApiResponse;
+    private int page = 1;
 
     public static AddToCartFragment newInstance(Category category) {
         AddToCartFragment fragment = new AddToCartFragment();
@@ -81,10 +83,40 @@ public class AddToCartFragment extends Fragment {
         LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
         loadingDialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
-        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), products, orderViewModel, appConfigViewModel.getPhones(), mode);
+        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), productList, orderViewModel, appConfigViewModel.getPhones(), mode, userViewModel.getToken(), categoryOFProductsToBeDisplayed.getCategoryID());
         cartRecyclerAdapter.setHasStableIds(true);
         cartRecyclerView.setAdapter(cartRecyclerAdapter);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        goodsViewModel.loadProductsWithCategory(userViewModel.getToken(), orderViewModel.getOrderMutableLiveData().getValue().getAddressId(), categoryOFProductsToBeDisplayed.getCategoryID(), page).observe(getViewLifecycleOwner(), new Observer<StockProductList>() {
+            @Override
+            public void onChanged(StockProductList stockProductList) {
+                loadingDialogFragment.dismiss();
+
+                if (getActivity() instanceof AddToCartActivity) {
+                    for (StockProduct product : stockProductList.getProductList()) {
+                        if (product.getRemain() > 0)
+                            productList.addProduct(product);
+                    }
+                } else if (getActivity() instanceof OrderEditActivity) {
+                    Order order = orderViewModel.getOrderMutableLiveData().getValue();
+                    ArrayList<Integer> ids = new ArrayList<>();
+                    for (OrderUnit unit : order.getUnits()) {
+                        ids.add(unit.getProductId());
+                    }
+                    for (StockProduct stockProduct : stockProductList.getProductList()) {
+                        if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
+                            productList.addProduct(stockProduct);
+                        }
+                    }
+                }
+                productList.getLinks().setNextPageUrl(stockProductList.getLinks().getNextPageUrl());
+                cartRecyclerAdapter.notifyDataSetChanged();
+            }
+        });
+
+        /*
         ///////// From here to down will be commented /////////////////
         productsApiResponse = goodsViewModel.loadProducts(userViewModel.getToken(), orderViewModel.getOrderMutableLiveData().getValue().getAddressId());
 
@@ -138,7 +170,7 @@ public class AddToCartFragment extends Fragment {
                 }
             }
         });
-
+*/
         return view;
     }
 }

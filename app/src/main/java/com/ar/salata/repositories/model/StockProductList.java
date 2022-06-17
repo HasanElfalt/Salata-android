@@ -15,4 +15,13 @@ public class StockProductList extends PaginatedResponse{
     public List<StockProduct> getProductList() {
         return productList;
     }
+
+    public void setProductList(List<StockProduct> productList) {
+        this.productList.clear();
+        this.productList.addAll(productList);
+    }
+
+    public void addProduct(StockProduct stockProduct) {
+        this.productList.add(stockProduct);
+    }
 }

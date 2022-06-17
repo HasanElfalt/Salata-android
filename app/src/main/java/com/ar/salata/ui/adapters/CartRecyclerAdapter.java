@@ -9,13 +9,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.ViewModelStoreOwner;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
+import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.OrderUnit;
+import com.ar.salata.repositories.model.PaginatedResponse;
 import com.ar.salata.repositories.model.StockProduct;
+import com.ar.salata.repositories.model.StockProductList;
+import com.ar.salata.ui.activities.AddToCartActivity;
+import com.ar.salata.ui.activities.OrderEditActivity;
 import com.ar.salata.ui.utils.ArabicString;
+import com.ar.salata.viewmodels.GoodsViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.bumptech.glide.Glide;
 
@@ -28,20 +38,28 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
     private final static int HEADER_VIEW = 1;
     private final static int NORMAL_VIEW = 0;
 
+    private GoodsViewModel goodsViewModel;
     private ArrayList<StockProduct> products;
     private Context context;
     private OrderViewModel orderViewModel;
     private Order order;
     private List<String> phones;
     private String mode;
+    private APIToken token;
+    private int catId;
+    private PaginatedResponse.Links links;
+    private int page = 1;
 
-    public CartRecyclerAdapter(Context context, ArrayList<StockProduct> products, OrderViewModel orderViewModel, List<String> phones, String mode) {
-        this.products = products;
+    public CartRecyclerAdapter(Context context, StockProductList products, OrderViewModel orderViewModel, List<String> phones, String mode, APIToken token, int id) {
+        this.products = (ArrayList<StockProduct>) products.getProductList();
         this.context = context;
         this.orderViewModel = orderViewModel;
         order = this.orderViewModel.getOrderMutableLiveData().getValue();
         this.phones = phones;
         this.mode = mode;
+        this.token  = token;
+        this.catId = id;
+        links = products.getLinks();
     }
 
     @NonNull
@@ -71,6 +89,33 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 break;
             }
             case NORMAL_VIEW: {
+                goodsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(GoodsViewModel.class);
+                if((position+1) == products.size() && links.getNextPageUrl()!= null) {
+                    goodsViewModel.loadProductsWithCategory(token, orderViewModel.getOrderMutableLiveData().getValue().getAddressId(), catId, ++page).observe((LifecycleOwner) context, new Observer<StockProductList>() {
+                        @Override
+                        public void onChanged(StockProductList stockProductList) {
+                            if (context instanceof AddToCartActivity) {
+                                for (StockProduct product : stockProductList.getProductList()) {
+                                    if (product.getRemain() > 0)
+                                        products.add(product);
+                                }
+                            } else if (context instanceof OrderEditActivity) {
+                                Order order = orderViewModel.getOrderMutableLiveData().getValue();
+                                ArrayList<Integer> ids = new ArrayList<>();
+                                for (OrderUnit unit : order.getUnits()) {
+                                    ids.add(unit.getProductId());
+                                }
+                                for (StockProduct stockProduct : stockProductList.getProductList()) {
+                                    if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
+                                        products.add(stockProduct);
+                                    }
+                                }
+                            }
+                            notifyDataSetChanged();
+                        }
+                    });
+                }
+
                 final ItemViewHolderNormal itemViewHolderNormal = (ItemViewHolderNormal) holder;
                 final Double itemPrice = products.get(position - 1).getPrice();
                 final String itemImageURL = products.get(position - 1).getInvoiceImage();

@@ -128,6 +128,22 @@ public class GoodsRepository {
         return apiResponse;
     }
 
+    public MutableLiveData<StockProductList> loadProductsWithCategory(APIToken token, int addressId, int catID, int page){
+        MutableLiveData<StockProductList> products = new MutableLiveData<>();
+        goodsAPI.getAllProductsWithCategory(token.toString(), addressId, catID, page).enqueue(new Callback<StockProductList>() {
+            @Override
+            public void onResponse(Call<StockProductList> call, Response<StockProductList> response) {
+                products.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<StockProductList> call, Throwable t) {
+                Log.e("Goods Repository", t.toString());
+            }
+        });
+        return products;
+    }
+
     public MutableLiveData<UserRepository.APIResponse> loadProducts() {
         MutableLiveData<UserRepository.APIResponse> apiResponse = new MutableLiveData<>(NULL);
         goodsAPI.getAllProducts().enqueue(new Callback<ProductList>() {
