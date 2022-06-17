@@ -8,9 +8,10 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface ConfigAPI {
+    /*
     @GET("/api/getMinPurchases")
     Call<ResponseDouble> getMinimumPurchases();
-
+    */
     @GET("/api/getMinTimeChangeOrder")
     Call<ResponseDouble> getMinimumTimeChangeOrder();
 

@@ -78,7 +78,7 @@ public class ConfigRepository {
         realm.close();
         return results;
     }
-
+/*
     public MutableLiveData<UserRepository.APIResponse> loadMinimumPurchases() {
         MutableLiveData<UserRepository.APIResponse> results = new MutableLiveData<>();
         configAPI.getMinimumPurchases().enqueue(new Callback<ResponseDouble>() {
@@ -110,7 +110,7 @@ public class ConfigRepository {
         });
         return results;
     }
-
+*/
     public double getMinimumPurchases() {
         Realm realm = Realm.getDefaultInstance();
         double results = realm.where(AppConfig.class).findFirst().getMinimumPurchases();

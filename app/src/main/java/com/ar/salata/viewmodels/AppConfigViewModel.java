@@ -22,11 +22,11 @@ public class AppConfigViewModel extends ViewModel {
     public List<String> getPhones() {
         return configRepository.getPhones();
     }
-
+/*
     public MutableLiveData<UserRepository.APIResponse> loadMinimumPurchases() {
         return configRepository.loadMinimumPurchases();
     }
-
+*/
     public double getMinimumPurchases() {
         return configRepository.getMinimumPurchases();
     }

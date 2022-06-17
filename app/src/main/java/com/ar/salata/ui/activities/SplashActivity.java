@@ -28,7 +28,7 @@ public class SplashActivity extends AppCompatActivity {
     private boolean instagramLoaded = false;
     private boolean aboutUsLoaded = false;
     private boolean contactUsLoaded = false;
-    private boolean minimumPurchasesLoaded;
+/*    private boolean minimumPurchasesLoaded;*/
     private Error error;
     private AddressViewModel addressViewModel;
     private SliderItemViewModel sliderItemViewModel;
@@ -132,14 +132,14 @@ public class SplashActivity extends AppCompatActivity {
                 endSplash();
             }
         });
-
+/*
         appConfigViewModel.loadMinimumPurchases().observe(this, new Observer<UserRepository.APIResponse>() {
             @Override
             public void onChanged(UserRepository.APIResponse apiResponse) {
                 minimumPurchasesLoaded = handleResponse(apiResponse);
                 endSplash();
             }
-        });
+        });*/
     }
 
     private boolean handleResponse(UserRepository.APIResponse apiResponse) {
@@ -170,7 +170,7 @@ public class SplashActivity extends AppCompatActivity {
             dialogFragment.show(getSupportFragmentManager(), null);
         } else if (citiesLoaded && townsLoaded && zonesLoaded && sliderItemsLoaded
                 && categoriesItemsLoaded && productsItemsLoaded && phonesLoaded &&
-                minimumPurchasesLoaded && contactUsLoaded && aboutUsLoaded && facebookLoaded
+                contactUsLoaded && aboutUsLoaded && facebookLoaded
                 && instagramLoaded && twitterLoaded) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(i);
