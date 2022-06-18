@@ -9,10 +9,12 @@ import io.realm.RealmObject;
 
 public class UserAddress extends RealmObject {
 
-    @SerializedName("details")
-    private String address;
     @SerializedName("id")
     private int addressId;
+    @SerializedName("min_purchases")
+    private String minPurchases;
+    @SerializedName("details")
+    private String address;
     private String zone;
     @SerializedName("zone_id")
     private int zoneId;
@@ -38,6 +40,14 @@ public class UserAddress extends RealmObject {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public String getMinPurchases() {
+        return minPurchases;
+    }
+
+    public void setMinPurchases(String minPurchases) {
+        this.minPurchases = minPurchases;
     }
 
     public int getZoneId() {

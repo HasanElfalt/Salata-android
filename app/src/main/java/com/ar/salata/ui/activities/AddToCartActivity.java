@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Order;
+import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
@@ -21,6 +22,7 @@ import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.ADDRESS_ID;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_DATE;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_DATE_MS;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_HOUR;
+import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.MIN_PURCHASE;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.SHIFT_ID;
 import static com.ar.salata.ui.fragments.HomeFragment.USER_ID;
 import static java.lang.Math.round;
@@ -33,6 +35,7 @@ public class AddToCartActivity extends BaseActivity {
     private UserViewModel userViewModel;
     private Order order;
     private OrderViewModel orderViewModel;
+    private String minPurchase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,8 @@ public class AddToCartActivity extends BaseActivity {
                 intent.getStringExtra(DELIVERY_DATE),
                 intent.getStringExtra(DELIVERY_HOUR));
 
+        minPurchase = intent.getStringExtra(MIN_PURCHASE);
+
         orderViewModel.setOrderValue(order);
         orderViewModel.getOrderMutableLiveData().observe(this, new Observer<Order>() {
             @Override
@@ -65,8 +70,9 @@ public class AddToCartActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), PayActivity.class);
-                Order order = orderViewModel.getOrderMutableLiveData().getValue();
+                if(order.getOrderPrice() >= Integer.parseInt(minPurchase)) {
+                    Intent intent = new Intent(getApplicationContext(), PayActivity.class);
+                    Order order = orderViewModel.getOrderMutableLiveData().getValue();
                 /*intent.putExtra(SHIFT_ID, order.getShiftId());
                 intent.putExtra(ADDRESS_ID, order.getAddressId());
                 intent.putExtra(USER_ID, order.getUserId());
@@ -74,8 +80,12 @@ public class AddToCartActivity extends BaseActivity {
                 intent.putExtra(SHIFT_ID, order.getShiftId());
                 String id = orderViewModel.createOrder(order);*/
 
-                intent.putExtra(OrderViewModel.ORDER, order);
-                startActivityForResult(intent, REQUESTPAY);
+                    intent.putExtra(OrderViewModel.ORDER, order);
+                    startActivityForResult(intent, REQUESTPAY);
+                }else{
+                    ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("حدث خطأ", "يجب أن تكون قيمة الشراء لا تقل عن " + minPurchase+ " جنيه",false );
+                    errorDialogFragment.show(getSupportFragmentManager(),null);
+                }
             }
         });
 

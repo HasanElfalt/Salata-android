@@ -40,6 +40,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     public static final String DELIVERY_DATE = "DeliveryDate";
     public static final String DELIVERY_DATE_MS = "DeliveryDateMS";
     public static final String DELIVERY_HOUR = "DeliveryHour";
+    public static final String MIN_PURCHASE = "minPurchase";
     private List<UserAddress> addresses;
     private Button confirmButton;
     private Button cancelBotton;
@@ -52,6 +53,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     private MutableLiveData<UserRepository.APIResponse> productsApiResponse;
     private long deliveryDateMS;
     private String shiftString;
+    private String minPurchase;
 
     public ChooseAddressDialogFragment(List<UserAddress> addresses, APIToken token) {
         this.addresses = addresses;
@@ -83,6 +85,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (!isChecked) return;
                     addressId = address.getAddressId();
+                    minPurchase= address.getMinPurchases();
 
                     daysGroup.removeAllViews();
                     for (DeliveryDate day : address.getDates()) {
@@ -150,6 +153,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                                         intent.putExtra(DELIVERY_DATE, deliveryDate);
                                         intent.putExtra(DELIVERY_DATE_MS, deliveryDateMS);
                                         intent.putExtra(DELIVERY_HOUR, shiftString);
+                                        intent.putExtra(MIN_PURCHASE,minPurchase);
                                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                                         dismiss();
                                         break;
