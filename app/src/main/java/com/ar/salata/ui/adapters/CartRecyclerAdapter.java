@@ -1,6 +1,7 @@
 package com.ar.salata.ui.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,9 @@ import com.ar.salata.repositories.model.PaginatedResponse;
 import com.ar.salata.repositories.model.StockProduct;
 import com.ar.salata.repositories.model.StockProductList;
 import com.ar.salata.ui.activities.AddToCartActivity;
+import com.ar.salata.ui.activities.BaseActivity;
 import com.ar.salata.ui.activities.OrderEditActivity;
+import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.viewmodels.GoodsViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
@@ -91,9 +94,14 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
             case NORMAL_VIEW: {
                 goodsViewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(GoodsViewModel.class);
                 if((position+1) == products.size() && links.getNextPageUrl()!= null) {
+                    // Loading...
+                    LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+                    loadingDialogFragment.show(((BaseActivity) context).getSupportFragmentManager(), null);
+                    // Calling next page
                     goodsViewModel.loadProductsWithCategory(token, orderViewModel.getOrderMutableLiveData().getValue().getAddressId(), catId, ++page).observe((LifecycleOwner) context, new Observer<StockProductList>() {
                         @Override
                         public void onChanged(StockProductList stockProductList) {
+                            loadingDialogFragment.dismiss();
                             if (context instanceof AddToCartActivity) {
                                 for (StockProduct product : stockProductList.getProductList()) {
                                     if (product.getRemain() > 0)
@@ -111,6 +119,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                                     }
                                 }
                             }
+                            links = stockProductList.getLinks();
                             notifyDataSetChanged();
                         }
                     });
@@ -124,7 +133,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 double orderUnitRemain = 0;
                 for (OrderUnit tempUnit : order.getUnits()) {
                     if (products.get(position - 1).getId() == tempUnit.getProductId()) {
-                        itemViewHolderNormal.weight = tempUnit.getCount();
+                        products.get(position-1).setWeight(tempUnit.getCount());
                         orderUnitRemain = tempUnit.getCount() + products.get(position - 1).getRemain();
                         break;
                     }
@@ -139,17 +148,18 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                         .into(itemViewHolderNormal.itemImage);
 
 
-                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
+                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(products.get(position-1).getWeight())));
+                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(products.get(position-1).getWeight() * itemPrice * 100) / 100.0)));
 
                 itemViewHolderNormal.decrementImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (itemViewHolderNormal.weight > 0) {
-                            itemViewHolderNormal.weight -= products.get(position - 1).getStep();
-                            itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
-                            order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
+                        StockProduct stockProduct = products.get(position-1);
+                        if (stockProduct.getWeight() > 0) {
+                            stockProduct.setWeight(stockProduct.getWeight() - stockProduct.getStep());
+                            itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(stockProduct.getWeight())));
+                            itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(stockProduct.getWeight() * itemPrice * 100) / 100.0)));
+                            order.addUnit(new OrderUnit(stockProduct, stockProduct.getWeight()));
                             orderViewModel.setOrderValue(order);
                         }
                     }
@@ -159,20 +169,21 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 itemViewHolderNormal.incrementImageButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        StockProduct stockProduct = products.get(position-1);
                         if (mode == "create") {
-                            if (!(itemViewHolderNormal.weight + products.get(position - 1).getStep() > products.get(position - 1).getRemain())) {
-                                itemViewHolderNormal.weight += products.get(position - 1).getStep();
-                                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
-                                order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
+                            if (!(stockProduct.getWeight() + products.get(position - 1).getStep() > products.get(position - 1).getRemain())) {
+                                stockProduct.setWeight(stockProduct.getWeight() + stockProduct.getStep());
+                                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(stockProduct.getWeight())));
+                                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(stockProduct.getWeight() * itemPrice * 100) / 100.0)));
+                                order.addUnit(new OrderUnit(stockProduct, stockProduct.getWeight()));
                                 orderViewModel.setOrderValue(order);
                             }
                         } else if (mode == "edit") {
-                            if (!(itemViewHolderNormal.weight + products.get(position - 1).getStep() > finalOrderUnitRemain)) {
-                                itemViewHolderNormal.weight += products.get(position - 1).getStep();
-                                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(itemViewHolderNormal.weight)));
-                                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(itemViewHolderNormal.weight * itemPrice * 100) / 100.0)));
-                                order.addUnit(new OrderUnit(products.get(position - 1), itemViewHolderNormal.weight));
+                            if (!(stockProduct.getWeight() + products.get(position - 1).getStep() > finalOrderUnitRemain)) {
+                                stockProduct.setWeight(stockProduct.getWeight() + products.get(position - 1).getStep());
+                                itemViewHolderNormal.totalWeightTextView.setText(ArabicString.toArabic(String.valueOf(stockProduct.getWeight())));
+                                itemViewHolderNormal.totalPriceTextView.setText(ArabicString.toArabic(String.valueOf(round(stockProduct.getWeight() * itemPrice * 100) / 100.0)));
+                                order.addUnit(new OrderUnit(products.get(position - 1), products.get(position-1).getWeight()));
                                 orderViewModel.setOrderValue(order);
                             }
                         }
@@ -192,12 +203,22 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
     }
 
     @Override
+    public long getItemId(int position) {
+        if(products.size()==0)
+            return super.getItemId(position);
+        else {
+            Log.e("CartRecyclerAdapter", "Cat Id: " + products.get(position).getCategoryId() + "position: " + position);
+            return products.get(position).getId();
+        }
+    }
+
+    @Override
     public int getItemCount() {
-        return products.size() + 1;
+        return products.size();
     }
 
     class ItemViewHolderNormal extends RecyclerView.ViewHolder {
-        double weight = 0;
+  //      double weight = 0;
         ImageButton incrementImageButton;
         ImageButton decrementImageButton;
 

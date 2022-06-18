@@ -21,6 +21,16 @@ public class StockProduct extends RealmObject {
     private String brochureImage;
     private String unitName;
     private double remain;
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    private double weight=0;
     private int addressId;
 
     public double getRemain() {
