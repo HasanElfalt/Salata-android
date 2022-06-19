@@ -16,7 +16,6 @@ import com.ar.salata.repositories.model.Order;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.viewmodels.OrderViewModel;
-import com.ar.salata.viewmodels.UserViewModel;
 
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.ADDRESS_ID;
 import static com.ar.salata.ui.fragments.ChooseAddressDialogFragment.DELIVERY_DATE;
@@ -32,7 +31,6 @@ public class AddToCartActivity extends BaseActivity {
     private static final int REQUESTPAY = 2;
     private Button button;
     private TextView totalValueTextView;
-    private UserViewModel userViewModel;
     private Order order;
     private OrderViewModel orderViewModel;
     private String minPurchase;
@@ -41,7 +39,6 @@ public class AddToCartActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
 
         button = findViewById(R.id.btn_bill_confirm);
@@ -70,7 +67,7 @@ public class AddToCartActivity extends BaseActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(order.getOrderPrice() >= Integer.parseInt(minPurchase)) {
+                if(order.getOrderPrice() >= Double.parseDouble(minPurchase)) {
                     Intent intent = new Intent(getApplicationContext(), PayActivity.class);
                     Order order = orderViewModel.getOrderMutableLiveData().getValue();
                 /*intent.putExtra(SHIFT_ID, order.getShiftId());
