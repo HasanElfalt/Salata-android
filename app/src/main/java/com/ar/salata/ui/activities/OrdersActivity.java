@@ -42,7 +42,6 @@ public class OrdersActivity extends BaseActivity {
     private ImageView expandUpcomingOrdersButton;
     private TextView expandPreviousOrdersTextView;
     private TextView expandUpcomingOrdersTextView;
-    private Toolbar toolbar;
     private OrderViewModel orderViewModel;
     private UserViewModel userViewModel;
     private MutableLiveData<UserRepository.APIResponse> loadOrdersResponse;

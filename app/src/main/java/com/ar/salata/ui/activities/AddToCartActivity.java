@@ -28,7 +28,7 @@ import static java.lang.Math.round;
 
 public class AddToCartActivity extends BaseActivity {
     private static final String TAG = "AddToCartActivity";
-    private static final int REQUESTPAY = 2;
+    private static final int REQUEST_PAY = 2;
     private Button button;
     private TextView totalValueTextView;
     private Order order;
@@ -78,7 +78,7 @@ public class AddToCartActivity extends BaseActivity {
                 String id = orderViewModel.createOrder(order);*/
 
                     intent.putExtra(OrderViewModel.ORDER, order);
-                    startActivityForResult(intent, REQUESTPAY);
+                    startActivityForResult(intent, REQUEST_PAY);
                 }else{
                     ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("حدث خطأ", "يجب أن تكون قيمة الشراء لا تقل عن " + minPurchase+ " جنيه",false );
                     errorDialogFragment.show(getSupportFragmentManager(),null);
@@ -101,7 +101,7 @@ public class AddToCartActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUESTPAY && resultCode == RESULT_OK) finish();
+        if (requestCode == REQUEST_PAY && resultCode == RESULT_OK) finish();
     }
 
     public OrderViewModel getOrderViewModel() {
