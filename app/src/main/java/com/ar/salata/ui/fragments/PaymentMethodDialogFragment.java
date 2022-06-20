@@ -97,6 +97,7 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                                 case SUCCESS: {
                                     loadingDialogFragment.dismiss();
                                     Intent intent = new Intent(getContext(), OrdersActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                     startActivity(intent);
                                     dismiss();
                                     getActivity().finish();
