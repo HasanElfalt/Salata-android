@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Order;
+import com.ar.salata.repositories.model.Shift;
 import com.ar.salata.ui.activities.OrderDetailActivity;
 import com.ar.salata.ui.activities.OrderPreviewActivity;
 import com.ar.salata.ui.activities.OrdersActivity;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.OrderEditConfirmationDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
+import com.ar.salata.ui.utils.TimeFormats;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.bumptech.glide.Glide;
@@ -63,9 +65,14 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         ItemViewHolderUpcoming viewHolderUpcoming = (ItemViewHolderUpcoming) holder;
 
+        Shift shift = new Shift();
+        shift.setId(orders.get(position).getShiftId());
+        shift.setFrom(TimeFormats.convertToEnglishString("HH:mm:ss",orders.get(position).getDeliveryShiftFrom()));
+        shift.setTo(TimeFormats.convertToEnglishString("HH:mm:ss", orders.get(position).getDeliveryShiftTo()));
+
         viewHolderUpcoming.orderId.setText(ArabicString.toArabic(String.valueOf(orders.get(position).getOrderId())));
         viewHolderUpcoming.orderDateDay.setText(ArabicString.toArabic(orders.get(position).getOrderDateDay()));
-        viewHolderUpcoming.orderDateHour.setText(ArabicString.toArabic(orders.get(position).getOrderDateHour(true)));
+        viewHolderUpcoming.orderDateHour.setText(ArabicString.toArabic(shift.getFrom() + " ~ " + shift.getTo()));
         viewHolderUpcoming.orderPrice.setText(ArabicString.toArabic(String.valueOf(round(orders.get(position).getOrderPrice() * 100) / 100.0)));
 
 //        viewHolderUpcoming.orderImage.setImageResource(orders.get(position).getOrderImage());

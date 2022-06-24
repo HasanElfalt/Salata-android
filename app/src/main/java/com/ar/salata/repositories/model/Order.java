@@ -45,6 +45,11 @@ public class Order extends RealmObject implements Parcelable {
     private double orderPrice = 0;
     //    @PrimaryKey
 //    private String orderLocalId;
+    @SerializedName("delivery_shift_from")
+    private long deliveryShiftFrom;
+    @SerializedName("delivery_shift_to")
+    private long deliveryShiftTo;
+
     @SerializedName("delivery_date")
     private long orderDeliveryMS;
     @SerializedName("expiry")
@@ -288,6 +293,22 @@ public class Order extends RealmObject implements Parcelable {
         } else {
             return false;
         }
+    }
+
+    public long getDeliveryShiftFrom() {
+        return deliveryShiftFrom;
+    }
+
+    public void setDeliveryShiftFrom(long deliveryShiftFrom) {
+        this.deliveryShiftFrom = deliveryShiftFrom;
+    }
+
+    public long getDeliveryShiftTo() {
+        return deliveryShiftTo;
+    }
+
+    public void setDeliveryShiftTo(long deliveryShiftTo) {
+        this.deliveryShiftTo = deliveryShiftTo;
     }
 
     public String getBrochureImage() {
