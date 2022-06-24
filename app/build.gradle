@@ -5,6 +5,7 @@ apply plugin: 'realm-android'
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
+    ndkVersion  "21.0.6113669"
 
     defaultConfig {
         applicationId "com.ar.salata"
@@ -56,4 +57,9 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.5.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
     implementation "androidx.lifecycle:lifecycle-livedata:2.2.0"
+/*
+    // Opay
+    implementation(name: 'cashier-sdk-1.1.2', ext: 'aar')
+    */
+
 }

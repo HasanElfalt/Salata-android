@@ -24,7 +24,7 @@ public class Shift extends RealmObject {
     public String getFrom() {
         String result = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            result = LocalTime.parse(from, DateTimeFormatter.ofPattern("HH:mm:ss")).format(DateTimeFormatter.ofPattern("hh:mm:ss a", new Locale("ar")));
+            result = LocalTime.parse(from, DateTimeFormatter.ofPattern("HH:mm:ss")).format(DateTimeFormatter.ofPattern("hh:mm a", new Locale("ar")));
         }
 
         return result;
@@ -37,7 +37,7 @@ public class Shift extends RealmObject {
     public String getTo() {
         String result = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            result = LocalTime.parse(to, DateTimeFormatter.ofPattern("HH:mm:ss")).format(DateTimeFormatter.ofPattern("hh:mm:ss a", new Locale("ar")));
+            result = LocalTime.parse(to, DateTimeFormatter.ofPattern("HH:mm:ss")).format(DateTimeFormatter.ofPattern("hh:mm a", new Locale("ar")));
         }
         return result;
     }
