@@ -54,6 +54,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     private long deliveryDateMS;
     private String shiftString;
     private String minPurchase;
+    private boolean selectedAddressHasDates = false;
 
     public ChooseAddressDialogFragment(List<UserAddress> addresses, APIToken token) {
         this.addresses = addresses;
@@ -88,7 +89,10 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                     minPurchase= address.getMinPurchases();
 
                     daysGroup.removeAllViews();
+                    timeGroup.removeAllViews();
+
                     for (DeliveryDate day : address.getDates()) {
+                        selectedAddressHasDates = true;
                         RadioButton radioButton = new RadioButton(getContext(), null, R.attr.RadioButtonStyle, R.style.RectangleRadioBtn);
                         radioButton.setText(TimeFormats.convertToArabicString("E، d MMM yyyy", day.getDate()));
 
@@ -119,14 +123,18 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                         });
                         daysGroup.addView(radioButton);
                     }
-                    ((RadioButton) daysGroup.getChildAt(0)).setChecked(true);
+
+                    if(daysGroup.getChildAt(0) != null)
+                        ((RadioButton) daysGroup.getChildAt(0)).setChecked(true);
+
                 }
             });
             addressGroup.addView(radioButton);
         }
 
         ((RadioButton) addressGroup.getChildAt(0)).setChecked(true);
-        ((RadioButton) daysGroup.getChildAt(0)).setChecked(true);
+        if(daysGroup.getChildAt(0) != null)
+            ((RadioButton) daysGroup.getChildAt(0)).setChecked(true);
 
         confirmButton = view.findViewById(R.id.btn_confirm_address_dialog);
         cancelBotton = view.findViewById(R.id.btn_cancel_address_dialog);
@@ -135,45 +143,46 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                 setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        productsApiResponse = goodsViewModel.loadProducts(token, addressId);
+                        if(selectedAddressHasDates) {
+                            productsApiResponse = goodsViewModel.loadProducts(token, addressId);
 
-                        LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
-                        loadingDialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                            LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+                            loadingDialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
 
-                        productsApiResponse.observe(ChooseAddressDialogFragment.this, new Observer<UserRepository.APIResponse>() {
-                            @Override
-                            public void onChanged(UserRepository.APIResponse apiResponse) {
-                                switch (apiResponse) {
-                                    case SUCCESS:
-                                        loadingDialogFragment.dismiss();
-                                        Intent intent = new Intent();
-                                        intent.putExtra(ADDRESS_ID, addressId);
-                                        intent.putExtra(SHIFT_ID, shiftId);
-                                        intent.putExtra(DELIVERY_DATE, deliveryDate);
-                                        intent.putExtra(DELIVERY_DATE_MS, deliveryDateMS);
-                                        intent.putExtra(DELIVERY_HOUR, shiftString);
-                                        intent.putExtra(MIN_PURCHASE,minPurchase);
-                                        getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
-                                        dismiss();
-                                        break;
-                                    case ERROR: {
-                                        loadingDialogFragment.dismiss();
-                                        ErrorDialogFragment dialogFragment =
-                                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
-                                        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
-                                        break;
-                                    }
-                                    case FAILED: {
-                                        loadingDialogFragment.dismiss();
-                                        ErrorDialogFragment dialogFragment =
-                                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
-                                        dialogFragment.show(getActivity().getSupportFragmentManager(), null);
-                                        break;
+                            productsApiResponse.observe(ChooseAddressDialogFragment.this, new Observer<UserRepository.APIResponse>() {
+                                @Override
+                                public void onChanged(UserRepository.APIResponse apiResponse) {
+                                    switch (apiResponse) {
+                                        case SUCCESS:
+                                            loadingDialogFragment.dismiss();
+                                            Intent intent = new Intent();
+                                            intent.putExtra(ADDRESS_ID, addressId);
+                                            intent.putExtra(SHIFT_ID, shiftId);
+                                            intent.putExtra(DELIVERY_DATE, deliveryDate);
+                                            intent.putExtra(DELIVERY_DATE_MS, deliveryDateMS);
+                                            intent.putExtra(DELIVERY_HOUR, shiftString);
+                                            intent.putExtra(MIN_PURCHASE, minPurchase);
+                                            getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
+                                            dismiss();
+                                            break;
+                                        case ERROR: {
+                                            loadingDialogFragment.dismiss();
+                                            ErrorDialogFragment dialogFragment =
+                                                    new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+                                            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                                            break;
+                                        }
+                                        case FAILED: {
+                                            loadingDialogFragment.dismiss();
+                                            ErrorDialogFragment dialogFragment =
+                                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                                            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                                            break;
+                                        }
                                     }
                                 }
-                            }
-                        });
+                            });
 
 /*
                         Intent intent = new Intent();
@@ -183,6 +192,10 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                         getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                         dismiss();
 */
+                        }else{
+                            ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("تنبيه", "سلطة غير متاحة حاليا فى هذه المنطقة.. ستكون متاحة قريبا", false);
+                            errorDialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                        }
                     }
                 });
         cancelBotton.setOnClickListener(new View.OnClickListener() {
