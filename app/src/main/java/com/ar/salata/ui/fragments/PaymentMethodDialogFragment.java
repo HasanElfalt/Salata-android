@@ -1,11 +1,9 @@
 package com.ar.salata.ui.fragments;
 
-import static android.app.Activity.RESULT_OK;
 
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,24 +23,31 @@ import androidx.lifecycle.ViewModelProvider;
 import com.ar.salata.R;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.APIToken;
+import com.ar.salata.repositories.model.OpaySetting;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.ui.activities.OrdersActivity;
-import com.ar.salata.ui.activities.PayActivity;
+import com.ar.salata.viewmodels.OpayViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
+import com.ar.salata.viewmodels.UserViewModel;
 
 import java.util.List;
+
+import team.opay.business.cashier.sdk.api.PayInput;
+import team.opay.business.cashier.sdk.api.UserInfo;
+import team.opay.business.cashier.sdk.pay.PaymentTask;
 
 public class PaymentMethodDialogFragment extends DialogFragment {
 
     public static final int PAYMENT_METHOD = 10;
     private OrderViewModel orderViewModel;
+    private OpayViewModel opayViewModel;
     private Order order;
     private APIToken token;
     private List<PaymentMethods> paymentMethods;
     private Button confirmButton, cancelButton;
     private MutableLiveData<UserRepository.APIResponse> submitOrderResponse;
-
+    PayInput payInput = null;
 
     public PaymentMethodDialogFragment(List<PaymentMethods> paymentMethods, APIToken token, Order order){
         this.paymentMethods = paymentMethods;
@@ -59,6 +64,7 @@ public class PaymentMethodDialogFragment extends DialogFragment {
         builder.setView(view);
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
+        opayViewModel  = new ViewModelProvider(this).get(OpayViewModel.class);
 
         RadioGroup paymentRadioGroup = (RadioGroup) view.findViewById(R.id.dialog_payment_options);
 
@@ -125,7 +131,37 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                 // Id = 2   for credit_card
                 }else if(tempId == 2){
                     order.setPaymentType("credit_card");
-                    loadingDialogFragment.dismiss();
+
+                    // in testing mode set the sandBox to true:
+                    // False for real payments
+
+                    opayViewModel.getOpaySetting().observe(getViewLifecycleOwner(), new Observer<OpaySetting>() {
+                        @Override
+                        public void onChanged(OpaySetting opaySetting) {
+                            PaymentTask.Companion.setSandBox(opaySetting.isMode());
+                            // TODO: complete reference
+                            String reference = "android-" + order.getUserId();
+                            payInput = new PayInput(opaySetting.getPublicKey(),
+                                    opaySetting.getMerchantId(),
+                                    "Salata", //merchant name
+                                    reference, // reference
+                                    "EG",//uppercase//country
+                                    (long) order.getOrderPrice(),//amount
+                                    "EGP", //uppercase //currency
+                                    "Vegetables & Fruits",//ProductName
+                                    "testtest",//ProductDescription
+                                    opaySetting.getCallbackurl(),
+                                    "BankCard",//Payment Type
+                                    30,//expire at
+                                    "110.246.160.183",// user ip
+                                    new UserInfo("UserId","UserName","UserPhone","Email")
+                            );
+
+
+
+                            loadingDialogFragment.dismiss();
+                        }
+                    });
 
                 }
             }
