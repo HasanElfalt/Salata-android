@@ -1,6 +1,8 @@
 package com.ar.salata.ui.fragments;
 
 
+import static com.ar.salata.repositories.UserRepository.APIResponse.SUCCESS;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,9 +34,14 @@ import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 
 import java.util.List;
+import java.util.UUID;
 
+import kotlin.Unit;
 import team.opay.business.cashier.sdk.api.PayInput;
+import team.opay.business.cashier.sdk.api.PaymentStatus;
+import team.opay.business.cashier.sdk.api.Status;
 import team.opay.business.cashier.sdk.api.UserInfo;
+import team.opay.business.cashier.sdk.api.WebJsResponse;
 import team.opay.business.cashier.sdk.pay.PaymentTask;
 
 public class PaymentMethodDialogFragment extends DialogFragment {
@@ -48,6 +55,7 @@ public class PaymentMethodDialogFragment extends DialogFragment {
     private Button confirmButton, cancelButton;
     private MutableLiveData<UserRepository.APIResponse> submitOrderResponse;
     PayInput payInput = null;
+    UUID uuid= UUID.randomUUID();
 
     public PaymentMethodDialogFragment(List<PaymentMethods> paymentMethods, APIToken token, Order order){
         this.paymentMethods = paymentMethods;
@@ -129,24 +137,25 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                         }
                     });
                 // Id = 2   for credit_card
-                }else if(tempId == 2){
+                }
+                else if(tempId == 2){   //Id = 2   for OpayCash
                     order.setPaymentType("credit_card");
 
-                    // in testing mode set the sandBox to true:
-                    // False for real payments
-
+                    // TODO: complete reference
+                    String reference = "android-" + order.getUserId() + "-" +uuid.toString();
+                    // getting opay settings
                     opayViewModel.getOpaySetting().observe(getViewLifecycleOwner(), new Observer<OpaySetting>() {
                         @Override
                         public void onChanged(OpaySetting opaySetting) {
+                            // in testing mode set the sandBox to true:
+                            // False for real payments
                             PaymentTask.Companion.setSandBox(opaySetting.isMode());
-                            // TODO: complete reference
-                            String reference = "android-" + order.getUserId();
                             payInput = new PayInput(opaySetting.getPublicKey(),
                                     opaySetting.getMerchantId(),
                                     "Salata", //merchant name
                                     reference, // reference
                                     "EG",//uppercase//country
-                                    (long) order.getOrderPrice(),//amount
+                                    (long) order.getOrderPrice()*100,//amount
                                     "EGP", //uppercase //currency
                                     "Vegetables & Fruits",//ProductName
                                     "testtest",//ProductDescription
@@ -157,12 +166,52 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                                     new UserInfo("UserId","UserName","UserPhone","Email")
                             );
 
+                            Log.e("Payment task", payInput.toString());
 
+                            opayViewModel.setOpayPaymentInput(order.getUserId(), reference).observe(getViewLifecycleOwner(), new Observer<UserRepository.APIResponse>() {
+                                @Override
+                                public void onChanged(UserRepository.APIResponse apiResponse) {
+                                    Log.e("Payment task", "onChanged");
+                                    switch (apiResponse) {
+                                        case SUCCESS:
+                                            Log.e("Payment task", "success api response");
+                                            new PaymentTask(getActivity()).createOrder(
+                                                    payInput, ((status, orderInfoHttpResponse) -> {
+                                                        switch (status) {
+                                                            case LOADING:
+                                                                Log.e("Payment task", "loading payment task");
+                                                                break;
+                                                            case CANCEL:
+                                                                Log.e("Payment task", "cancel payment task");
+                                                                break;
+                                                            case SUCCESS:
+                                                                Log.e("Payment task", "success payment task");
+                                                                loadingDialogFragment.dismiss();
+                                                                dismiss();
+                                                                break;
+                                                            default:
+                                                                Log.e("Payment task", "status: " + status.toString() + "orderInfo "+orderInfoHttpResponse);
+                                                        }
+                                                        return Unit.INSTANCE;
+                                                    })
+                                            );
+                                            break;
+                                        case ERROR:
+                                        case FAILED:
+                                            ErrorDialogFragment dialogFragment =
+                                                    new ErrorDialogFragment("حدث خطأ", "الاتصال بالانترنت ضعيف الرجاء الحاوله مره اخرى", false);
+                                            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                                            break;
+                                        default:
+                                            Log.e("Payment task", "default case");
 
-                            loadingDialogFragment.dismiss();
+                                    }
+
+                                }
+                            });
+
                         }
                     });
-
                 }
             }
         });
@@ -184,4 +233,37 @@ public class PaymentMethodDialogFragment extends DialogFragment {
         return inflater.inflate(R.layout.dialog_pay_method, container, false);
 
     }
+/*
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.e("onActivityResult", "onActivityResult0");
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e("onActivityResult", "onActivityResult1");
+        if (requestCode == PaymentTask.REQUEST_PAYMENT) {
+            Log.e("onActivityResult", "onActivityResult2");
+            if (resultCode == PaymentTask.RESULT_PAYMENT) {
+                Log.e("onActivityResult", "onActivityResult3");
+                WebJsResponse response = (WebJsResponse) data.getExtras().getSerializable(PaymentTask.RESPONSE_DATA);
+                switch (response.getOrderStatus()) {
+                    case PaymentStatus.INITIAL: {
+                        Log.e("onActivityResult", response.getOrderStatus());
+                        break;
+                    }
+                    case PaymentStatus.SUCCESS: {
+                        Log.e("onActivityResult", response.getOrderStatus());
+                        break;
+                    }
+                    case PaymentStatus.FAIL: {
+                        Log.e("onActivityResult", response.getOrderStatus());
+                        break;
+                    }
+                    case PaymentStatus.PENDING: {
+                        Log.e("onActivityResult", response.getOrderStatus());
+                        break;
+                    }
+                }
+            }
+        }
+    }
+*/
 }

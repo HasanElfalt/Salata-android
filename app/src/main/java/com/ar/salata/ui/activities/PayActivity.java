@@ -2,6 +2,7 @@ package com.ar.salata.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -30,6 +31,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.List;
+
+import team.opay.business.cashier.sdk.api.PaymentStatus;
+import team.opay.business.cashier.sdk.api.WebJsResponse;
+import team.opay.business.cashier.sdk.pay.PaymentTask;
 
 public class PayActivity extends BaseActivity {
     private static final int REQUESTORDER = 2;
@@ -161,6 +166,35 @@ public class PayActivity extends BaseActivity {
         if (requestCode == REQUESTORDER && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
             finish();
+        }else if (requestCode == PaymentTask.REQUEST_PAYMENT) {
+//                Log.e("onActivityResult", "onActivityResult2");
+                if (resultCode == PaymentTask.RESULT_PAYMENT) {
+  //                  Log.e("onActivityResult", "onActivityResult3");
+                    WebJsResponse response = (WebJsResponse) data.getExtras().getSerializable(PaymentTask.RESPONSE_DATA);
+                    switch (response.getOrderStatus()) {
+                        case PaymentStatus.INITIAL: {
+                            Log.e("onActivityResult", response.getOrderStatus());
+                            break;
+                        }
+                        case PaymentStatus.SUCCESS: {
+                            Log.e("onActivityResult", response.getOrderStatus());
+                            Intent intent = new Intent(this, HomeActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                            break;
+                        }
+                        case PaymentStatus.FAIL: {
+                            Log.e("onActivityResult", response.getOrderStatus());
+                            break;
+                        }
+                        case PaymentStatus.PENDING: {
+                            Log.e("onActivityResult", response.getOrderStatus());
+                            break;
+                        }
+                    }
+                }
+
         }
 
     }

@@ -9,6 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.ar.salata.repositories.API.OpayAPI;
 import com.ar.salata.repositories.model.OpaySetting;
+import com.ar.salata.ui.fragments.ErrorDialogFragment;
+
+import java.sql.PreparedStatement;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -50,5 +54,29 @@ public class OpayRepository {
             }
         });
         return res;
+    }
+
+    public MutableLiveData<UserRepository.APIResponse> setOpayPaymentInput(int userId, String ref){
+        MutableLiveData<UserRepository.APIResponse> result = new MutableLiveData<>();
+        opayAPI.setOpayPaymentInput(userId, ref).enqueue(new Callback<List<String>>() {
+            @Override
+            public void onResponse(Call<List<String>> call, Response<List<String>> response) {
+//                Log.e("OpayRepository", "1-" + response.body().toString() + "2-" + response.code());
+                if(response.isSuccessful()) {
+                    result.setValue(UserRepository.APIResponse.SUCCESS);
+//                    Log.e("OpayRepository2", "1-" + response.body().toString() + "2-" + response.code());
+                }else{
+                    Log.e("OpayRepository", "1-" + response.body().toString() + "2-" + response.code());
+                    result.setValue(UserRepository.APIResponse.ERROR);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<String>> call, Throwable t) {
+                result.setValue(UserRepository.APIResponse.FAILED);
+                Log.e("OpayRepository", "1-" + t.getMessage());
+            }
+        });
+        return result;
     }
 }

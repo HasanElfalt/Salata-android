@@ -48,7 +48,6 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     private int addressId;
     private int shiftId;
     private GoodsViewModel goodsViewModel;
-    private UserViewModel userViewModel;
     private APIToken token;
     private MutableLiveData<UserRepository.APIResponse> productsApiResponse;
     private long deliveryDateMS;
@@ -71,7 +70,6 @@ public class ChooseAddressDialogFragment extends DialogFragment {
         builder.setView(view);
 
         goodsViewModel = new ViewModelProvider(this).get(GoodsViewModel.class);
-        userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         RadioGroup addressGroup = (RadioGroup) view.findViewById(R.id.address_chooser_group);
         RadioGroup daysGroup = (RadioGroup) view.findViewById(R.id.day_chooser_group);
