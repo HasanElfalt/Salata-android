@@ -149,7 +149,7 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                                     "Salata", //merchant name
                                     reference, // reference
                                     "EG",//uppercase//country
-                                    (long) order.getOrderPrice()*100,//amount
+                                    (long) (order.getOrderPrice()*100),//amount
                                     "EGP", //uppercase //currency
                                     "Vegetables & Fruits",//ProductName
                                     "testtest",//ProductDescription

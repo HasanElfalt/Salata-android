@@ -204,9 +204,9 @@ public class PayActivity extends BaseActivity {
                                             break;
                                         }
                                         case FAILED: {
-                                            ErrorDialogFragment dialogFragment =
+                                            /*ErrorDialogFragment dialogFragment =
                                                     new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
-                                            dialogFragment.show(getSupportFragmentManager(), null);
+                                            dialogFragment.show(getSupportFragmentManager(), null);*/
                                             break;
                                         }
                                     }
