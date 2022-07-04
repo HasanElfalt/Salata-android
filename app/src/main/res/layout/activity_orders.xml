@@ -61,8 +61,10 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/calibri"
                 android:gravity="center"
-                android:textSize="16sp"
-                android:text="لإلغاء الطلب الرجاء الاتصال بخدمة العملاء"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="@color/red"
+                android:text="@string/to_delete_order_contact_call_center"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

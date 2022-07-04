@@ -29,11 +29,12 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:fontFamily="@font/calibrib"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
@@ -41,8 +42,18 @@
                         android:textAlignment="gravity"
                         android:textColor="@color/colorAccent"
                         android:textSize="@dimen/app_bar_title_size" />
-                </LinearLayout>
-            </androidx.appcompat.widget.Toolbar>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/calibri"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorAccent"
+                        android:text="@string/to_delete_order_contact_call_center" />
+                </LinearLayout>            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.AppBarLayout>
 

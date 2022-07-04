@@ -25,4 +25,5 @@
     <string name="server_connection_error">يوجد خطا فى الاتصال بالخادم</string>
     <string name="salata_unavailable_1">سلطة غير متاحة حاليا فى هذه المنظقة</string>
     <string name="salata_unavailable_2">ستكون متاحة قريبا</string>
+    <string name="to_delete_order_contact_call_center">لإلغاء الطلب الرجاء الاتصال بخدمة العملاء</string>
 </resources>
