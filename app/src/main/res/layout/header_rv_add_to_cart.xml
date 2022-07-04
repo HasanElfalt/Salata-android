@@ -36,6 +36,13 @@
             android:fontFamily="@font/calibrib"
             android:text="ت/ 01224567892"
             android:textColor="@color/colorFont" />
+        <TextView
+            android:id="@+id/tv_phone_3_add_to_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/calibrib"
+            android:text="ت/ 01224567892"
+            android:textColor="@color/colorFont" />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

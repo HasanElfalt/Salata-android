@@ -72,6 +72,7 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
                 headerItemViewHolder.deliveryDate.setText("موعد التسليم: " + order.getOrderDateDay() + " الساعة: " + order.getOrderDateHour(false));
                 headerItemViewHolder.phoneNumber1.setText(ArabicString.toArabic("ت/ " + phones.get(0)));
                 headerItemViewHolder.phoneNumber2.setText(ArabicString.toArabic("ت/ " + phones.get(1)));
+                headerItemViewHolder.phoneNumber3.setText(ArabicString.toArabic("ت/ " + phones.get(2)));
                 break;
             case FOOTER_VIEW:
                 footerItemViewHolder = (FooterItemViewHolder) holder;
@@ -142,12 +143,14 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
         TextView deliveryDate;
         TextView phoneNumber1;
         TextView phoneNumber2;
+        TextView phoneNumber3;
 
         public HeaderItemViewHolder(@NonNull View itemView) {
             super(itemView);
             deliveryDate = itemView.findViewById(R.id.tv_delivery_date_bill);
             phoneNumber1 = itemView.findViewById(R.id.tv_phone_1_bill);
             phoneNumber2 = itemView.findViewById(R.id.tv_phone_2_bill);
+            phoneNumber3 = itemView.findViewById(R.id.tv_phone_3_bill);
         }
     }
 }

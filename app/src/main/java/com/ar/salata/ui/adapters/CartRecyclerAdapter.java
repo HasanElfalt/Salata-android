@@ -89,6 +89,7 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                 itemViewHolderHeader.deliveryDate.setText("موعد التسليم: " + order.getOrderDateDay() + " الساعة: " + order.getOrderDateHour(false));
                 itemViewHolderHeader.phoneNumber1.setText(ArabicString.toArabic("ت/ " + phones.get(0)));
                 itemViewHolderHeader.phoneNumber2.setText(ArabicString.toArabic("ت/ " + phones.get(1)));
+                itemViewHolderHeader.phoneNumber3.setText(ArabicString.toArabic("ت/ " + phones.get(2)));
                 break;
             }
             case NORMAL_VIEW: {
@@ -248,12 +249,14 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
         TextView deliveryDate;
         TextView phoneNumber1;
         TextView phoneNumber2;
+        TextView phoneNumber3;
 
         public ItemViewHolderHeader(@NonNull View itemView) {
             super(itemView);
             deliveryDate = itemView.findViewById(R.id.tv_delivery_date_add_to_cart);
             phoneNumber1 = itemView.findViewById(R.id.tv_phone_1_add_to_cart);
             phoneNumber2 = itemView.findViewById(R.id.tv_phone_2_add_to_cart);
+            phoneNumber3 = itemView.findViewById(R.id.tv_phone_3_add_to_cart);
         }
     }
 }
