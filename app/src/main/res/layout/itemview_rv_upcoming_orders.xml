@@ -156,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/calibri"
                 android:text="إلغاء"
+                android:visibility="gone"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"

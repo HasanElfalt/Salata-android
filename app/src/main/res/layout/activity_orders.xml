@@ -55,11 +55,23 @@
             android:paddingVertical="24dp"
             tools:context=".ui.activities.OrdersActivity">
 
+            <TextView
+                android:id="@+id/tv_to_cancel_order"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/calibri"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:text="لإلغاء الطلب الرجاء الاتصال بخدمة العملاء"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_upcoming_orders"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@id/tv_to_cancel_order">
 
                 <TextView
                     android:id="@+id/tv_upcoming_orders"
