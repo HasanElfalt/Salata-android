@@ -4,6 +4,7 @@ import static com.ar.salata.ui.fragments.PaymentMethodDialogFragment.CREDIT_CARD
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -181,37 +182,58 @@ public class PayActivity extends BaseActivity {
                             break;
                         }
                         case PaymentStatus.SUCCESS: {
+
+                            LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+                            loadingDialogFragment.show(getSupportFragmentManager(),null);
+
+                            Log.e("PayActivity", "before delay");
+
+                            submitOrderResponse = orderViewModel.submitOrder(token, order);
+
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    //Do something after 100ms
+                                    Log.e("PayActivity", "inside delay");
+                                    submitOrderResponse.observe(PayActivity.this, new Observer<UserRepository.APIResponse>() {
+                                        @Override
+                                        public void onChanged(UserRepository.APIResponse apiResponse) {
+                                            switch (apiResponse) {
+                                                case SUCCESS: {
+                                                    loadingDialogFragment.dismiss();
+                                                    Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
+                                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                    startActivity(intent);
+                                                    finish();
+                                                    break;
+                                                }
+                                                case ERROR: {
+                                                    ErrorDialogFragment dialogFragment =
+                                                            new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+                                                    dialogFragment.show(getSupportFragmentManager(), null);
+                                                    break;
+                                                }
+                                                case FAILED: {
+                                            ErrorDialogFragment dialogFragment =
+                                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                                            dialogFragment.show(getSupportFragmentManager(), null);
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    });
+
+                                }
+                            }, 2000);
+
+                            Log.e("PayActivity", "after delay");
+
+
                             Log.e("onActivityResult", response.getOrderStatus());
                             order.setPaymentType(CREDIT_CARD);
                             Toast.makeText(this, "تم الدفع بنجاح",Toast.LENGTH_SHORT).show();
 
-                            submitOrderResponse = orderViewModel.submitOrder(token, order);
-                            submitOrderResponse.observe(this, new Observer<UserRepository.APIResponse>() {
-                                @Override
-                                public void onChanged(UserRepository.APIResponse apiResponse) {
-                                    switch (apiResponse) {
-                                        case SUCCESS: {
-                                            Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
-                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                            startActivity(intent);
-                                            finish();
-                                            break;
-                                        }
-                                        case ERROR: {
-                                            ErrorDialogFragment dialogFragment =
-                                                    new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
-                                            dialogFragment.show(getSupportFragmentManager(), null);
-                                            break;
-                                        }
-                                        case FAILED: {
-                                            /*ErrorDialogFragment dialogFragment =
-                                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
-                                            dialogFragment.show(getSupportFragmentManager(), null);*/
-                                            break;
-                                        }
-                                    }
-                                }
-                            });
                             break;
                         }
                         case PaymentStatus.FAIL: {
