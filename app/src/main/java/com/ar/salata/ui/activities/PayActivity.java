@@ -1,5 +1,7 @@
 package com.ar.salata.ui.activities;
 
+import static com.ar.salata.ui.fragments.PaymentMethodDialogFragment.CREDIT_CARD;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -44,6 +46,8 @@ public class PayActivity extends BaseActivity {
     private AppConfigViewModel appConfigViewModel;
     private MutableLiveData<UserRepository.APIResponse> submitOrderResponse;
     private TextInputLayout txInputNotes;
+    Order order;
+    APIToken token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +62,12 @@ public class PayActivity extends BaseActivity {
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
         appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
 
-        Order order = getIntent().getParcelableExtra(OrderViewModel.ORDER);
+        order = getIntent().getParcelableExtra(OrderViewModel.ORDER);
         // set notes text
         order.setNotes(txInputNotes.getEditText().getText().toString());
 
 //        Order order = orderViewModel.getOrder(orderLocalId);
-        APIToken token = userViewModel.getToken();
+        token = userViewModel.getToken();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
@@ -178,18 +182,47 @@ public class PayActivity extends BaseActivity {
                         }
                         case PaymentStatus.SUCCESS: {
                             Log.e("onActivityResult", response.getOrderStatus());
-                            Intent intent = new Intent(this, HomeActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(intent);
-                            finish();
+                            order.setPaymentType(CREDIT_CARD);
+                            Toast.makeText(this, "تم الدفع بنجاح",Toast.LENGTH_SHORT).show();
+
+                            submitOrderResponse = orderViewModel.submitOrder(token, order);
+                            submitOrderResponse.observe(this, new Observer<UserRepository.APIResponse>() {
+                                @Override
+                                public void onChanged(UserRepository.APIResponse apiResponse) {
+                                    switch (apiResponse) {
+                                        case SUCCESS: {
+                                            Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
+                                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                            startActivity(intent);
+                                            finish();
+                                            break;
+                                        }
+                                        case ERROR: {
+                                            ErrorDialogFragment dialogFragment =
+                                                    new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
+                                            dialogFragment.show(getSupportFragmentManager(), null);
+                                            break;
+                                        }
+                                        case FAILED: {
+                                            ErrorDialogFragment dialogFragment =
+                                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                                            dialogFragment.show(getSupportFragmentManager(), null);
+                                            break;
+                                        }
+                                    }
+                                }
+                            });
                             break;
                         }
                         case PaymentStatus.FAIL: {
                             Log.e("onActivityResult", response.getOrderStatus());
+                            ErrorDialogFragment dialogFragment =
+                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                            dialogFragment.show(getSupportFragmentManager(), null);
+
                             break;
                         }
                         case PaymentStatus.PENDING: {
-                            Log.e("onActivityResult", response.getOrderStatus());
                             break;
                         }
                     }

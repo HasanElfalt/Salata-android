@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.ar.salata.repositories.API.OpayAPI;
 import com.ar.salata.repositories.model.OpaySetting;
+import com.ar.salata.repositories.model.Refund;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 
 import java.sql.PreparedStatement;
@@ -78,5 +79,21 @@ public class OpayRepository {
             }
         });
         return result;
+    }
+
+    public MutableLiveData<Refund> refund(String userId){
+        MutableLiveData<Refund> res = new MutableLiveData<>();
+        opayAPI.refund(userId).enqueue(new Callback<Refund>() {
+            @Override
+            public void onResponse(Call<Refund> call, Response<Refund> response) {
+                res.setValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Refund> call, Throwable t) {
+                Log.e("OpayRepository", t.getMessage());
+            }
+        });
+        return res;
     }
 }

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.ar.salata.repositories.OpayRepository;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.OpaySetting;
+import com.ar.salata.repositories.model.Refund;
 
 public class OpayViewModel extends ViewModel {
 
@@ -17,5 +18,9 @@ public class OpayViewModel extends ViewModel {
 
     public MutableLiveData<UserRepository.APIResponse> setOpayPaymentInput(int userId, String ref){
         return opayRepository.setOpayPaymentInput(userId, ref);
+    }
+
+    public MutableLiveData<Refund> refund(String userId){
+        return opayRepository.refund(userId);
     }
 }

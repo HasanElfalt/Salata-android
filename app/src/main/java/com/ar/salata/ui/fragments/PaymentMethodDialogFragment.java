@@ -1,8 +1,6 @@
 package com.ar.salata.ui.fragments;
 
 
-import static com.ar.salata.repositories.UserRepository.APIResponse.SUCCESS;
-
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,22 +29,18 @@ import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.ui.activities.OrdersActivity;
 import com.ar.salata.viewmodels.OpayViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
-import com.ar.salata.viewmodels.UserViewModel;
 
 import java.util.List;
 import java.util.UUID;
 
 import kotlin.Unit;
 import team.opay.business.cashier.sdk.api.PayInput;
-import team.opay.business.cashier.sdk.api.PaymentStatus;
-import team.opay.business.cashier.sdk.api.Status;
 import team.opay.business.cashier.sdk.api.UserInfo;
-import team.opay.business.cashier.sdk.api.WebJsResponse;
 import team.opay.business.cashier.sdk.pay.PaymentTask;
 
 public class PaymentMethodDialogFragment extends DialogFragment {
 
-    public static final int PAYMENT_METHOD = 10;
+    public static final String CREDIT_CARD = "credit_card";
     private OrderViewModel orderViewModel;
     private OpayViewModel opayViewModel;
     private Order order;
@@ -139,10 +133,10 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                 // Id = 2   for credit_card
                 }
                 else if(tempId == 2){   //Id = 2   for OpayCash
-                    order.setPaymentType("credit_card");
-
-                    // TODO: complete reference
                     String reference = "android-" + order.getUserId() + "-" +uuid.toString();
+                    order.setPaymentType(CREDIT_CARD);
+                    order.setReference(reference);
+
                     // getting opay settings
                     opayViewModel.getOpaySetting().observe(getViewLifecycleOwner(), new Observer<OpaySetting>() {
                         @Override

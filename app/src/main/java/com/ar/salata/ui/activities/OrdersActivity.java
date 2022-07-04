@@ -24,6 +24,7 @@ import com.ar.salata.repositories.model.Order;
 import com.ar.salata.ui.adapters.OrdersRecyclerAdapter;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.LoadingDialogFragment;
+import com.ar.salata.viewmodels.OpayViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 
@@ -44,6 +45,7 @@ public class OrdersActivity extends BaseActivity {
     private TextView expandUpcomingOrdersTextView;
     private OrderViewModel orderViewModel;
     private UserViewModel userViewModel;
+    private OpayViewModel opayViewModel;
     private MutableLiveData<UserRepository.APIResponse> loadOrdersResponse;
     private MutableLiveData<List<Order>> getOrdersResponse;
     private OrdersRecyclerAdapter previousOrdersRecyclerAdapter;
@@ -71,9 +73,11 @@ public class OrdersActivity extends BaseActivity {
 
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
+        opayViewModel  = new ViewModelProvider(this).get(OpayViewModel.class);
 
-        upcomingOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, upcomingOrders, orderViewModel, userViewModel, true);
-        previousOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, previousOrders, orderViewModel, userViewModel, false);
+
+        upcomingOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, upcomingOrders, orderViewModel, userViewModel, opayViewModel,true);
+        previousOrdersRecyclerAdapter = new OrdersRecyclerAdapter(this, previousOrders, orderViewModel, userViewModel, opayViewModel, false);
 
         loadOrders();
 

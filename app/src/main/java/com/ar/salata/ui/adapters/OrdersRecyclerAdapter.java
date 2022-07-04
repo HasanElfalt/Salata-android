@@ -2,6 +2,7 @@ package com.ar.salata.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,18 +10,24 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ar.salata.R;
 import com.ar.salata.repositories.model.Order;
+import com.ar.salata.repositories.model.Refund;
 import com.ar.salata.repositories.model.Shift;
 import com.ar.salata.ui.activities.OrderDetailActivity;
 import com.ar.salata.ui.activities.OrderPreviewActivity;
 import com.ar.salata.ui.activities.OrdersActivity;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.OrderEditConfirmationDialogFragment;
+import com.ar.salata.ui.fragments.PaymentMethodDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.ui.utils.TimeFormats;
+import com.ar.salata.viewmodels.OpayViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
 import com.bumptech.glide.Glide;
@@ -34,16 +41,18 @@ import static java.lang.Math.round;
 public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
     private final OrderViewModel orderViewModel;
     private final UserViewModel userViewModel;
+    private final OpayViewModel opayViewModel;
     private boolean upcomingOrder;
     private Context context;
     private ArrayList<Order> orders;
 
-    public OrdersRecyclerAdapter(Context context, ArrayList<Order> orders, OrderViewModel orderViewModel, UserViewModel userViewModel, boolean upcomingOrder) {
+    public OrdersRecyclerAdapter(Context context, ArrayList<Order> orders, OrderViewModel orderViewModel, UserViewModel userViewModel, OpayViewModel opayViewModel,boolean upcomingOrder) {
         this.upcomingOrder = upcomingOrder;
         this.context = context;
         this.orders = orders;
         this.orderViewModel = orderViewModel;
         this.userViewModel = userViewModel;
+        this.opayViewModel = opayViewModel;
     }
 
     @NonNull
@@ -107,6 +116,14 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     if (context instanceof OrdersActivity) {
                         if (orders.get(position).isModifiable()) {
+                           if(orders.get(position).getPaymentType().equals(PaymentMethodDialogFragment.CREDIT_CARD)){
+                                opayViewModel.refund(String.valueOf(orders.get(position).getOrderId())).observe((LifecycleOwner) context, new Observer<Refund>() {
+                                    @Override
+                                    public void onChanged(Refund refund) {
+                                        Log.e("OrderRecycleAdapter", refund.getMessage());
+                                    }
+                                });
+                            }
                             OrderEditConfirmationDialogFragment confirmationDialogFragment =
                                     OrderEditConfirmationDialogFragment.newInstance("تأكيد الالغاء",
                                             "هل تود الغاء الطلب رقم " + orders.get(position).getOrderId(),
