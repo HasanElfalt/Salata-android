@@ -106,6 +106,8 @@ public class OrderPreviewActivity extends BaseActivity {
             }
         });
 
+        /*
+        // for showing and hiding the floating button
         orderPreviewScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -115,7 +117,7 @@ public class OrderPreviewActivity extends BaseActivity {
                     orderEditEFAB.show();
                 }
             }
-        });
+        });*/
 
     }
 

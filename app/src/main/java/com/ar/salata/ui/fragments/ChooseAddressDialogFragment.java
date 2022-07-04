@@ -56,8 +56,7 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     private String shiftString;
     private String minPurchase;
     private boolean selectedAddressHasDates = false;
-    TextView tvHint;
-    HorizontalScrollView horizontalScrollView1, horizontalScrollView2;
+    TextView chooseDay, chooseTime;
 
     public ChooseAddressDialogFragment(List<UserAddress> addresses, APIToken token) {
         this.addresses = addresses;
@@ -79,9 +78,8 @@ public class ChooseAddressDialogFragment extends DialogFragment {
         RadioGroup daysGroup = (RadioGroup) view.findViewById(R.id.day_chooser_group);
         RadioGroup timeGroup = (RadioGroup) view.findViewById(R.id.time_chooser_group);
 
-        tvHint = view.findViewById(R.id.text_view_hint);
-        horizontalScrollView1 = view.findViewById(R.id.scroll_view_1);
-        horizontalScrollView2 = view.findViewById(R.id.scroll_view_2);
+        chooseDay = view.findViewById(R.id.textView2);
+        chooseTime= view.findViewById(R.id.textView3);
 
         for (UserAddress address : addresses) {
             RadioButton radioButton = new RadioButton(getContext(), null, R.attr.RadioButtonStyle, R.style.RadioButtonStyle);
@@ -133,13 +131,11 @@ public class ChooseAddressDialogFragment extends DialogFragment {
 
                     if(selectedAddressHasDates) {
                         ((RadioButton) daysGroup.getChildAt(0)).setChecked(true);
-                        horizontalScrollView1.setVisibility(View.VISIBLE);
-                        horizontalScrollView2.setVisibility(View.VISIBLE);
-                        tvHint.setVisibility(View.GONE);
+                        chooseDay.setText(R.string.choose_delivery_day);
+                        chooseTime.setText(R.string.choose_delivery_time);
                     }else{
-                        horizontalScrollView1.setVisibility(View.INVISIBLE);
-                        horizontalScrollView2.setVisibility(View.INVISIBLE);
-                        tvHint.setVisibility(View.VISIBLE);
+                        chooseDay.setText(R.string.salata_unavailable_1);
+                        chooseTime.setText(R.string.salata_unavailable_2);
                     }
                 }
             });
