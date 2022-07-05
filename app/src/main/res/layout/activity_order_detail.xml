@@ -49,7 +49,7 @@
                         android:fontFamily="@font/calibri"
                         android:layout_marginTop="8dp"
                         android:layout_gravity="center"
-                        android:textSize="24sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         android:textColor="@color/colorAccent"
                         android:text="@string/to_delete_order_contact_call_center" />

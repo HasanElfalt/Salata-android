@@ -160,7 +160,7 @@ public class Order extends RealmObject implements Parcelable {
 
     public String getOrderDateHour(boolean fromLong) {
         if (fromLong || orderDateHour == null)
-            return TimeFormats.getArabicHour(orderDeliveryMS);
+            return TimeFormats.getArabicHour(deliveryShiftFrom) + " ~ " + TimeFormats.getArabicHour(deliveryShiftTo);
         else
             return orderDateHour;
     }

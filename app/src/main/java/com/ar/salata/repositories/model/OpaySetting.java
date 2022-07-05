@@ -11,6 +11,15 @@ public class OpaySetting {
     private String publicKey;
     private boolean mode;
     private String Callbackurl;
+    private String payMethod;
+
+    public String getPayMethod() {
+        return payMethod;
+    }
+
+    public void setPayMethod(String payMethod) {
+        this.payMethod = payMethod;
+    }
 
     public String getMerchantId() {
         return merchantId;

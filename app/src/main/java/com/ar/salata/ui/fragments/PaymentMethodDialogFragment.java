@@ -154,7 +154,7 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                                     "Vegetables & Fruits",//ProductName
                                     "testtest",//ProductDescription
                                     opaySetting.getCallbackurl(),
-                                    "BankCard",//Payment Type
+                                    opaySetting.getPayMethod(),//Payment Type
                                     30,//expire at
                                     "110.246.160.183",// user ip
                                     new UserInfo("UserId","UserName","UserPhone","Email")
