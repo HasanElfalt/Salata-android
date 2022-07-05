@@ -64,8 +64,6 @@ public class PayActivity extends BaseActivity {
         appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
 
         order = getIntent().getParcelableExtra(OrderViewModel.ORDER);
-        // set notes text
-        order.setNotes(txInputNotes.getEditText().getText().toString());
 
 //        Order order = orderViewModel.getOrder(orderLocalId);
         token = userViewModel.getToken();
@@ -90,6 +88,9 @@ public class PayActivity extends BaseActivity {
                     errorDialogFragment.show(getSupportFragmentManager(), null);
                     return;
                 }
+                // set notes text
+                order.setNotes(txInputNotes.getEditText().getText().toString());
+
                 // Loading LoadingDialog
                 LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
                 loadingDialogFragment.show(getSupportFragmentManager(), null);
