@@ -64,7 +64,7 @@ public class SignInActivity extends BaseActivity {
 									break;
 								case AUTHENTICATION_ERROR: {
 									ErrorDialogFragment dialogFragment =
-                                            new ErrorDialogFragment("حدث خطأ", "فشلت عملية تسجيل الدخول", false);
+                                            new ErrorDialogFragment("حدث خطأ", "يرجى التأكد من رقم التليفون و الرقم السرى", false);
 									dialogFragment.show(getSupportFragmentManager(), null);
 									break;
 								}
