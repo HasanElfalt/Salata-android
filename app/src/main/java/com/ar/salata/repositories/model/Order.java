@@ -32,7 +32,8 @@ public class Order extends RealmObject implements Parcelable {
     //    @SerializedName("order_date_day")
 //    private String orderDateDay;
 //    @SerializedName("order_date_hour")
-    private String orderDateHour;
+    private String orderDateHourFrom;
+    private String orderDateHourTo;
     @SerializedName("shift_id")
     private int shiftId;
     @SerializedName("address_id")
@@ -69,38 +70,6 @@ public class Order extends RealmObject implements Parcelable {
     @SerializedName("auth_id")
     private String authId;
 
-    public String getNotes() {
-        return notes;
-    }
-
-    public void setNotes(String notes) {
-        this.notes = notes;
-    }
-
-    public String getPaymentType() {
-        return paymentType;
-    }
-
-    public void setPaymentType(String paymentType) {
-        this.paymentType = paymentType;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public String getAuthId() {
-        return authId;
-    }
-
-    public void setAuthId(String authId) {
-        this.authId = authId;
-    }
-
     public Order() {
     }
 
@@ -109,7 +78,8 @@ public class Order extends RealmObject implements Parcelable {
                  int userId,
                  long deliveryDateMS,
                  String deliveryDate,
-                 String deliveryHour) {
+                 String deliveryHourFrom,
+                 String deliveryHourTo) {
 
         this.shiftId = shiftId;
         this.addressId = addressId;
@@ -117,14 +87,17 @@ public class Order extends RealmObject implements Parcelable {
         this.deliveryDate = deliveryDate;
         this.orderDeliveryMS = deliveryDateMS;
         this.orderPrice = orderPrice;
-        this.orderDateHour = deliveryHour;
+        this.orderDateHourFrom = deliveryHourFrom;
+        this.orderDateHourTo = deliveryHourTo;
+
 //        this.orderLocalId = UUID.randomUUID().toString();
     }
 
     protected Order(Parcel in) {
         orderId = in.readInt();
 //        orderDateDay = in.readString();
-        orderDateHour = in.readString();
+        orderDateHourFrom = in.readString();
+        orderDateHourTo = in.readString();
         orderPrice = in.readDouble();
         shiftId = in.readInt();
         addressId = in.readInt();
@@ -159,10 +132,10 @@ public class Order extends RealmObject implements Parcelable {
 //    }
 
     public String getOrderDateHour(boolean fromLong) {
-        if (fromLong || orderDateHour == null)
+        if (fromLong || orderDateHourFrom == null)
             return TimeFormats.getArabicHour(deliveryShiftFrom) + " ~ " + TimeFormats.getArabicHour(deliveryShiftTo);
         else
-            return orderDateHour;
+            return orderDateHourFrom + " ~ " + orderDateHourTo;
     }
 
 //    public void setOrderDateHour(String orderDateHour) {
@@ -184,6 +157,39 @@ public class Order extends RealmObject implements Parcelable {
 //    public void setOrderImage(int orderImage) {
 //        this.orderImage = orderImage;
 //    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getAuthId() {
+        return authId;
+    }
+
+    public void setAuthId(String authId) {
+        this.authId = authId;
+    }
+
 
     public int getShiftId() {
         return shiftId;
@@ -337,7 +343,8 @@ public class Order extends RealmObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(orderId);
 //        dest.writeString(orderDateDay);
-        dest.writeString(orderDateHour);
+        dest.writeString(orderDateHourFrom);
+        dest.writeString(orderDateHourTo);
         dest.writeDouble(orderPrice);
         dest.writeInt(shiftId);
         dest.writeInt(addressId);

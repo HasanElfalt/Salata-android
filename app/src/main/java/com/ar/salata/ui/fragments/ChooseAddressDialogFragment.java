@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,7 +43,8 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     public static final String SHIFT_ID = "ShiftId";
     public static final String DELIVERY_DATE = "DeliveryDate";
     public static final String DELIVERY_DATE_MS = "DeliveryDateMS";
-    public static final String DELIVERY_HOUR = "DeliveryHour";
+    public static final String DELIVERY_HOUR_FROM = "DeliveryHourFrom";
+    public static final String DELIVERY_HOUR_To = "DeliveryHourTo";
     public static final String MIN_PURCHASE = "minPurchase";
     private List<UserAddress> addresses;
     private Button confirmButton;
@@ -53,7 +56,8 @@ public class ChooseAddressDialogFragment extends DialogFragment {
     private APIToken token;
     private MutableLiveData<UserRepository.APIResponse> productsApiResponse;
     private long deliveryDateMS;
-    private String shiftString;
+    private String shiftFromString;
+    private String shiftToString;
     private String minPurchase;
     private boolean selectedAddressHasDates = false;
     TextView chooseDay, chooseTime;
@@ -118,7 +122,8 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                                             if (!isChecked) return;
 
                                             shiftId = shift.getId();
-                                            shiftString = ArabicString.toArabic(shift.getFrom());
+                                            shiftFromString = ArabicString.toArabic(shift.getFrom());
+                                            shiftToString = ArabicString.toArabic(shift.getTo());
                                         }
                                     });
                                     timeGroup.addView(radioButton);
@@ -171,7 +176,8 @@ public class ChooseAddressDialogFragment extends DialogFragment {
                                             intent.putExtra(SHIFT_ID, shiftId);
                                             intent.putExtra(DELIVERY_DATE, deliveryDate);
                                             intent.putExtra(DELIVERY_DATE_MS, deliveryDateMS);
-                                            intent.putExtra(DELIVERY_HOUR, shiftString);
+                                            intent.putExtra(DELIVERY_HOUR_FROM, shiftFromString);
+                                            intent.putExtra(DELIVERY_HOUR_To, shiftToString);
                                             intent.putExtra(MIN_PURCHASE, minPurchase);
                                             getTargetFragment().onActivityResult(getTargetRequestCode(), Activity.RESULT_OK, intent);
                                             dismiss();
