@@ -23,7 +23,7 @@
     <string name="demo_bill_price">اجمالى المبلغ: 1500 جنيه فقط لا غير</string>
     <string name="demo_bill_delivery_date">موعد التسليم: الاحد 22/3/2020 الساعة 01:00 ظهرا ~ 01:00 ظهرا</string>
     <string name="server_connection_error">يوجد خطا فى الاتصال بالخادم</string>
-    <string name="salata_unavailable_1">سلطة غير متاحة حاليا فى هذه المنظقة</string>
+    <string name="salata_unavailable_1">سلطة غير متاحة حاليا فى هذه المنطقة</string>
     <string name="salata_unavailable_2">ستكون متاحة قريبا</string>
     <string name="to_delete_order_contact_call_center">لإلغاء الطلب الرجاء الاتصال بخدمة العملاء</string>
 </resources>

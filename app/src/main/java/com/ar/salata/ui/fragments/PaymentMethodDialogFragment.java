@@ -180,7 +180,6 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                                                                 break;
                                                             case SUCCESS:
                                                                 Log.e("Payment task", "success payment task");
-                                                                loadingDialogFragment.dismiss();
                                                                 dismiss();
                                                                 break;
                                                             default:
@@ -200,7 +199,7 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                                             Log.e("Payment task", "default case");
 
                                     }
-
+                                    loadingDialogFragment.dismiss();
                                 }
                             });
 
