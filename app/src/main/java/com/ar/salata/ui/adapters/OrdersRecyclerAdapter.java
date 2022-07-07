@@ -1,5 +1,7 @@
 package com.ar.salata.ui.adapters;
 
+import static android.provider.ContactsContract.Intents.Insert.NOTES;
+
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -99,6 +101,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, OrderDetailActivity.class);
                     intent.putExtra(ORDER_ID, orders.get(position).getOrderId());
+                    intent.putExtra(NOTES, orders.get(position).getNotes());
                     context.startActivity(intent);
                 }
             });
@@ -108,6 +111,7 @@ public class OrdersRecyclerAdapter extends RecyclerView.Adapter {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, OrderPreviewActivity.class);
                     intent.putExtra(ORDER_ID, orders.get(position).getOrderId());
+                    intent.putExtra(NOTES, orders.get(position).getNotes());
                     ((OrdersActivity) context).startActivityForResult(intent, OrdersActivity.UPDATE_ORDER);
                 }
             });

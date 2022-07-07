@@ -165,7 +165,7 @@ public class SignUpActivity extends BaseActivity {
 									break;
 								case AUTHENTICATION_ERROR: {
 									ErrorDialogFragment dialogFragment =
-                                            new ErrorDialogFragment("حدث خطأ", "فشلت عملية التسجيل", false);
+                                            new ErrorDialogFragment("حدث خطأ", "هذا الرقم مستخدم من قبل", false);
 									dialogFragment.show(getSupportFragmentManager(), null);
 									break;
 								}

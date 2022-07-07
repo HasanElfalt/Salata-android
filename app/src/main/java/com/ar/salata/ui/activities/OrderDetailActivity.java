@@ -1,6 +1,7 @@
 package com.ar.salata.ui.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;
@@ -18,7 +19,9 @@ import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.viewmodels.AppConfigViewModel;
 import com.ar.salata.viewmodels.OrderViewModel;
 import com.ar.salata.viewmodels.UserViewModel;
+import com.google.android.material.textfield.TextInputLayout;
 
+import static com.ar.salata.viewmodels.OrderViewModel.NOTES;
 import static com.ar.salata.viewmodels.OrderViewModel.ORDER_ID;
 
 public class OrderDetailActivity extends BaseActivity {
@@ -30,16 +33,23 @@ public class OrderDetailActivity extends BaseActivity {
     private MutableLiveData<UserRepository.APIResponse> orderProductsLiveData;
     private Order order;
     private FinalBillRecyclerAdapter adapter;
+    private TextInputLayout txInputNotesOrderDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        txInputNotesOrderDetails = findViewById(R.id.et_notes_order_details);
 
         appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
         userViewModel = new ViewModelProvider(this).get(UserViewModel.class);
 
         orderId = getIntent().getIntExtra(ORDER_ID, 0);
+
+        if(getIntent().getStringExtra(NOTES)!=null) {
+            txInputNotesOrderDetails.getEditText().setText(getIntent().getStringExtra(NOTES));
+        }
 
         RecyclerView recyclerView = findViewById(R.id.rv_order_detail);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));

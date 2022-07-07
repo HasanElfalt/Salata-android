@@ -14,6 +14,7 @@ import java.util.List;
 public class OrderViewModel extends ViewModel {
     public static final String ORDER = "Order";
     public static final String ORDER_ID = "OrderID";
+    public static final String NOTES = "notes";
     private OrderRepository orderRepository = new OrderRepository();
     private MutableLiveData<Order> orderMutableLiveData = new MutableLiveData<>();
 
