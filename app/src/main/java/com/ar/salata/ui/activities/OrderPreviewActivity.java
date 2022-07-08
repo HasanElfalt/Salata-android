@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
@@ -41,12 +42,14 @@ public class OrderPreviewActivity extends BaseActivity {
     private int orderId;
     private FinalBillRecyclerAdapter adapter;
     private TextInputLayout txInputNotesOrderDetails;
+    private TextView paymentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         txInputNotesOrderDetails = findViewById(R.id.et_notes_order_preview);
+        paymentType = findViewById(R.id.payment_type);
 
         appConfigViewModel = new ViewModelProvider(this).get(AppConfigViewModel.class);
         orderViewModel = new ViewModelProvider(this).get(OrderViewModel.class);
@@ -92,6 +95,7 @@ public class OrderPreviewActivity extends BaseActivity {
                 switch (response) {
                     case SUCCESS: {
                         order = orderViewModel.getOrder(orderId);
+                        paymentType.setText( "طريقة الدفع: " + order.getPaymentType());
                         adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, appConfigViewModel.getPhones());
                         adapter.setHasStableIds(true);
                         recyclerView.setAdapter(adapter);

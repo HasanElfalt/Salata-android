@@ -34,6 +34,8 @@ public class OrderUnit extends RealmObject implements Parcelable {
     private Double productPrice;
     @SerializedName("units_count")
     private double count;
+    @SerializedName("payment_type")
+    private String paymentType;
 
     public OrderUnit() {
     }
@@ -100,6 +102,14 @@ public class OrderUnit extends RealmObject implements Parcelable {
 
     public void setProductUnitName(String productUnitName) {
         this.productUnitName = productUnitName;
+    }
+
+    public String getPaymentType() {
+        return paymentType;
+    }
+
+    public void setPaymentType(String paymentType) {
+        this.paymentType = paymentType;
     }
 
     public String getProductImage() {
