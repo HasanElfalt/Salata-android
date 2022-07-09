@@ -84,7 +84,8 @@ public class PaymentMethodDialogFragment extends DialogFragment {
             paymentRadioButton.setId(payment.getId());
             paymentRadioGroup.addView(paymentRadioButton);
         }
-        ((RadioButton) paymentRadioGroup.getChildAt(0)).setChecked(true);
+        if(paymentRadioGroup!= null)
+            ((RadioButton) paymentRadioGroup.getChildAt(0)).setChecked(true);
 
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override

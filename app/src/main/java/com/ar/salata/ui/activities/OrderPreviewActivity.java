@@ -95,7 +95,11 @@ public class OrderPreviewActivity extends BaseActivity {
                 switch (response) {
                     case SUCCESS: {
                         order = orderViewModel.getOrder(orderId);
-                        paymentType.setText( "طريقة الدفع: " + order.getPaymentType());
+                        if(order.getPaymentType().equals("credit_card")) {
+                            paymentType.setText("طريقة الدفع: الدفع أونلاين");
+                        }else if(order.getPaymentType().equals("cash_on_delivery")){
+                            paymentType.setText("طريقة الدفع: الدفع عند الاستــلام");
+                        }
                         adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, appConfigViewModel.getPhones());
                         adapter.setHasStableIds(true);
                         recyclerView.setAdapter(adapter);

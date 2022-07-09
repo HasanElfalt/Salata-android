@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
                                 case FAILED: {
                                     loadingDialogFragment.dismiss();
                                     ErrorDialogFragment dialogFragment =
-                                            new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                                            new ErrorDialogFragment("حدث خطأ", "حدث خطأ أثناء الاتصال بالخادم", false);
                                     dialogFragment.show(HomeFragment.this.getActivity().getSupportFragmentManager(), null);
                                     break;
                                 }
