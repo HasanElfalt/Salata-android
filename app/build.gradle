@@ -3,16 +3,16 @@ apply plugin: 'realm-android'
 
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
     ndkVersion  "21.0.6113669"
 
     defaultConfig {
         applicationId "com.ar.salata"
         minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 6
-        versionName "1.4"
+        targetSdkVersion 30
+        versionCode 7
+        versionName "1.5"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
