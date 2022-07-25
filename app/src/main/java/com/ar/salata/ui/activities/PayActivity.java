@@ -240,7 +240,7 @@ public class PayActivity extends BaseActivity {
                         case PaymentStatus.FAIL: {
                             Log.e("onActivityResult", response.getOrderStatus());
                             ErrorDialogFragment dialogFragment =
-                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
+                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.payment_fail), false);
                             dialogFragment.show(getSupportFragmentManager(), null);
 
                             break;
