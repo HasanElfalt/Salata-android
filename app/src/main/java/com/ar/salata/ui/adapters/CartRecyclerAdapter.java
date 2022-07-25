@@ -208,14 +208,19 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
         if(products.size()==0)
             return super.getItemId(position);
         else {
-            Log.e("CartRecyclerAdapter", "Cat Id: " + products.get(position).getCategoryId() + "position: " + position);
-            return products.get(position).getId();
+            try {
+                Log.e("CartRecyclerAdapter", "Cat Id: " + products.get(position).getCategoryId() + "position: " + position);
+                return products.get(position).getId();
+            }catch (IndexOutOfBoundsException e){
+                return products.get(position-1).getId();
+            }
         }
+
     }
 
     @Override
     public int getItemCount() {
-        return products.size();
+        return products.size()+1;
     }
 
     class ItemViewHolderNormal extends RecyclerView.ViewHolder {
