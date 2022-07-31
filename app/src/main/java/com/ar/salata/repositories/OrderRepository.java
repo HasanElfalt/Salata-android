@@ -1,7 +1,10 @@
 package com.ar.salata.repositories;
 
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.MutableLiveData;
 
+import com.ar.salata.R;
 import com.ar.salata.repositories.API.OrderAPI;
 import com.ar.salata.repositories.model.APIToken;
 import com.ar.salata.repositories.model.Order;
@@ -12,6 +15,7 @@ import com.ar.salata.repositories.model.OrdersResponse;
 import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.repositories.model.Product;
 import com.ar.salata.repositories.model.ResponseMessage;
+import com.ar.salata.ui.fragments.ErrorDialogFragment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +34,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.ar.salata.SalataApplication.BASEURL;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 public class OrderRepository {
@@ -299,6 +305,8 @@ public class OrderRepository {
 
             @Override
             public void onFailure(Call<List<PaymentMethods>> call, Throwable t) {
+                paymentMethods.setValue(null);
+
                 Log.e(TAG, t.toString());
             }
         });

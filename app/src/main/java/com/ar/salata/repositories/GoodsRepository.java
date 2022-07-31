@@ -138,6 +138,7 @@ public class GoodsRepository {
 
             @Override
             public void onFailure(Call<StockProductList> call, Throwable t) {
+                products.setValue(null);
                 Log.e("Goods Repository", t.toString());
             }
         });

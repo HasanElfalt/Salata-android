@@ -25,6 +25,7 @@ import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.ui.adapters.FinalBillRecyclerAdapter;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
+import com.ar.salata.ui.fragments.HomeFragment;
 import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.ui.fragments.PaymentMethodDialogFragment;
 import com.ar.salata.viewmodels.AppConfigViewModel;
@@ -100,8 +101,14 @@ public class PayActivity extends BaseActivity {
                     @Override
                     public void onChanged(List<PaymentMethods> paymentMethods) {
                         loadingDialogFragment.dismiss();
-                        PaymentMethodDialogFragment paymentMethodDialogFragment = new PaymentMethodDialogFragment(paymentMethods,token, order);
-                        paymentMethodDialogFragment.show(getSupportFragmentManager(),null);
+                        if(paymentMethods != null) {
+                            PaymentMethodDialogFragment paymentMethodDialogFragment = new PaymentMethodDialogFragment(paymentMethods, token, order);
+                            paymentMethodDialogFragment.show(getSupportFragmentManager(), null);
+                        }else{
+                            ErrorDialogFragment dialogFragment =
+                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
+                            dialogFragment.show(getSupportFragmentManager(), null);
+                        }
                     }
                 });
 

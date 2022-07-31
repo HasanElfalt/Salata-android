@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -144,66 +145,71 @@ public class PaymentMethodDialogFragment extends DialogFragment {
                         public void onChanged(OpaySetting opaySetting) {
                             // in testing mode set the sandBox to true:
                             // False for real payments
-                            PaymentTask.Companion.setSandBox(opaySetting.isMode());
-                            payInput = new PayInput(opaySetting.getPublicKey(),
-                                    opaySetting.getMerchantId(),
-                                    "Salata", //merchant name
-                                    reference, // reference
-                                    "EG",//uppercase//country
-                                    (long) (order.getOrderPrice()*100),//amount
-                                    "EGP", //uppercase //currency
-                                    "Vegetables & Fruits",//ProductName
-                                    "testtest",//ProductDescription
-                                    opaySetting.getCallbackurl(),
-                                    opaySetting.getPayMethod(),//Payment Type
-                                    30,//expire at
-                                    "110.246.160.183",// user ip
-                                    new UserInfo("UserId","UserName","UserPhone","Email")
-                            );
+                            if(opaySetting!=null) {
+                                PaymentTask.Companion.setSandBox(opaySetting.isMode());
+                                payInput = new PayInput(opaySetting.getPublicKey(),
+                                        opaySetting.getMerchantId(),
+                                        "Salata", //merchant name
+                                        reference, // reference
+                                        "EG",//uppercase//country
+                                        (long) (order.getOrderPrice() * 100),//amount
+                                        "EGP", //uppercase //currency
+                                        "Vegetables & Fruits",//ProductName
+                                        "testtest",//ProductDescription
+                                        opaySetting.getCallbackurl(),
+                                        opaySetting.getPayMethod(),//Payment Type
+                                        30,//expire at
+                                        "110.246.160.183",// user ip
+                                        new UserInfo("UserId", "UserName", "UserPhone", "Email")
+                                );
 
-                            Log.e("Payment task", payInput.toString());
+                                Log.e("Payment task", payInput.toString());
 
-                            opayViewModel.setOpayPaymentInput(order.getUserId(), reference).observe(getViewLifecycleOwner(), new Observer<UserRepository.APIResponse>() {
-                                @Override
-                                public void onChanged(UserRepository.APIResponse apiResponse) {
-                                    Log.e("Payment task", "onChanged");
-                                    switch (apiResponse) {
-                                        case SUCCESS:
-                                            Log.e("Payment task", "success api response");
-                                            new PaymentTask(getActivity()).createOrder(
-                                                    payInput, ((status, orderInfoHttpResponse) -> {
-                                                        switch (status) {
-                                                            case LOADING:
-                                                                Log.e("Payment task", "loading payment task");
-                                                                break;
-                                                            case CANCEL:
-                                                                Log.e("Payment task", "cancel payment task");
-                                                                break;
-                                                            case SUCCESS:
-                                                                Log.e("Payment task", "success payment task");
-                                                                dismiss();
-                                                                break;
-                                                            default:
-                                                                Log.e("Payment task", "status: " + status.toString() + "orderInfo "+orderInfoHttpResponse);
-                                                        }
-                                                        return Unit.INSTANCE;
-                                                    })
-                                            );
-                                            break;
-                                        case ERROR:
-                                        case FAILED:
-                                            ErrorDialogFragment dialogFragment =
-                                                    new ErrorDialogFragment("حدث خطأ", "الاتصال بالانترنت ضعيف الرجاء الحاوله مره اخرى", false);
-                                            dialogFragment.show(getActivity().getSupportFragmentManager(), null);
-                                            break;
-                                        default:
-                                            Log.e("Payment task", "default case");
+                                opayViewModel.setOpayPaymentInput(order.getUserId(), reference).observe(getViewLifecycleOwner(), new Observer<UserRepository.APIResponse>() {
+                                    @Override
+                                    public void onChanged(UserRepository.APIResponse apiResponse) {
+                                        Log.e("Payment task", "onChanged");
+                                        switch (apiResponse) {
+                                            case SUCCESS:
+                                                Log.e("Payment task", "success api response");
+                                                new PaymentTask(getActivity()).createOrder(
+                                                        payInput, ((status, orderInfoHttpResponse) -> {
+                                                            switch (status) {
+                                                                case LOADING:
+                                                                    Log.e("Payment task", "loading payment task");
+                                                                    break;
+                                                                case CANCEL:
+                                                                    Log.e("Payment task", "cancel payment task");
+                                                                    break;
+                                                                case SUCCESS:
+                                                                    Log.e("Payment task", "success payment task");
+                                                                    dismiss();
+                                                                    break;
+                                                                default:
+                                                                    Log.e("Payment task", "status: " + status.toString() + "orderInfo " + orderInfoHttpResponse);
+                                                            }
+                                                            return Unit.INSTANCE;
+                                                        })
+                                                );
+                                                break;
+                                            case ERROR:
+                                            case FAILED:
+                                                ErrorDialogFragment dialogFragment =
+                                                        new ErrorDialogFragment("حدث خطأ", "الاتصال بالانترنت ضعيف الرجاء الحاوله مره اخرى", false);
+                                                dialogFragment.show(getActivity().getSupportFragmentManager(), null);
+                                                break;
+                                            default:
+                                                Log.e("Payment task", "default case");
 
+                                        }
+                                        loadingDialogFragment.dismiss();
                                     }
-                                    loadingDialogFragment.dismiss();
-                                }
-                            });
-
+                                });
+                            }else{
+                                ErrorDialogFragment dialogFragment =
+                                        new ErrorDialogFragment("حدث خطأ", "يوجد مشكلة فى الاتصال بالانترنت", true);
+                                dialogFragment.show(PaymentMethodDialogFragment.this.getActivity().getSupportFragmentManager(), null);
+                            }
                         }
                     });
                 }

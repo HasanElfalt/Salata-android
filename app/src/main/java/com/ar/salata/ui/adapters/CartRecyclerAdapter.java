@@ -1,5 +1,6 @@
 package com.ar.salata.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -26,6 +28,7 @@ import com.ar.salata.repositories.model.StockProductList;
 import com.ar.salata.ui.activities.AddToCartActivity;
 import com.ar.salata.ui.activities.BaseActivity;
 import com.ar.salata.ui.activities.OrderEditActivity;
+import com.ar.salata.ui.fragments.ErrorDialogFragment;
 import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.ui.utils.ArabicString;
 import com.ar.salata.viewmodels.GoodsViewModel;
@@ -103,25 +106,31 @@ public class CartRecyclerAdapter extends RecyclerView.Adapter {
                         @Override
                         public void onChanged(StockProductList stockProductList) {
                             loadingDialogFragment.dismiss();
-                            if (context instanceof AddToCartActivity) {
-                                for (StockProduct product : stockProductList.getProductList()) {
-                                    if (product.getRemain() > 0)
-                                        products.add(product);
-                                }
-                            } else if (context instanceof OrderEditActivity) {
-                                Order order = orderViewModel.getOrderMutableLiveData().getValue();
-                                ArrayList<Integer> ids = new ArrayList<>();
-                                for (OrderUnit unit : order.getUnits()) {
-                                    ids.add(unit.getProductId());
-                                }
-                                for (StockProduct stockProduct : stockProductList.getProductList()) {
-                                    if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
-                                        products.add(stockProduct);
+                            if(stockProductList!=null) {
+                                if (context instanceof AddToCartActivity) {
+                                    for (StockProduct product : stockProductList.getProductList()) {
+                                        if (product.getRemain() > 0)
+                                            products.add(product);
+                                    }
+                                } else if (context instanceof OrderEditActivity) {
+                                    Order order = orderViewModel.getOrderMutableLiveData().getValue();
+                                    ArrayList<Integer> ids = new ArrayList<>();
+                                    for (OrderUnit unit : order.getUnits()) {
+                                        ids.add(unit.getProductId());
+                                    }
+                                    for (StockProduct stockProduct : stockProductList.getProductList()) {
+                                        if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
+                                            products.add(stockProduct);
+                                        }
                                     }
                                 }
+                                links = stockProductList.getLinks();
+                                notifyDataSetChanged();
+                            }else{
+                                ErrorDialogFragment dialogFragment =
+                                        new ErrorDialogFragment("حدث خطأ", "يوجد مشكلة فى الاتصال بالانترنت", true);
+                                dialogFragment.show(((AppCompatActivity)context).getSupportFragmentManager(), null);
                             }
-                            links = stockProductList.getLinks();
-                            notifyDataSetChanged();
                         }
                     });
                 }

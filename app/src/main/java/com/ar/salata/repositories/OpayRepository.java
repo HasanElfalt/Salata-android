@@ -51,6 +51,7 @@ public class OpayRepository {
 
             @Override
             public void onFailure(Call<OpaySetting> call, Throwable t) {
+                res.setValue(null);
                 Log.e("OpayRepository", t.toString());
             }
         });

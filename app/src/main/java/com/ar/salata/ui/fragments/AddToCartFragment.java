@@ -83,7 +83,7 @@ public class AddToCartFragment extends Fragment {
         LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
         loadingDialogFragment.show(getActivity().getSupportFragmentManager(), null);
 
-        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getContext(), productList, orderViewModel, appConfigViewModel.getPhones(), mode, userViewModel.getToken(), categoryOFProductsToBeDisplayed.getCategoryID());
+        CartRecyclerAdapter cartRecyclerAdapter = new CartRecyclerAdapter(getActivity(), productList, orderViewModel, appConfigViewModel.getPhones(), mode, userViewModel.getToken(), categoryOFProductsToBeDisplayed.getCategoryID());
         cartRecyclerAdapter.setHasStableIds(true);
         cartRecyclerView.setAdapter(cartRecyclerAdapter);
         cartRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -94,25 +94,32 @@ public class AddToCartFragment extends Fragment {
             public void onChanged(StockProductList stockProductList) {
                 loadingDialogFragment.dismiss();
 
-                if (getActivity() instanceof AddToCartActivity) {
-                    for (StockProduct product : stockProductList.getProductList()) {
-                        if (product.getRemain() > 0)
-                            productList.addProduct(product);
-                    }
-                } else if (getActivity() instanceof OrderEditActivity) {
-                    Order order = orderViewModel.getOrderMutableLiveData().getValue();
-                    ArrayList<Integer> ids = new ArrayList<>();
-                    for (OrderUnit unit : order.getUnits()) {
-                        ids.add(unit.getProductId());
-                    }
-                    for (StockProduct stockProduct : stockProductList.getProductList()) {
-                        if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
-                            productList.addProduct(stockProduct);
+                if(stockProductList!=null) {
+
+                    if (getActivity() instanceof AddToCartActivity) {
+                        for (StockProduct product : stockProductList.getProductList()) {
+                            if (product.getRemain() > 0)
+                                productList.addProduct(product);
+                        }
+                    } else if (getActivity() instanceof OrderEditActivity) {
+                        Order order = orderViewModel.getOrderMutableLiveData().getValue();
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        for (OrderUnit unit : order.getUnits()) {
+                            ids.add(unit.getProductId());
+                        }
+                        for (StockProduct stockProduct : stockProductList.getProductList()) {
+                            if (stockProduct.getRemain() > 0 || ids.contains(stockProduct.getId())) {
+                                productList.addProduct(stockProduct);
+                            }
                         }
                     }
+                    productList.getLinks().setNextPageUrl(stockProductList.getLinks().getNextPageUrl());
+                    cartRecyclerAdapter.notifyDataSetChanged();
+                }else{
+                    ErrorDialogFragment dialogFragment =
+                            new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
+                    dialogFragment.show(AddToCartFragment.this.getActivity().getSupportFragmentManager(), null);
                 }
-                productList.getLinks().setNextPageUrl(stockProductList.getLinks().getNextPageUrl());
-                cartRecyclerAdapter.notifyDataSetChanged();
             }
         });
 
