@@ -30,12 +30,14 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
     private Context context;
     private Order order;
     private List<String> phones;
+    private double fees;
 
-    public FinalBillRecyclerAdapter(Context context, Order order, List<String> phones) {
+    public FinalBillRecyclerAdapter(Context context, Order order, double fees, List<String> phones) {
         this.context = context;
         this.data = new ArrayList<OrderUnit>(order.getUnits());
         this.order = order;
         this.phones = phones;
+        this.fees = fees;
     }
 
     @NonNull
@@ -76,13 +78,17 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
                 break;
             case FOOTER_VIEW:
                 footerItemViewHolder = (FooterItemViewHolder) holder;
-                footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المبلغ: " + round(order.getOrderPrice() * 100) / 100.0 + " جنيه فقط لا غير"));
+                double orderPrice = round(order.getOrderPrice() * 100) / 100.0;
+                double fee = round(fees * 100) / 100.0;
+                footerItemViewHolder.billPrice.setText(ArabicString.toArabic("اجمالى المنتجات: " + orderPrice + " جنيه"));
+                footerItemViewHolder.fees.setText(ArabicString.toArabic("مصاريف الخدمة: " + fee + " جنيه"));
+                footerItemViewHolder.totalPrice.setText(ArabicString.toArabic("إجمالي الفاتورة: " +  (orderPrice + fee) + " جنيه"));
                 break;
             case NORMAL_VIEW:
                 normalItemViewHolder = (NormalItemViewHolder) holder;
                 OrderUnit orderUnit = data.get(position - 1);
                 normalItemViewHolder.itemName.setText(ArabicString.toArabic(orderUnit.getProductName()));
-                normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(String.valueOf(orderUnit.getProductPrice()) + " جنيه/" + orderUnit.getProductUnitName()));
+                normalItemViewHolder.itemPrice.setText(ArabicString.toArabic(orderUnit.getProductPrice() + " جنيه/" + orderUnit.getProductUnitName()));
                 normalItemViewHolder.itemTotalWeight.setText(ArabicString.toArabic(String.valueOf(orderUnit.getCount())));
                 normalItemViewHolder.itemTotalPrice.setText(ArabicString.toArabic(String.valueOf(round(orderUnit.getCount() * orderUnit.getProductPrice() * 100) / 100.0)));
                 Glide.with(holder.itemView)
@@ -132,10 +138,14 @@ public class FinalBillRecyclerAdapter extends RecyclerView.Adapter {
     class FooterItemViewHolder extends RecyclerView.ViewHolder {
 
         TextView billPrice;
+        TextView fees;
+        TextView totalPrice;
 
         public FooterItemViewHolder(@NonNull View itemView) {
             super(itemView);
             billPrice = itemView.findViewById(R.id.tv_bill_price);
+            fees      = itemView.findViewById(R.id.tv_delivery_fees);
+            totalPrice = itemView.findViewById(R.id.tv_total_price);
         }
     }
 

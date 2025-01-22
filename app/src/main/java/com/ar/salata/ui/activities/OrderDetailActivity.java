@@ -1,7 +1,6 @@
 package com.ar.salata.ui.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;
@@ -35,6 +34,9 @@ public class OrderDetailActivity extends BaseActivity {
     private FinalBillRecyclerAdapter adapter;
     private TextInputLayout txInputNotesOrderDetails;
 
+    private double totalPrice = 0;
+    private double addressId = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,38 +61,40 @@ public class OrderDetailActivity extends BaseActivity {
         loadingDialogFragment.show(getSupportFragmentManager(), null);
 
         orderProductsLiveData = orderViewModel.loadOrderProducts(userViewModel.getToken(), orderId);
-        orderProductsLiveData.observe(this, new Observer<UserRepository.APIResponse>() {
-            @Override
-            public void onChanged(UserRepository.APIResponse response) {
-                switch (response) {
-                    case SUCCESS: {
-                        order = orderViewModel.getOrder(orderId);
-                        adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, appConfigViewModel.getPhones());
-                        adapter.setHasStableIds(true);
-                        recyclerView.setAdapter(adapter);
-                        loadingDialogFragment.dismiss();
-                        break;
-                    }
-                    case ERROR: {
-                        loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", true);
-                        dialogFragment.show(getSupportFragmentManager(), null);
-                        break;
-                    }
-                    case FAILED: {
-                        loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
-                        dialogFragment.show(getSupportFragmentManager(), null);
-                        break;
-                    }
+        orderProductsLiveData.observe(this, response -> {
+            switch (response) {
+                case SUCCESS: {
+                    order = orderViewModel.getOrder(orderId);
+
+                    addressId  = order.getAddressId();
+                    totalPrice = order.getOrderPrice();
+                    double fees = orderViewModel.deliveryFees(String.valueOf(addressId), String.valueOf(totalPrice)).getFees();
+
+                    adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, fees, appConfigViewModel.getPhones());
+                    adapter.setHasStableIds(true);
+                    recyclerView.setAdapter(adapter);
+                    loadingDialogFragment.dismiss();
+                    break;
+                }
+                case ERROR: {
+                    loadingDialogFragment.dismiss();
+                    ErrorDialogFragment dialogFragment =
+                            new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", true);
+                    dialogFragment.show(getSupportFragmentManager(), null);
+                    break;
+                }
+                case FAILED: {
+                    loadingDialogFragment.dismiss();
+                    ErrorDialogFragment dialogFragment =
+                            new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
+                    dialogFragment.show(getSupportFragmentManager(), null);
+                    break;
                 }
             }
         });
 
 
-        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext(), new Order(), appConfigViewModel.getPhones());
+        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext(), new Order(), 0, appConfigViewModel.getPhones());
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
     }
