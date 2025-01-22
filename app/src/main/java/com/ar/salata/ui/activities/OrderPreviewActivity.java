@@ -2,7 +2,6 @@ package com.ar.salata.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.widget.NestedScrollView;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -62,7 +60,6 @@ public class OrderPreviewActivity extends BaseActivity {
         }
 
         orderEditEFAB = findViewById(R.id.efab_edit_order_preview);
-        NestedScrollView orderPreviewScrollView = findViewById(R.id.nsv_order_preview);
         orderEditEFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,8 +72,6 @@ public class OrderPreviewActivity extends BaseActivity {
                     ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("خطا", "لا يمكن تعديل الطلب", false);
                     errorDialogFragment.show(getSupportFragmentManager(), null);
                 }
-//                Intent intent = new Intent(OrderPreviewActivity.this, OrderEditActivity.class);
-//                startActivityForResult(intent, REQUESTORDERPREVIEW);
             }
         });
 
@@ -89,54 +84,42 @@ public class OrderPreviewActivity extends BaseActivity {
         loadingDialogFragment.show(getSupportFragmentManager(), null);
 
         orderProductsLiveData = orderViewModel.loadOrderProducts(userViewModel.getToken(), orderId);
-        orderProductsLiveData.observe(this, new Observer<UserRepository.APIResponse>() {
-            @Override
-            public void onChanged(UserRepository.APIResponse response) {
-                switch (response) {
-                    case SUCCESS: {
-                        order = orderViewModel.getOrder(orderId);
-                        if(order.getPaymentType().equals("credit_card")) {
-                            paymentType.setText("طريقة الدفع: الدفع أونلاين");
-                        }else if(order.getPaymentType().equals("cash_on_delivery")){
-                            paymentType.setText("طريقة الدفع: الدفع عند الاستــلام");
-                        }
-                        adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, appConfigViewModel.getPhones());
-                        adapter.setHasStableIds(true);
-                        recyclerView.setAdapter(adapter);
-                        loadingDialogFragment.dismiss();
-                        break;
+        orderProductsLiveData.observe(this, response -> {
+            switch (response) {
+                case SUCCESS: {
+                    order = orderViewModel.getOrder(orderId);
+                    if(order.getPaymentType().equals("credit_card")) {
+                        paymentType.setText("طريقة الدفع: الدفع أونلاين");
+                    }else if(order.getPaymentType().equals("cash_on_delivery")){
+                        paymentType.setText("طريقة الدفع: الدفع عند الاستــلام");
                     }
-                    case ERROR: {
-                        loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", true);
-                        dialogFragment.show(getSupportFragmentManager(), null);
-                        break;
-                    }
-                    case FAILED: {
-                        loadingDialogFragment.dismiss();
-                        ErrorDialogFragment dialogFragment =
-                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
-                        dialogFragment.show(getSupportFragmentManager(), null);
-                        break;
-                    }
+
+                    double addressId  = order.getAddressId();
+                    double totalPrice = order.getOrderPrice();
+                    double fees = orderViewModel.deliveryFees(String.valueOf(addressId), String.valueOf(totalPrice)).getFees();
+                    adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, fees, appConfigViewModel.getPhones());
+
+                    adapter.setHasStableIds(true);
+                    recyclerView.setAdapter(adapter);
+                    loadingDialogFragment.dismiss();
+                    break;
+                }
+                case ERROR: {
+                    loadingDialogFragment.dismiss();
+                    ErrorDialogFragment dialogFragment =
+                            new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", true);
+                    dialogFragment.show(getSupportFragmentManager(), null);
+                    break;
+                }
+                case FAILED: {
+                    loadingDialogFragment.dismiss();
+                    ErrorDialogFragment dialogFragment =
+                            new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
+                    dialogFragment.show(getSupportFragmentManager(), null);
+                    break;
                 }
             }
         });
-
-        /*
-        // for showing and hiding the floating button
-        orderPreviewScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY > oldScrollY) {
-                    orderEditEFAB.hide();
-                } else if (oldScrollY > scrollY) {
-                    orderEditEFAB.show();
-                }
-            }
-        });*/
-
     }
 
     @Override
