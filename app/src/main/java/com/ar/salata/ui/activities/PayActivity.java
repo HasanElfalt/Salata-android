@@ -25,7 +25,6 @@ import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.ui.adapters.FinalBillRecyclerAdapter;
 import com.ar.salata.ui.fragments.ErrorDialogFragment;
-import com.ar.salata.ui.fragments.HomeFragment;
 import com.ar.salata.ui.fragments.LoadingDialogFragment;
 import com.ar.salata.ui.fragments.PaymentMethodDialogFragment;
 import com.ar.salata.viewmodels.AppConfigViewModel;
@@ -66,7 +65,6 @@ public class PayActivity extends BaseActivity {
 
         order = getIntent().getParcelableExtra(OrderViewModel.ORDER);
 
-//        Order order = orderViewModel.getOrder(orderLocalId);
         token = userViewModel.getToken();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -74,78 +72,45 @@ public class PayActivity extends BaseActivity {
 
         RecyclerView recyclerView = findViewById(R.id.rv_bill_final);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, appConfigViewModel.getPhones());
+
+        double addressId  = order.getAddressId();
+        double totalPrice = order.getOrderPrice();
+        double fees = orderViewModel.deliveryFees(String.valueOf(addressId), String.valueOf(totalPrice)).getFees();
+        FinalBillRecyclerAdapter adapter = new FinalBillRecyclerAdapter(getApplicationContext(), order, fees, appConfigViewModel.getPhones());
         adapter.setHasStableIds(true);
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(false);
 
         efab = findViewById(R.id.efab_confirm);
-        efab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                double minimum = appConfigViewModel.getMinimumPurchases();
-                if (order.getOrderPrice() < minimum) {
-                    ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("خطأ", "الحد الادنى لقيمة الفاتورة هى " + minimum + " جنيه", false);
-                    errorDialogFragment.show(getSupportFragmentManager(), null);
-                    return;
-                }
-                // set notes text
-                order.setNotes(txInputNotes.getEditText().getText().toString());
-
-                // Loading LoadingDialog
-                LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
-                loadingDialogFragment.show(getSupportFragmentManager(), null);
-
-                // Getting Payment Methods
-                orderViewModel.getPaymentMethods().observe(PayActivity.this, new Observer<List<PaymentMethods>>() {
-                    @Override
-                    public void onChanged(List<PaymentMethods> paymentMethods) {
-                        loadingDialogFragment.dismiss();
-                        if(paymentMethods != null) {
-                            PaymentMethodDialogFragment paymentMethodDialogFragment = new PaymentMethodDialogFragment(paymentMethods, token, order);
-                            paymentMethodDialogFragment.show(getSupportFragmentManager(), null);
-                        }else{
-                            ErrorDialogFragment dialogFragment =
-                                    new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
-                            dialogFragment.show(getSupportFragmentManager(), null);
-                        }
-                    }
-                });
-
-
-                //Intent intent = new Intent(PayActivity.this, OrdersActivity.class);
-                //////////////////////////add notes////////////////////////////////
-                /*
-                submitOrderResponse = orderViewModel.submitOrder(token, order);
-                submitOrderResponse.observe(PayActivity.this, new Observer<UserRepository.APIResponse>() {
-                    @Override
-                    public void onChanged(UserRepository.APIResponse apiResponse) {
-                        switch (apiResponse) {
-                            case SUCCESS: {
-                                loadingDialogFragment.dismiss();
-                  //              startActivityForResult(intent, REQUESTORDER);
-//                                order.setSubmitted(true);
-//                                orderViewModel.updateOrder(order);
-                                break;
-                            }
-                            case ERROR: {
-                                loadingDialogFragment.dismiss();
-                                ErrorDialogFragment dialogFragment =
-                                        new ErrorDialogFragment("حدث خطأ", "فشلت عملية تحميل بيانات المستخدم", false);
-                                dialogFragment.show(getSupportFragmentManager(), null);
-                                break;
-                            }
-                            case FAILED: {
-                                loadingDialogFragment.dismiss();
-                                ErrorDialogFragment dialogFragment =
-                                        new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), false);
-                                dialogFragment.show(getSupportFragmentManager(), null);
-                                break;
-                            }
-                        }
-                    }
-                });*/
+        efab.setOnClickListener(v -> {
+            double minimum = appConfigViewModel.getMinimumPurchases();
+            if (order.getOrderPrice() < minimum) {
+                ErrorDialogFragment errorDialogFragment = new ErrorDialogFragment("خطأ", "الحد الادنى لقيمة الفاتورة هى " + minimum + " جنيه", false);
+                errorDialogFragment.show(getSupportFragmentManager(), null);
+                return;
             }
+            // set notes text
+            order.setNotes(txInputNotes.getEditText().getText().toString());
+
+            // Loading LoadingDialog
+            LoadingDialogFragment loadingDialogFragment = new LoadingDialogFragment();
+            loadingDialogFragment.show(getSupportFragmentManager(), null);
+
+            // Getting Payment Methods
+            orderViewModel.getPaymentMethods().observe(PayActivity.this, new Observer<List<PaymentMethods>>() {
+                @Override
+                public void onChanged(List<PaymentMethods> paymentMethods) {
+                    loadingDialogFragment.dismiss();
+                    if(paymentMethods != null) {
+                        PaymentMethodDialogFragment paymentMethodDialogFragment = new PaymentMethodDialogFragment(paymentMethods, token, order);
+                        paymentMethodDialogFragment.show(getSupportFragmentManager(), null);
+                    }else{
+                        ErrorDialogFragment dialogFragment =
+                                new ErrorDialogFragment("حدث خطأ", getResources().getString(R.string.server_connection_error), true);
+                        dialogFragment.show(getSupportFragmentManager(), null);
+                    }
+                }
+            });
         });
 
         NestedScrollView payScrollView = findViewById(R.id.nsv_pay);
