@@ -1,12 +1,10 @@
 package com.ar.salata.repositories;
 
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.MutableLiveData;
 
-import com.ar.salata.R;
 import com.ar.salata.repositories.API.OrderAPI;
 import com.ar.salata.repositories.model.APIToken;
+import com.ar.salata.repositories.model.DeliveryFees;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.OrderAssociative;
 import com.ar.salata.repositories.model.OrderUnit;
@@ -15,7 +13,6 @@ import com.ar.salata.repositories.model.OrdersResponse;
 import com.ar.salata.repositories.model.PaymentMethods;
 import com.ar.salata.repositories.model.Product;
 import com.ar.salata.repositories.model.ResponseMessage;
-import com.ar.salata.ui.fragments.ErrorDialogFragment;
 
 import java.util.HashMap;
 import java.util.List;
@@ -34,8 +31,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.ar.salata.SalataApplication.BASEURL;
 
-import android.app.Activity;
-import android.content.Context;
 import android.util.Log;
 
 public class OrderRepository {
@@ -311,5 +306,26 @@ public class OrderRepository {
             }
         });
         return paymentMethods;
+    }
+
+    public DeliveryFees getDeliveryFees(String addressId, String totalPrice){
+        DeliveryFees fees = new DeliveryFees();
+
+        orderAPI.deliveryFees(addressId, totalPrice).enqueue(new Callback<DeliveryFees>() {
+            @Override
+            public void onResponse(Call<DeliveryFees> call, Response<DeliveryFees> response) {
+                if(response.body() != null){
+                    fees.setFees(response.body().getFees());
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<DeliveryFees> call, Throwable t) {
+                fees.setFees(0);
+            }
+        });
+
+        return fees;
     }
 }

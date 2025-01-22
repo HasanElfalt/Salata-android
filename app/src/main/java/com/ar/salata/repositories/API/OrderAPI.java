@@ -1,5 +1,6 @@
 package com.ar.salata.repositories.API;
 
+import com.ar.salata.repositories.model.DeliveryFees;
 import com.ar.salata.repositories.model.OrderAssociative;
 import com.ar.salata.repositories.model.OrderUnitList;
 import com.ar.salata.repositories.model.OrdersResponse;
@@ -11,7 +12,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -36,4 +36,7 @@ public interface OrderAPI {
 
     @GET("/api/getPaymentMethods")
     Call<List<PaymentMethods>> getPaymentMethods();
+
+    @POST("api/DeliveryFees")
+    Call<DeliveryFees> deliveryFees(@Query("address_id") String addressId, @Query("total_price") String totalPrice);
 }

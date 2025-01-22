@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel;
 import com.ar.salata.repositories.OrderRepository;
 import com.ar.salata.repositories.UserRepository;
 import com.ar.salata.repositories.model.APIToken;
+import com.ar.salata.repositories.model.DeliveryFees;
 import com.ar.salata.repositories.model.Order;
 import com.ar.salata.repositories.model.PaymentMethods;
 
@@ -64,5 +65,9 @@ public class OrderViewModel extends ViewModel {
 
     public MutableLiveData<List<PaymentMethods>> getPaymentMethods(){
         return orderRepository.getPaymentMethods();
+    }
+
+    public DeliveryFees deliveryFees(String addressId, String totalPrice){
+        return orderRepository.getDeliveryFees(addressId, totalPrice);
     }
 }
