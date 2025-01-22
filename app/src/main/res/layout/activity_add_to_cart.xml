@@ -7,8 +7,6 @@
     android:orientation="vertical"
     tools:context=".ui.activities.AddToCartActivity">
 
-    <include layout="@layout/header_app" />
-
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
