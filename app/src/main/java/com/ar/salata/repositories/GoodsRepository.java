@@ -11,6 +11,7 @@ import com.ar.salata.repositories.model.ProductList;
 import com.ar.salata.repositories.model.StockProduct;
 import com.ar.salata.repositories.model.StockProductList;
 
+import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
@@ -63,7 +64,9 @@ public class GoodsRepository {
                         @Override
                         public void execute(Realm realm) {
                             realm.where(Category.class).findAll().deleteAllFromRealm();
-                            realm.insertOrUpdate(response.body().getCategoryList());
+                            List<Category> sortedCats = response.body().getCategoryList();
+                            Collections.sort(sortedCats);
+                            realm.insertOrUpdate(sortedCats);
                         }
                     });
                     realm.close();

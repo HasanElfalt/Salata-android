@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Category extends RealmObject implements Parcelable {
+public class Category extends RealmObject implements Parcelable, Comparable<Category> {
 	public static final Creator<Category> CREATOR = new Creator<Category>() {
         @Override
         public Category createFromParcel(Parcel in) {
@@ -30,6 +30,10 @@ public class Category extends RealmObject implements Parcelable {
     private String createdAt;
     @SerializedName("updated_at")
     private String updatedAt;
+    @SerializedName("priority")
+    private int priority;
+    @SerializedName("level")
+    private int level;
 
     public Category(int categoryID, String categoryName) {
         this.categoryID = categoryID;
@@ -76,6 +80,22 @@ public class Category extends RealmObject implements Parcelable {
         this.updatedAt = updatedAt;
     }
 
+    public int getPriority() {
+        return priority;
+    }
+
+    public void setPriority(int priority) {
+        this.priority = priority;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -85,5 +105,10 @@ public class Category extends RealmObject implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeInt(categoryID);
         parcel.writeString(categoryName);
+    }
+
+    @Override
+    public int compareTo(Category cat) {
+        return Integer.compare(this.priority, cat.priority);
     }
 }
